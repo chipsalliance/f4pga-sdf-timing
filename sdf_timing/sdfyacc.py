@@ -45,7 +45,7 @@ def p_sdf_sdfversion(p):
 
 def p_sdf_design(p):
     'design : LPAR DESIGN QSTRING RPAR'
-    header['design'] = remove_qutation(p[3])
+    header['design'] = remove_quotation(p[3])
     p[0] = header
 
 
