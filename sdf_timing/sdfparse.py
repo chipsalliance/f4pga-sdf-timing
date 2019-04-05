@@ -2,13 +2,16 @@
 
 import argparse
 import json
+import sdflex
 
 import sdfyacc
+
 
 def parse(input):
     sdflex.input_data = input
     sdfyacc.parser.parse(sdflex.input_data)
     return sdfyacc.timings
+
 
 def main():
     parser = argparse.ArgumentParser()
