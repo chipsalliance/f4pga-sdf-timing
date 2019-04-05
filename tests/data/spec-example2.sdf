@@ -1,0 +1,82 @@
+(DELAYFILE
+	(SDFVERSION "2.0")
+	(DESIGN "top")
+	(DATE "Feb 21, 1992 11:30:10")
+	(VENDOR "Cool New Tools")
+	(PROGRAM "Delay Obfuscator")
+	(VERSION "v1.0")
+	(DIVIDER .)
+	(VOLTAGE :5:)
+	(PROCESS "typical")
+	(TEMPERATURE :25:)
+	(TIMESCALE 1ns)
+	(CELL
+		(CELLTYPE "CDS_GEN_FD_P_SD_RB_SB_NO")
+		(INSTANCE top.ff1)
+		(DELAY
+			(ABSOLUTE
+				(COND (TE == 0 && RB == 1 && SB == 1)
+					(IOPATH (posedge CP) Q (2:2:2) (3:3:3) )
+				)
+			)
+			(ABSOLUTE
+				(COND (TE == 0 && RB == 1 && SB == 1)
+					(IOPATH (posedge CP) QN (4:4:4) (5:5:5) )
+				)
+			)
+			(ABSOLUTE
+				(COND (TE == 1 && RB == 1 && SB == 1)
+					(IOPATH (posedge CP) Q (6:6:6) (7:7:7) )
+				)
+			)
+			(ABSOLUTE
+				(COND (TE == 1 && RB == 1 && SB == 1)
+					(IOPATH (posedge CP) QN (8:8:8) (9:9:9) )
+				)
+			)
+			(ABSOLUTE
+				(IOPATH (negedge RB) Q (1:1:1) (1:1:1) )
+			)
+			(ABSOLUTE
+				(IOPATH (negedge RB) QN (1:1:1) (1:1:1) )
+			)
+			(ABSOLUTE
+				(IOPATH (negedge SB) Q (1:1:1) (1:1:1) )
+			)
+			(ABSOLUTE
+				(IOPATH (negedge SB) QN (1:1:1) (1:1:1) )
+			)
+		)
+		(DELAY
+			(ABSOLUTE
+				(PORT D (0:0:0) (0:0:0) (5:5:5) )
+			)
+			(ABSOLUTE
+				(PORT CP (0:0:0) (0:0:0) (0:0:0) )
+			)
+			(ABSOLUTE
+				(PORT RB (0:0:0) (0:0:0) (0:0:0) )
+			)
+			(ABSOLUTE
+				(PORT SB (0:0:0) (0:0:0) (0:0:0) )
+			)
+			(ABSOLUTE
+				(PORT TI (0:0:0) (0:0:0) (0:0:0) )
+			)
+			(ABSOLUTE
+				(PORT TE (0:0:0) (0:0:0) (0:0:0) )
+			)
+		)
+		(TIMINGCHECK
+			(SETUP D (COND D_ENABLE (posedge CP)) (1:1:1) )
+			(HOLD D (COND D_ENABLE (posedge CP)) (1:1:1) )
+			(SETUPHOLD TI (COND TI_ENABLE (posedge CP)) (1:1:1) (1:1:1))
+			(WIDTH (COND ENABLE (posedge CP)) (1:1:1) )
+			(WIDTH (COND ENABLE (negedge CP)) (1:1:1) )
+			(WIDTH (negedge SB) (1:1:1) )
+			(WIDTH (negedge RB) (1:1:1) )
+			(RECOVERY (posedge RB) (COND SB (negedge CP)) (1:1:1) )
+			(RECOVERY (posedge SB) (COND RB (negedge CP)) (1:1:1) )
+		)
+	)
+)

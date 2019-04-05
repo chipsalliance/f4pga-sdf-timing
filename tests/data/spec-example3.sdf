@@ -1,0 +1,31 @@
+(DELAYFILE
+	(SDFVERSION "2.0")
+	(DESIGN "top")
+	(DATE "Nov 25, 1991 17:25:18")
+	(VENDOR "Slick Trick Systems")
+	(PROGRAM "Viability Tester")
+	(VERSION "v3.0")
+	(DIVIDER .)
+	(VOLTAGE :5:)
+	(PROCESS "typical")
+	(TEMPERATURE :25:)
+	(TIMESCALE 1ns)
+	(CELL
+		(CELLTYPE "XOR2")
+		(INSTANCE top.x1)
+		(DELAY
+			(INCREMENT
+				(COND i1 (IOPATH i2 o1 (2:2:2) (2:2:2) ) )
+			)
+			(INCREMENT
+				(COND i2 (IOPATH i1 o1 (2:2:2) (2:2:2) ) )
+			)
+			(INCREMENT
+				(COND ~i1 (IOPATH i2 o1 (3:3:3) (3:3:3) ) )
+			)
+			(INCREMENT
+				(COND ~i2 (IOPATH i1 o1 (3:3:3) (3:3:3) ) )
+			)
+		)
+	)
+)

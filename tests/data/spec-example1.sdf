@@ -1,0 +1,77 @@
+(DELAYFILE
+	(SDFVERSION "1.0")
+	(DESIGN "system")
+	(DATE "Saturday September 30 08:30:33 PST 1990")
+	(VENDOR "Yosemite Semiconductor")
+	(PROGRAM "delay_calc")
+	(VERSION "1.5")
+	(DIVIDER /)
+	(VOLTAGE 5.5:5.0:4.5)
+	(PROCESS "worst")
+	(TEMPERATURE 55:85:125)
+	(TIMESCALE 1ns)
+	(CELL
+		(CELLTYPE "system")
+		(INSTANCE )
+		(DELAY
+			(ABSOLUTE
+				(INTERCONNECT P1/z B1/C1/i (.145::.145) (.125::.125))
+				(INTERCONNECT P1/z B1/C2/i2 (.135::.135) (.130::.130))
+				(INTERCONNECT B1/C1/z B1/C2/i1 (.095::.095) (.095::.095))
+				(INTERCONNECT B1/C2/z B2/C1/i (.145::.145) (.125::.125))
+				(INTERCONNECT B2/C1/z B2/C2/i1 (.075::.075) (.075::.075))
+				(INTERCONNECT B2/C2/z P2/i (.055::.055) (.075::.075))
+				(INTERCONNECT B2/C2/z D1/i (.255::.255) (.275::.275))
+				(INTERCONNECT D1/z B2/C2/i2 (.155::.155) (.175::.175))
+				(INTERCONNECT D1/z P3/i (.155::.155) (.130::.130))
+			)
+		)
+	)
+	(CELL
+		(CELLTYPE "INV")
+		(INSTANCE B1/C1)
+		(DELAY
+			(ABSOLUTE
+				(IOPATH i z (.345::.345) (.325::.325) )
+			)
+		)
+	)
+	(CELL
+		(CELLTYPE "OR2")
+		(INSTANCE B1/C2)
+		(DELAY
+			(ABSOLUTE
+				(IOPATH i1 z (.300::.300) (.325::.325) )
+				(IOPATH i2 z (.300::.300) (.325::.325) )
+			)
+		)
+	)
+	(CELL
+		(CELLTYPE "INV")
+		(INSTANCE B2/C1)
+		(DELAY
+			(ABSOLUTE
+				(IOPATH i z (.345::.345) (.325::.325) )
+			)
+		)
+	)
+	(CELL
+		(CELLTYPE "AND2")
+		(INSTANCE B2/C2)
+		(DELAY
+			(ABSOLUTE
+				(IOPATH i1 z (.300::.300) (.325::.325) )
+				(IOPATH i2 z (.300::.300) (.325::.325) )
+			)
+		)
+	)
+	(CELL
+		(CELLTYPE "INV")
+		(INSTANCE D1)
+		(DELAY
+			(ABSOLUTE
+				(IOPATH i z (.380::.380) (.380::.380) )
+			)
+		)
+	)
+)

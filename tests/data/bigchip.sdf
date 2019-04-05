@@ -1,0 +1,47 @@
+(DELAYFILE
+(SDFVERSION "3.0")
+(DESIGN "BIGCHIP")
+(DATE "March 12, 1995 09:46")
+(VENDOR "Southwestern ASIC")
+(PROGRAM "Fast program")
+(VERSION "1.2a")
+(DIVIDER /)
+(VOLTAGE 5.5:5.0:4.5)
+(PROCESS "best:nom:worst")
+(TEMPERATURE -40:25:125)
+(TIMESCALE 100 ps)
+(CELL
+ (CELLTYPE "BIGCHIP")
+ (INSTANCE top)
+ (DELAY
+  (ABSOLUTE
+   (INTERCONNECT mck b/c/clk (.6:.7:.9))
+   (INTERCONNECT d[0] b/c/d (.4:.5:.6))
+  )
+ )
+)
+(CELL
+ (CELLTYPE "AND2")
+ (INSTANCE top/b/d)
+ (DELAY
+  (ABSOLUTE
+   (IOPATH a y (1.5:2.5:3.4) (2.5:3.6:4.7))
+   (IOPATH b y (1.4:2.3:3.2) (2.3:3.4:4.3))
+  )
+ )
+)
+(CELL
+ (CELLTYPE "DFF")
+ (INSTANCE top/b/c)
+ (DELAY
+  (ABSOLUTE
+   (IOPATH (posedge clk) q (2:3:4) (5:6:7))
+   (PORT clr (2:3:4) (5:6:7))
+  )
+ )
+ (TIMINGCHECK
+  (SETUPHOLD d (posedge clk) (3:4:5) (-1:-1:-1))
+  (WIDTH clk (4.4:7.5:11.3))
+ )
+)
+)

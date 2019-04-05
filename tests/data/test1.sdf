@@ -1,0 +1,232 @@
+(DELAYFILE
+	(SDFVERSION "2.1")
+	(DIVIDER /)
+	(TIMESCALE 1 ps)
+
+ 	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_b0_output_0_0_to_c0_input_0_0)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_b0_output_0_0_to_s0_input_0_0)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_cin_output_0_0_to_c0_input_0_2)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_cin_output_0_0_to_s0_input_0_2)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_a0_output_0_0_to_c0_input_0_1)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (287:287:287)(287:287:287))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_a0_output_0_0_to_s0_input_0_1)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (287:287:287)(287:287:287))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_a1_output_0_0_to_c1_input_0_1)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_a1_output_0_0_to_s1_input_0_1)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_b1_output_0_0_to_c1_input_0_0)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_b1_output_0_0_to_s1_input_0_0)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_a2_output_0_0_to_c2_input_0_1)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_a2_output_0_0_to_s2_input_0_1)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_b2_output_0_0_to_c2_input_0_0)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_b2_output_0_0_to_s2_input_0_0)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_a3_output_0_0_to_c3_input_0_1)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (287:287:287)(287:287:287))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_a3_output_0_0_to_s3_input_0_1)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (287:287:287)(287:287:287))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_b3_output_0_0_to_c3_input_0_0)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_b3_output_0_0_to_s3_input_0_0)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_b4_output_0_0_to_cout_input_0_0)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (287:287:287)(287:287:287))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_b4_output_0_0_to_s4_input_0_0)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (287:287:287)(287:287:287))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_a4_output_0_0_to_cout_input_0_1)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (287:287:287)(287:287:287))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_a4_output_0_0_to_s4_input_0_1)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (287:287:287)(287:287:287))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_c3_output_0_0_to_cout_input_0_2)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (100:100:100)(100:100:100))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "vpr_interconnect")
+	(INSTANCE dut/routing_segment_c3_output_0_0_to_s4_input_0_2)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH datain dataout (100:100:100)(100:100:100))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "LUT_5")
+	(INSTANCE dut/lut_c3)
+		(DELAY
+		(ABSOLUTE
+			(IOPATH inter0/datain inter0/dataout (235:235:235)(235:235:235))
+			(IOPATH inter1/datain inter1/dataout (235:235:235)(235:235:235))
+		)
+		)
+	)
+)
