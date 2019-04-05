@@ -71,8 +71,10 @@ def t_error(t):
 # input is the input text string
 # token is a token instance
 
+
 def find_column(input, token):
     line_start = input.rfind('\n', 0, token.lexpos) + 1
     return (token.lexpos - line_start) + 1
+
 
 lexer = lex.lex()
