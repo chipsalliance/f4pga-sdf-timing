@@ -8,7 +8,8 @@ setuptools.setup(
     version="0.0.1",
     author="SymbiFlow Authors",
     author_email="symbiflow@lists.librecores.org",
-    description="Python library for working Standard Delay Format (SDF) Timing Annotation files.",
+    description="Python library for working Standard Delay Format \
+                (SDF) Timing Annotation files.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/SymbiFlow/python-sdf-timing",

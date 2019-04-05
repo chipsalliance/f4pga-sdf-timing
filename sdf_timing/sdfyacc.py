@@ -19,7 +19,7 @@ def p_sdf_file(p):
                 | LPAR DELAYFILE sdf_header cell_list RPAR'''
 
     timings['header'] = p[3]
-    if p[4] is not ')':
+    if p[4] != ')':
         timings['cells'] = p[4]
 
     p[0] = timings
@@ -97,7 +97,7 @@ def add_timings_to_cell(p, timings):
 
     for timing in timings:
         timing_name = timing['input'] + "_" + timing['clk'] \
-                       + "_" + timing['timing']
+            + "_" + timing['timing']
         cells[p[3]][p[4]][timing_name] = timing
 
 
@@ -232,7 +232,7 @@ def p_absolute(p):
     '''absolute : LPAR ABSOLUTE RPAR
                 | LPAR ABSOLUTE iopath_list RPAR'''
 
-    if p[3] is not ')':
+    if p[3] != ')':
         # copy the iopath list
         p[0] = list(p[3])
     else:

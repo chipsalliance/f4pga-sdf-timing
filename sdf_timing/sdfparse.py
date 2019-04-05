@@ -3,7 +3,6 @@
 import argparse
 import json
 
-import sdflex
 import sdfyacc
 
 sdfyacc.timings = dict()
@@ -16,10 +15,7 @@ def main():
 
     args = parser.parse_args()
 
-    timings = dict()
-
     with open(args.sdf, 'r') as fp:
-
         sdfyacc.parser.parse(fp.read())
 
     with open(args.json, 'w') as fp:
