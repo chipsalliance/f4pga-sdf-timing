@@ -1,4 +1,4 @@
-pyjson5
+pyjson
 pytest
 yapf==0.24.0
 ply
