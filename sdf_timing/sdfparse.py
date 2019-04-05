@@ -5,8 +5,10 @@ import json
 
 import sdfyacc
 
-sdfyacc.timings = dict()
-
+def parse(input):
+    sdflex.input_data = input
+    sdfyacc.parser.parse(sdflex.input_data)
+    return sdfyacc.timings
 
 def main():
     parser = argparse.ArgumentParser()
@@ -16,10 +18,10 @@ def main():
     args = parser.parse_args()
 
     with open(args.sdf, 'r') as fp:
-        sdfyacc.parser.parse(fp.read())
+        timings = parse(fp.read())
 
     with open(args.json, 'w') as fp:
-        json.dump(sdfyacc.timings, fp, indent=4, sort_keys=True)
+        json.dump(timings, fp, indent=4, sort_keys=True)
 
 
 if __name__ == '__main__':

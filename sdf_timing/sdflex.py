@@ -1,5 +1,7 @@
 import ply.lex as lex
 
+input_data = ""
+
 reserved = {
     'DELAYFILE': 'DELAYFILE',
     'SDFVERSION': 'SDFVERSION',
@@ -61,8 +63,16 @@ def t_newline(t):
 
 
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
+    print("Illegal character '%s' in line %d, column %d"
+          % (t.value[0], t.lineno, find_column(input_data, t)))
     t.lexer.skip(1)
 
+# Compute column.
+# input is the input text string
+# token is a token instance
+
+def find_column(input, token):
+    line_start = input.rfind('\n', 0, token.lexpos) + 1
+    return (token.lexpos - line_start) + 1
 
 lexer = lex.lex()
