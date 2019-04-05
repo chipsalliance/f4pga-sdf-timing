@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/SymbiFlow/python-sdf-timing",
     packages=setuptools.find_packages(),
-    install_requires=['ply', 'json'],
+    install_requires=['ply', 'pyjson'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: ISC License",
