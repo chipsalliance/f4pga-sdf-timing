@@ -156,7 +156,7 @@ def p_instance(p):
 def p_timing_check(p):
     '''timing_check : LPAR TIMINGCHECK timing_check_list RPAR'''
     p[0] = list(p[3])
-    tcheck_list.clear()
+    tcheck_list[:] = []
 
 
 def p_timing_check_list(p):
@@ -238,7 +238,7 @@ def p_absolute(p):
     else:
         p[0] = None
     # clean the list
-    io_path_list.clear()
+    io_path_list[:] = []
 
 
 def p_iopath_list(p):
