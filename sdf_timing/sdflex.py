@@ -63,9 +63,8 @@ def t_newline(t):
 
 
 def t_error(t):
-    print("Illegal character '%s' in line %d, column %d"
-          % (t.value[0], t.lineno, find_column(input_data, t)))
-    t.lexer.skip(1)
+    raise Exception("Illegal character '%s' in line %d, column %d"
+                    % (t.value[0], t.lineno, find_column(input_data, t)))
 
 # Compute column.
 # input is the input text string

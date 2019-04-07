@@ -301,7 +301,7 @@ def p_real_triple(p):
 
 
 def p_error(p):
-    print("Syntax error at '%s' line: %d" % (p.value, p.lineno))
+    raise Exception("Syntax error at '%s' line: %d" % (p.value, p.lineno))
 
 
 parser = yacc.yacc()
