@@ -46,8 +46,6 @@ tokens = (
 
 t_LPAR = r'\('
 t_RPAR = r'\)'
-t_DOT = r'\.'
-t_SLASH = r'\/'
 t_COLON = r':'
 t_QFLOAT = r'\"[-+]?(?: [0-9]+)(?: \.[0-9]+)\"'
 t_QSTRING = r'\"[a-zA-Z0-9_/.,: ]+\"'
@@ -60,9 +58,19 @@ def t_FLOAT(t):
     r'[-]?\.?[0-9]+(\.[0-9]+)?'
     return t
 
+# the same for dot and slash
+def t_DOT(t):
+    r'\.'
+    return t
+
+
+def t_SLASH(t):
+    r'\/'
+    return t
+
 
 def t_STRING(t):
-    r'[a-zA-Z0-9_/]+'
+    r'[a-zA-Z0-9_/.\[\]]+'
     t.type = reserved.get(t.value, 'STRING')
     return t
 
