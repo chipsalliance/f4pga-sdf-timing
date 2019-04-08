@@ -6,6 +6,7 @@ timings = dict()
 
 header = dict()
 io_path_list = list()
+constraints_list = list()
 tcheck_list = list()
 cells = dict()
 
@@ -27,6 +28,10 @@ def p_sdf_file(p):
 
 def p_sdf_header(p):
     '''sdf_header : sdf_version
+                  | sdf_header date
+                  | sdf_header voltage
+                  | sdf_header temperature
+                  | sdf_header process
                   | sdf_header design
                   | sdf_header vendor
                   | sdf_header program
@@ -40,6 +45,30 @@ def p_sdf_header(p):
 def p_sdf_sdfversion(p):
     'sdf_version : LPAR SDFVERSION QFLOAT RPAR'
     header['sdf_version'] = remove_quotation(p[3])
+    p[0] = header
+
+
+def p_sdf_date(p):
+    'date : LPAR DATE QSTRING RPAR'
+    header['sdf_date'] = remove_quotation(p[3])
+    p[0] = header
+
+
+def p_sdf_voltage(p):
+    'voltage : LPAR VOLTAGE real_triple RPAR'
+    header['voltage'] = p[3]
+    p[0] = header
+
+
+def p_sdf_temperature(p):
+    'temperature : LPAR TEMPERATURE real_triple RPAR'
+    header['temperature'] = p[3]
+    p[0] = header
+
+
+def p_sdf_process(p):
+    'process : LPAR PROCESS QSTRING RPAR'
+    header['process'] = p[3]
     p[0] = header
 
 
@@ -68,14 +97,15 @@ def p_sdf_version(p):
 
 
 def p_sdf_divider(p):
-    'hierarchy_divider : LPAR DIVIDER QFLOAT RPAR'
-    header['divider'] = remove_quotation(p[3])
+    '''hierarchy_divider : LPAR DIVIDER DOT RPAR
+               | LPAR DIVIDER SLASH RPAR'''
+    header['divider'] = p[3]
     p[0] = header
 
 
 def p_sdf_timescale(p):
-    'timescale : LPAR TIMESCALE STRING RPAR'
-    header['timescale'] = p[3]
+    'timescale : LPAR TIMESCALE FLOAT STRING RPAR'
+    header['timescale'] = str(p[3]) + p[4]
     p[0] = header
 
 
@@ -149,14 +179,18 @@ def p_celltype(p):
 
 
 def p_instance(p):
-    'instance : LPAR INSTANCE STRING RPAR'
-    p[0] = p[3]
+    '''instance : LPAR INSTANCE STRING RPAR
+                | LPAR INSTANCE RPAR'''
+    if p[3] == ')':
+        p[0] = None
+    else:
+        p[0] = p[3]
 
 
 def p_timing_check(p):
     '''timing_check : LPAR TIMINGCHECK timing_check_list RPAR'''
     p[0] = list(p[3])
-    tcheck_list.clear()
+    tcheck_list[:] = []
 
 
 def p_timing_check_list(p):
@@ -238,7 +272,7 @@ def p_absolute(p):
     else:
         p[0] = None
     # clean the list
-    io_path_list.clear()
+    io_path_list[:] = []
 
 
 def p_iopath_list(p):
@@ -271,23 +305,64 @@ def p_port_spec(p):
         p[0] = p[3]
 
 
+def p_path_constraint(p):
+    'path_constraint : LPAR PATHCONSTRAINT port_spec port_spec real_triple \
+    real_triple RPAR'
+    constraint = dict()
+    constraint['type'] = 'pathconstraint'
+    constraint['start_pin'] = p[3]
+    constraint['end_pin'] = p[4]
+    constraint['rise'] = p[5]
+    constraint['fall'] = p[6]
+
+    constraints_list.append(constraint)
+
+
 def p_port_condition(p):
     '''port_condition : POSEDGE
                       | NEGEDGE'''
     p[0] = p[1]
 
 
+def p_real_triple_no_par(p):
+    '''real_triple : FLOAT COLON FLOAT COLON FLOAT
+                   | FLOAT COLON COLON FLOAT
+                   | COLON FLOAT COLON'''
+    delays_triple = dict()
+    if len(p) > 4:
+        if p[3] == ':':
+            delays_triple['min'] = float(p[1])
+            delays_triple['avg'] = None
+            delays_triple['max'] = float(p[4])
+        else:
+            delays_triple['min'] = float(p[1])
+            delays_triple['avg'] = float(p[3])
+            delays_triple['max'] = float(p[5])
+    else:
+        delays_triple['min'] = None
+        delays_triple['avg'] = p[2]
+        delays_triple['max'] = None
+
+    p[0] = delays_triple
+
+
 def p_real_triple(p):
     '''real_triple : LPAR FLOAT COLON FLOAT COLON FLOAT RPAR
                    | LPAR RPAR
-                   | LPAR FLOAT COLON COLON FLOAT RPAR'''
+                   | LPAR FLOAT COLON COLON FLOAT RPAR
+                   | LPAR COLON FLOAT COLON RPAR'''
 
     delays_triple = dict()
     if len(p) > 3:
         if p[4] == ':':
-            delays_triple['min'] = float(p[2])
-            delays_triple['avg'] = None
-            delays_triple['max'] = float(p[5])
+            if p[2] == ':':
+                delays_triple['min'] = None
+                delays_triple['avg'] = float(p[3])
+                delays_triple['max'] = None
+            else:
+                delays_triple['min'] = float(p[2])
+                delays_triple['avg'] = None
+                delays_triple['max'] = float(p[5])
         else:
             delays_triple['min'] = float(p[2])
             delays_triple['avg'] = float(p[4])
@@ -301,7 +376,7 @@ def p_real_triple(p):
 
 
 def p_error(p):
-    print("Syntax error at '%s' line: %d" % (p.value, p.lineno))
+    raise Exception("Syntax error at '%s' line: %d" % (p.value, p.lineno))
 
 
 parser = yacc.yacc()

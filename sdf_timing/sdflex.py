@@ -24,11 +24,19 @@ reserved = {
     'RECOVERY': 'RECOVERY',
     'TIMINGCHECK': 'TIMINGCHECK',
     'DIVIDER': 'DIVIDER',
+    'DATE': 'DATE',
+    'VOLTAGE': 'VOLTAGE',
+    'PROCESS': 'PROCESS',
+    'TEMPERATURE': 'TEMPERATURE',
+    'TIMINGENV': 'TIMINGENV',
+    'PATHCONSTRAINT': 'PATHCONSTRAINT',
 }
 
 tokens = (
     'LPAR',
     'RPAR',
+    'DOT',
+    'SLASH',
     'COLON',
     'FLOAT',
     'QFLOAT',
@@ -38,16 +46,18 @@ tokens = (
 
 t_LPAR = r'\('
 t_RPAR = r'\)'
+t_DOT = r'\.'
+t_SLASH = r'\/'
 t_COLON = r':'
 t_QFLOAT = r'\"[-+]?(?: [0-9]+)(?: \.[0-9]+)\"'
-t_QSTRING = r'\"[a-zA-Z0-9_/]+\"'
+t_QSTRING = r'\"[a-zA-Z0-9_/.,: ]+\"'
 
 t_ignore = ' \t'
 
 
 # define FLOAT as function so it takes precendence over STRING
 def t_FLOAT(t):
-    r'[-+]?(?: [0-9]+)(?: \.[0-9]+)'
+    r'[-]?\.?[0-9]+(\.[0-9]+)?'
     return t
 
 
@@ -63,9 +73,8 @@ def t_newline(t):
 
 
 def t_error(t):
-    print("Illegal character '%s' in line %d, column %d"
-          % (t.value[0], t.lineno, find_column(input_data, t)))
-    t.lexer.skip(1)
+    raise Exception("Illegal character '%s' in line %d, column %d"
+                    % (t.value[0], t.lineno, find_column(input_data, t)))
 
 # Compute column.
 # input is the input text string
