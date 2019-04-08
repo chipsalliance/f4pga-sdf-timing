@@ -30,6 +30,8 @@ reserved = {
     'TEMPERATURE': 'TEMPERATURE',
     'TIMINGENV': 'TIMINGENV',
     'PATHCONSTRAINT': 'PATHCONSTRAINT',
+    'INTERCONNECT' : 'INTERCONNECT',
+    'PORT' : 'PORT',
 }
 
 tokens = (

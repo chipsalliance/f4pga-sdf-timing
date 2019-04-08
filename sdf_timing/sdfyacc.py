@@ -7,6 +7,8 @@ timings = dict()
 header = dict()
 io_path_list = list()
 constraints_list = list()
+interconnect_list = list()
+port_list = list()
 tcheck_list = list()
 cells = dict()
 
@@ -115,12 +117,28 @@ def p_cell_list(p):
     p[0] = p[1]
 
 
-def add_delays_to_cell(p, delays):
+def add_delays_to_cell(celltype, instance, delays):
 
-    # delays list
-    for delay in delays:
-        delay_name = delay['input'] + "_" + delay['output']
-        cells[p[3]][p[4]][delay_name] = delay
+    if delays is None:
+        return
+    if delays['iopath'] is not None:
+        # delays list
+        for delay in delays['iopath']:
+            delay_name = 'iopath_'
+            delay_name += delay['input'] + "_" + delay['output']
+            cells[celltype][instance][delay_name] = delay
+    if delays['port'] is not None:
+        # ports list
+        for delay in delays['port']:
+            delay_name = 'port_'
+            delay_name += delay['from'] + "_" + delay['to']
+            cells[celltype][instance][delay_name] = delay
+    if delays['interconnect'] is not None:
+        # ports list
+        for delay in delays['interconnect']:
+            delay_name = 'interconnect_'
+            delay_name += delay['from'] + "_" + delay['to']
+            cells[celltype][instance][delay_name] = delay
 
 
 def add_timings_to_cell(p, timings):
@@ -160,7 +178,7 @@ def p_delay_timing_cell(p):
     'cell : LPAR CELL celltype instance delay timing_check RPAR'
 
     add_cell(p)
-    add_delays_to_cell(p, p[5])
+    add_delays_to_cell(p[3], p[4], p[5])
     add_timings_to_cell(p, p[6])
     p[0] = cells
 
@@ -169,7 +187,7 @@ def p_delay_cell(p):
     'cell : LPAR CELL celltype instance delay RPAR'
 
     add_cell(p)
-    add_delays_to_cell(p, p[5])
+    add_delays_to_cell(p[3], p[4], p[5])
     p[0] = cells
 
 
@@ -189,6 +207,7 @@ def p_instance(p):
 
 def p_timing_check(p):
     '''timing_check : LPAR TIMINGCHECK timing_check_list RPAR'''
+    # copy the list
     p[0] = list(p[3])
     tcheck_list[:] = []
 
@@ -196,7 +215,6 @@ def p_timing_check(p):
 def p_timing_check_list(p):
     '''timing_check_list : t_check
                          | timing_check_list t_check'''
-    # copy the list
     p[0] = p[1]
 
 
@@ -262,24 +280,28 @@ def p_delay(p):
     p[0] = p[3]
 
 
-def p_absolute(p):
-    '''absolute : LPAR ABSOLUTE RPAR
-                | LPAR ABSOLUTE iopath_list RPAR'''
+def p_absolute_empty(p):
+    'absolute : LPAR ABSOLUTE RPAR'
+    p[0] = None
 
-    if p[3] != ')':
-        # copy the iopath list
-        p[0] = list(p[3])
-    else:
-        p[0] = None
-    # clean the list
-    io_path_list[:] = []
+def p_absolute_list(p):
+    'absolute : LPAR ABSOLUTE delay_list RPAR'
+
+    delays = dict()
+    delays['iopath'] = io_path_list
+    delays['port'] = port_list
+    delays['interconnect'] = interconnect_list
+    p[0] = delays
 
 
-def p_iopath_list(p):
-    '''iopath_list : iopath
-                   | iopath_list iopath'''
-
-    p[0] = io_path_list
+def p_delay_list_interconnect(p):
+    '''delay_list : interconnect
+                  | iopath
+                  | port
+                  | delay_list interconnect
+                  | delay_list iopath
+                  | delay_list port'''
+    p[0] = p[1]
 
 
 def p_iopath(p):
@@ -310,12 +332,54 @@ def p_path_constraint(p):
     real_triple RPAR'
     constraint = dict()
     constraint['type'] = 'pathconstraint'
-    constraint['start_pin'] = p[3]
-    constraint['end_pin'] = p[4]
+    constraint['from'] = p[3]
+    constraint['to'] = p[4]
     constraint['rise'] = p[5]
     constraint['fall'] = p[6]
 
     constraints_list.append(constraint)
+
+
+def p_interconnect(p):
+    'interconnect : LPAR INTERCONNECT port_spec port_spec real_triple \
+    real_triple RPAR'
+    interconnect = dict()
+    interconnect['from'] = p[3]
+    interconnect['to'] = p[4]
+    interconnect['fast_path'] = p[5]
+    interconnect['slow_path'] = p[6]
+
+    interconnect_list.append(interconnect)
+
+
+def p_interconnect_single(p):
+    'interconnect : LPAR INTERCONNECT port_spec port_spec real_triple \
+    RPAR'
+    interconnect = dict()
+    interconnect['from'] = p[3]
+    interconnect['to'] = p[4]
+    interconnect['path'] = p[5]
+
+    interconnect_list.append(interconnect)
+
+
+def p_port_single(p):
+    'port : LPAR PORT port_spec real_triple RPAR'
+    port = dict()
+    port['name'] = p[3]
+    port['path'] = p[4]
+
+    port_list.append(port)
+
+
+def p_port(p):
+    'port : LPAR PORT port_spec real_triple real_triple RPAR'
+    port = dict()
+    port['name'] = p[3]
+    port['fast_path'] = p[4]
+    port['slow_path'] = p[5]
+
+    port_list.append(port)
 
 
 def p_port_condition(p):
