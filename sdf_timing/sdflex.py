@@ -15,6 +15,7 @@ reserved = {
     'INSTANCE': 'INSTANCE',
     'DELAY': 'DELAY',
     'ABSOLUTE': 'ABSOLUTE',
+    'INCREMENT': 'INCREMENT',
     'IOPATH': 'IOPATH',
     'posedge': 'POSEDGE',
     'negedge': 'NEGEDGE',
@@ -30,7 +31,37 @@ reserved = {
     'TEMPERATURE': 'TEMPERATURE',
     'TIMINGENV': 'TIMINGENV',
     'PATHCONSTRAINT': 'PATHCONSTRAINT',
+    'INTERCONNECT': 'INTERCONNECT',
+    'PORT': 'PORT',
+    'SETUPHOLD': 'SETUPHOLD',
+    'WIDTH': 'WIDTH',
+    'COND': 'COND',
 }
+
+operators = (
+    'ARITHMETIC',
+    'MODULO',
+    'LOGIC_NOT',
+    'BIT_NOT',
+    'LOGIC_AND',
+    'BIT_AND',
+    'NAND',
+    'LOGIC_OR',
+    'BIT_OR',
+    'NOR',
+    'XOR',
+    'XNOR',
+    'EQUAL',
+    'NEQUAL',
+    'CASEEQUAL',
+    'CASENEQUAL',
+    'LEFTSHIFT',
+    'RIGHTSHIFT',
+    'GT',
+    'LT',
+    'GTE',
+    'LTE',
+)
 
 tokens = (
     'LPAR',
@@ -42,15 +73,37 @@ tokens = (
     'QFLOAT',
     'QSTRING',
     'STRING',
-) + tuple(reserved.values())
+) + tuple(reserved.values()) + operators
+
+t_ARITHMETIC = r'[\+\-\*]'
+t_MODULO = r'%'
+t_LOGIC_NOT = r'!'
+t_BIT_NOT = r'~'
+t_LOGIC_AND = r'&&'
+t_BIT_AND = r'&'
+t_NAND = r'~&'
+t_LOGIC_OR = r'\|\|'
+t_BIT_OR = r'\|'
+t_NOR = r'~\|'
+t_XOR = r'\^'
+t_XNOR = r'~\^|\^~'
+t_EQUAL = r'=='
+t_NEQUAL = r'!='
+t_CASEEQUAL = r'==='
+t_CASENEQUAL = r'!=='
+t_LEFTSHIFT = r'<<'
+t_RIGHTSHIFT = 'r>>'
+t_GT = r'>'
+t_GTE = r'>='
+t_LT = r'<'
+t_LTE = r'<='
+
 
 t_LPAR = r'\('
 t_RPAR = r'\)'
-t_DOT = r'\.'
-t_SLASH = r'\/'
 t_COLON = r':'
 t_QFLOAT = r'\"[-+]?(?: [0-9]+)(?: \.[0-9]+)\"'
-t_QSTRING = r'\"[a-zA-Z0-9_/.,: ]+\"'
+t_QSTRING = r'\"[a-zA-Z0-9_/ -@\\]+\"'
 
 t_ignore = ' \t'
 
@@ -61,8 +114,19 @@ def t_FLOAT(t):
     return t
 
 
+# the same for dot and slash
+def t_DOT(t):
+    r'\.'
+    return t
+
+
+def t_SLASH(t):
+    r'\/'
+    return t
+
+
 def t_STRING(t):
-    r'[a-zA-Z0-9_/]+'
+    r'[a-zA-Z0-9_\/.\[\]]+'
     t.type = reserved.get(t.value, 'STRING')
     return t
 
