@@ -9,6 +9,8 @@ header = dict()
 delays_list = list()
 cells = dict()
 
+tmp_delay_list = list()
+tmp_equation = list()
 
 def remove_quotation(s):
     return s.replace('"', '')
@@ -122,8 +124,8 @@ def add_cell(name, instance):
 def p_timing_cell(p):
     '''cell : LPAR CELL celltype instance timing_check RPAR
             | LPAR CELL celltype instance RPAR
-            | LPAR CELL celltype instance delay timing_check RPAR
-            | LPAR CELL celltype instance delay RPAR'''
+            | LPAR CELL celltype instance delay_lst timing_check RPAR
+            | LPAR CELL celltype instance delay_lst RPAR'''
 
     add_cell(p[3], p[4])
     add_delays_to_cell(p[3], p[4], delays_list)
@@ -149,9 +151,38 @@ def p_timing_check(p):
     '''timing_check : LPAR TIMINGCHECK timing_check_list RPAR'''
 
 
+def p_timing_port(p):
+    '''timing_port : port_check
+                   | cond_check'''
+    p[0] = p[1]
+
+
+def p_port_check(p):
+    'port_check : port_spec'
+    port = dict()
+    port['cond'] = False
+    port['cond_equation'] = None
+    port['port'] = p[1]
+    p[0] = port
+
+
+def p_timing_cond(p):
+    'cond_check : LPAR COND equation port_spec RPAR'
+    port = dict()
+    port['cond'] = True
+    port['cond_equation'] = " ".join(p[3])
+    port['port'] = p[4]
+    p[0] = port
+
+
 def p_timing_check_list(p):
     '''timing_check_list : t_check
                          | timing_check_list t_check'''
+    if len(p) == 2:
+        delays_list.extend(list(p[1]))
+    else:
+        delays_list.extend(list(p[2]))
+    tmp_delay_list[:] = []
 
 
 def p_t_check(p):
@@ -161,106 +192,145 @@ def p_t_check(p):
                | setup_check
                | width_check
                | setuphold_check'''
+    p[0] = p[1]
 
 
 def p_removal_check(p):
-    'removal_check : LPAR REMOVAL port_spec port_spec real_triple RPAR'
+    'removal_check : LPAR REMOVAL timing_port timing_port real_triple RPAR'
 
     paths = dict()
     paths['nominal'] = p[5]
     tcheck = utils.add_tcheck('removal', p[3], p[4], paths)
-    delays_list.append(tcheck)
+    tmp_delay_list.append(tcheck)
+    p[0] = tmp_delay_list
 
 
 def p_recovery_check(p):
-    'recovery_check : LPAR RECOVERY port_spec port_spec real_triple RPAR'
+    'recovery_check : LPAR RECOVERY timing_port timing_port real_triple RPAR'
 
     paths = dict()
     paths['nominal'] = p[5]
     tcheck = utils.add_tcheck('recovery', p[3], p[4], paths)
-    delays_list.append(tcheck)
+    tmp_delay_list.append(tcheck)
+    p[0] = tmp_delay_list
 
 
 def p_hold_check(p):
-    'hold_check : LPAR HOLD port_spec port_spec real_triple RPAR'
+    'hold_check : LPAR HOLD timing_port timing_port real_triple RPAR'
 
     paths = dict()
     paths['nominal'] = p[5]
     tcheck = utils.add_tcheck('hold', p[3], p[4], paths)
-    delays_list.append(tcheck)
+    tmp_delay_list.append(tcheck)
+    p[0] = tmp_delay_list
 
 
 def p_setup_check(p):
-    'setup_check : LPAR SETUP port_spec port_spec real_triple RPAR'
+    'setup_check : LPAR SETUP timing_port timing_port real_triple RPAR'
 
     paths = dict()
     paths['nominal'] = p[5]
     tcheck = utils.add_tcheck('setup', p[3], p[4], paths)
-    delays_list.append(tcheck)
+    tmp_delay_list.append(tcheck)
+    p[0] = tmp_delay_list
 
 
 def p_width_check(p):
-    'width_check : LPAR WIDTH port_spec real_triple RPAR'
+    'width_check : LPAR WIDTH timing_port real_triple RPAR'
 
     paths = dict()
-    paths['nominal'] = p[5]
+    paths['nominal'] = p[4]
     tcheck = utils.add_tcheck('width', p[3], p[3], paths)
-    delays_list.append(tcheck)
+    tmp_delay_list.append(tcheck)
+    p[0] = tmp_delay_list
 
 
 def p_setuphold_check(p):
-    'setuphold_check : LPAR SETUPHOLD port_spec port_spec real_triple \
+    'setuphold_check : LPAR SETUPHOLD timing_port timing_port real_triple \
     real_triple RPAR'
 
     paths = dict()
     paths['setup'] = p[5]
     paths['hold'] = p[6]
     tcheck = utils.add_tcheck('setup', p[3], p[4], paths)
-    delays_list.append(tcheck)
+    tmp_delay_list.append(tcheck)
+    p[0] = tmp_delay_list
 
 
 def p_path_constraint(p):
-    'path_constraint : LPAR PATHCONSTRAINT port_spec port_spec real_triple \
+    'path_constraint : LPAR PATHCONSTRAINT timing_port timing_port real_triple \
     real_triple RPAR'
 
     paths = dict()
     paths['rise'] = p[5]
     paths['fall'] = p[6]
     tcheck = utils.add_tcheck('pathconstraint', p[3], p[4], paths)
-    delays_list.append(tcheck)
+    tmp_delay_list.append(tcheck)
+    p[0] = tmp_delay_list
+
+
+def p_delay_list(p):
+    '''delay_lst : delay
+                  | delay_lst delay'''
 
 
 def p_delay(p):
-    'delay : LPAR DELAY absolute RPAR'
+    'delay : LPAR DELAY absolute_list RPAR'
+
+
+def p_absolute_list(p):
+    '''absolute_list : absolute
+                     | absolute_list absolute'''
 
 
 def p_absolute_empty(p):
     'absolute : LPAR ABSOLUTE RPAR'
 
 
-def p_absolute_list(p):
+def p_absolute_delay_list(p):
     '''absolute : LPAR ABSOLUTE delay_list RPAR
                 | LPAR ABSOLUTE cond_delay RPAR'''
+    delays_list.extend(list(p[3]))
+    tmp_delay_list[:] = []
 
 
 def p_cond_delay(p):
     'cond_delay : LPAR COND delay_condition delay_list RPAR'
+    # add condition to every list alement
+    for d in p[4]:
+        d['is_cond'] = True
+        d['cond_equation'] = " ".join(p[3])
+    p[0] = p[4]
 
 
 def p_delay_condition(p):
-    'delay_condition : LPAR STRING RPAR'
-    p[0] = p[2]
+    'delay_condition : LPAR equation RPAR'
+    p[0] = list(p[2])
+    tmp_equation[:] = []
+
+
+def p_delay_condition_nopar(p):
+    'delay_condition : equation'
+    p[0] = list(p[1])
+    tmp_equation[:] = []
 
 
 def p_delay_list_interconnect(p):
     '''delay_list : del
                   | delay_list del'''
+    if len(p) == 2:
+        tmp_delay_list.append(p[1])
+    else:
+        tmp_delay_list.append(p[2])
+
+    p[0] = tmp_delay_list
 
 
 def p_del(p):
     '''del : interconnect
            | iopath
            | port'''
+    p[0] = p[1]
 
 
 def p_iopath(p):
@@ -269,7 +339,7 @@ def p_iopath(p):
     paths['fast'] = p[5]
     paths['slow'] = p[6]
     iopath = utils.add_iopath(p[3], p[4], paths)
-    delays_list.append(iopath)
+    p[0] = iopath
 
 
 def p_port_spec(p):
@@ -290,7 +360,7 @@ def p_interconnect(p):
     paths['fast'] = p[5]
     paths['slow'] = p[6]
     interconnect = utils.add_interconnect(p[3], p[4], paths)
-    delays_list.append(interconnect)
+    p[0] = interconnect
 
 
 def p_interconnect_single(p):
@@ -299,7 +369,7 @@ def p_interconnect_single(p):
     paths = dict()
     paths['nominal'] = p[5]
     interconnect = utils.add_interconnect(p[3], p[4], paths)
-    delays_list.append(interconnect)
+    p[0] = interconnect
 
 
 def p_port_single(p):
@@ -307,16 +377,25 @@ def p_port_single(p):
     paths = dict()
     paths['nominal'] = p[4]
     port = utils.add_port(p[3], paths)
-    delays_list.append(port)
+    p[0] = port
 
 
-def p_port(p):
+def p_port_double(p):
     'port : LPAR PORT port_spec real_triple real_triple RPAR'
     paths = dict()
     paths['fast'] = p[4]
     paths['slow'] = p[5]
     port = utils.add_port(p[3], paths)
-    delays_list.append(port)
+    p[0] = port
+
+def p_port_triple(p):
+    'port : LPAR PORT port_spec real_triple real_triple real_triple RPAR'
+    paths = dict()
+    paths['fast'] = p[4]
+    paths['nominal'] = p[5]
+    paths['slow'] = p[6]
+    port = utils.add_port(p[3], paths)
+    p[0] = port
 
 
 def p_port_condition(p):
@@ -374,6 +453,47 @@ def p_real_triple(p):
         delays_triple['max'] = None
 
     p[0] = delays_triple
+
+
+def p_equation(p):
+    '''equation : operator
+                | STRING
+                | FLOAT
+                | equation operator
+                | equation FLOAT
+                | equation STRING'''
+    if len(p) == 2:
+        tmp_equation.append(p[1])
+    else:
+        tmp_equation.append(p[2])
+
+    p[0] = tmp_equation
+
+def p_operator(p):
+    '''operator : ARITHMETIC
+                | SLASH
+                | MODULO
+                | LOGIC_NOT
+                | BIT_NOT
+                | LOGIC_AND
+                | BIT_AND
+                | NAND
+                | LOGIC_OR
+                | BIT_OR
+                | NOR
+                | XOR
+                | XNOR
+                | EQUAL
+                | NEQUAL
+                | CASEEQUAL
+                | CASENEQUAL
+                | LEFTSHIFT
+                | RIGHTSHIFT
+                | GT
+                | LT
+                | GTE
+                | LTE'''
+    p[0] = p[1]
 
 
 def p_error(p):

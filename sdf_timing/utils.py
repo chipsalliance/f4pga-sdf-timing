@@ -7,6 +7,7 @@ def prepare_entry(name=None,
                   from_pin_condition=None,
                   to_pin_condition=None,
                   delay_paths=None,
+                  cond_equation=None,
                   is_timing_check=False,
                   is_absolute=False,
                   is_incremental=False,
@@ -22,6 +23,7 @@ def prepare_entry(name=None,
     entry['is_absolute'] = is_absolute
     entry['is_incremental'] = is_incremental
     entry['is_cond'] = is_cond
+    entry['cond_equation'] = cond_equation
 
     return entry
 
@@ -61,13 +63,15 @@ def add_iopath(pfrom, pto, paths):
                          delay_paths=paths)
 
 
-def add_tcheck(type, pfrom, pto, paths):
+def add_tcheck(type, pto, pfrom, paths):
 
     name = type + "_"
-    name += pfrom + "_" + pto
+    name += pfrom['port'] + "_" + pto['port']
     return prepare_entry(name=name,
                          type=type,
                          is_timing_check=True,
-                         from_pin=pfrom,
-                         to_pin=pto,
+                         is_cond=pto['cond'],
+                         cond_equation=pto['cond_equation'],
+                         from_pin=pfrom['port'],
+                         to_pin=pto['port'],
                          delay_paths=paths)

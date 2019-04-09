@@ -37,7 +37,32 @@ reserved = {
     'COND': 'COND',
 }
 
-tokens = (
+operators =(
+    'ARITHMETIC',
+    'MODULO',
+    'LOGIC_NOT',
+    'BIT_NOT',
+    'LOGIC_AND',
+    'BIT_AND',
+    'NAND',
+    'LOGIC_OR',
+    'BIT_OR',
+    'NOR',
+    'XOR',
+    'XNOR',
+    'EQUAL',
+    'NEQUAL',
+    'CASEEQUAL',
+    'CASENEQUAL',
+    'LEFTSHIFT',
+    'RIGHTSHIFT',
+    'GT',
+    'LT',
+    'GTE',
+    'LTE',
+)
+
+tokens =(
     'LPAR',
     'RPAR',
     'DOT',
@@ -47,7 +72,31 @@ tokens = (
     'QFLOAT',
     'QSTRING',
     'STRING',
-) + tuple(reserved.values())
+) + tuple(reserved.values()) + operators
+
+t_ARITHMETIC = r'[\+\-\*]'
+t_MODULO = r'%'
+t_LOGIC_NOT = r'!'
+t_BIT_NOT = r'~'
+t_LOGIC_AND = r'&&'
+t_BIT_AND = r'&'
+t_NAND = r'~&'
+t_LOGIC_OR = r'\|\|'
+t_BIT_OR = r'\|'
+t_NOR = r'~\|'
+t_XOR = r'\^'
+t_XNOR = r'~\^|\^~'
+t_EQUAL = r'=='
+t_NEQUAL = r'!='
+t_CASEEQUAL = r'==='
+t_CASENEQUAL = r'!=='
+t_LEFTSHIFT = r'<<'
+t_RIGHTSHIFT = 'r>>'
+t_GT = r'>'
+t_GTE = r'>='
+t_LT = r'<'
+t_LTE = r'<='
+
 
 t_LPAR = r'\('
 t_RPAR = r'\)'
@@ -76,7 +125,7 @@ def t_SLASH(t):
 
 
 def t_STRING(t):
-    r'[a-zA-Z0-9_/.\[\]]+'
+    r'[a-zA-Z0-9_\/.\i[\]]+'
     t.type = reserved.get(t.value, 'STRING')
     return t
 
