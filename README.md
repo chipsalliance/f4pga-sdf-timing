@@ -1,5 +1,7 @@
 # python-sdf-timing
 
+[![Build Status](https://travis-ci.com/SymbiFlow/python-sdf-timing.svg?branch=master)](https://travis-ci.com/SymbiFlow/python-sdf-timing)
+
 Python library for working Standard Delay Format (SDF) Timing Annotation files.
 
 
