@@ -11,6 +11,8 @@ cells = dict()
 
 tmp_delay_list = list()
 tmp_equation = list()
+tmp_constr_list = list()
+
 
 def remove_quotation(s):
     return s.replace('"', '')
@@ -125,7 +127,8 @@ def p_timing_cell(p):
     '''cell : LPAR CELL celltype instance timing_check RPAR
             | LPAR CELL celltype instance RPAR
             | LPAR CELL celltype instance delay_lst timing_check RPAR
-            | LPAR CELL celltype instance delay_lst RPAR'''
+            | LPAR CELL celltype instance delay_lst RPAR
+            | LPAR CELL celltype instance timingenv_lst RPAR'''
 
     add_cell(p[3], p[4])
     add_delays_to_cell(p[3], p[4], delays_list)
@@ -257,21 +260,40 @@ def p_setuphold_check(p):
     p[0] = tmp_delay_list
 
 
+def p_timingenv_list(p):
+    '''timingenv_lst : timingenv
+                     | timingenv_lst timingenv'''
+
+
+def p_timingenv(p):
+    'timingenv : LPAR TIMINGENV constraints_list RPAR'
+
+
+def p_constraints_list(p):
+    '''constraints_list : path_constraint
+                        | constraints_list path_constraint'''
+    if len(p) == 2:
+        delays_list.extend(p[1])
+    else:
+        delays_list.extend(p[2])
+    tmp_constr_list[:] = []
+
+
 def p_path_constraint(p):
-    'path_constraint : LPAR PATHCONSTRAINT timing_port timing_port real_triple \
+    'path_constraint : LPAR PATHCONSTRAINT port_spec port_spec real_triple \
     real_triple RPAR'
 
     paths = dict()
     paths['rise'] = p[5]
     paths['fall'] = p[6]
-    tcheck = utils.add_tcheck('pathconstraint', p[3], p[4], paths)
-    tmp_delay_list.append(tcheck)
-    p[0] = tmp_delay_list
+    constr = utils.add_constraint('pathconstraint', p[3], p[4], paths)
+    tmp_constr_list.append(constr)
+    p[0] = tmp_constr_list
 
 
 def p_delay_list(p):
     '''delay_lst : delay
-                  | delay_lst delay'''
+                 | delay_lst delay'''
 
 
 def p_delay(p):
@@ -405,6 +427,7 @@ def p_port_double(p):
     port = utils.add_port(p[3], paths)
     p[0] = port
 
+
 def p_port_triple(p):
     'port : LPAR PORT port_spec real_triple real_triple real_triple RPAR'
     paths = dict()
@@ -485,6 +508,7 @@ def p_equation(p):
         tmp_equation.append(p[2])
 
     p[0] = tmp_equation
+
 
 def p_operator(p):
     '''operator : ARITHMETIC

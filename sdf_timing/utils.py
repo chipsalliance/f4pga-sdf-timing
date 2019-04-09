@@ -9,6 +9,7 @@ def prepare_entry(name=None,
                   delay_paths=None,
                   cond_equation=None,
                   is_timing_check=False,
+                  is_timing_env=False,
                   is_absolute=False,
                   is_incremental=False,
                   is_cond=False):
@@ -20,6 +21,7 @@ def prepare_entry(name=None,
     entry['to_pin'] = to_pin
     entry['delay_paths'] = delay_paths
     entry['is_timing_check'] = is_timing_check
+    entry['is_timing_env'] = is_timing_env
     entry['is_absolute'] = is_absolute
     entry['is_incremental'] = is_incremental
     entry['is_cond'] = is_cond
@@ -71,4 +73,16 @@ def add_tcheck(type, pto, pfrom, paths):
                          cond_equation=pto['cond_equation'],
                          from_pin=pfrom['port'],
                          to_pin=pto['port'],
+                         delay_paths=paths)
+
+
+def add_constraint(type, pto, pfrom, paths):
+
+    name = type + "_"
+    name += pfrom + "_" + pto
+    return prepare_entry(name=name,
+                         type=type,
+                         is_timing_env=True,
+                         from_pin=pfrom,
+                         to_pin=pto,
                          delay_paths=paths)
