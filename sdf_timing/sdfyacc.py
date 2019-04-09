@@ -239,7 +239,17 @@ def p_absolute_empty(p):
 
 
 def p_absolute_list(p):
-    'absolute : LPAR ABSOLUTE delay_list RPAR'
+    '''absolute : LPAR ABSOLUTE delay_list RPAR
+                | LPAR ABSOLUTE cond_delay RPAR'''
+
+
+def p_cond_delay(p):
+    'cond_delay : LPAR COND delay_condition delay_list RPAR'
+
+
+def p_delay_condition(p):
+    'delay_condition : LPAR STRING RPAR'
+    p[0] = p[2]
 
 
 def p_delay_list_interconnect(p):

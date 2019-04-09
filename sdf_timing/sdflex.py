@@ -34,6 +34,7 @@ reserved = {
     'PORT': 'PORT',
     'SETUPHOLD': 'SETUPHOLD',
     'WIDTH': 'WIDTH',
+    'COND': 'COND',
 }
 
 tokens = (
