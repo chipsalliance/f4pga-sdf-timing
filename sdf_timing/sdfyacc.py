@@ -131,7 +131,7 @@ def add_delays_to_cell(celltype, instance, delays):
         # ports list
         for delay in delays['port']:
             delay_name = 'port_'
-            delay_name += delay['from'] + "_" + delay['to']
+            delay_name += delay['name']
             cells[celltype][instance][delay_name] = delay
     if delays['interconnect'] is not None:
         # ports list
@@ -144,8 +144,10 @@ def add_delays_to_cell(celltype, instance, delays):
 def add_timings_to_cell(p, timings):
 
     for timing in timings:
-        timing_name = timing['input'] + "_" + timing['clk'] \
-            + "_" + timing['timing']
+        timing_name = timing['input']
+        if timing['clk'] is not None:
+            timing_name += "_" + timing['clk']
+        timing_name += "_" + timing['timing']
         cells[p[3]][p[4]][timing_name] = timing
 
 
@@ -222,7 +224,9 @@ def p_t_check(p):
     '''t_check : removal_check
                | recovery_check
                | hold_check
-               | setup_check'''
+               | setup_check
+               | width_check
+               | setuphold_check'''
 
     p[0] = tcheck_list
 
@@ -272,6 +276,32 @@ def p_setup_check(p):
     tcheck = dict()
     tcheck = prepare_check(p)
     tcheck['timing'] = 'setup'
+    tcheck_list.append(tcheck)
+
+
+def p_width_check(p):
+    'width_check : LPAR WIDTH port_spec real_triple RPAR'
+
+    tcheck = dict()
+    tcheck['timing'] = 'width'
+    tcheck['input'] = p[3]
+    tcheck['clk'] = None
+    tcheck['path'] = p[4]
+    tcheck['output'] = None
+    tcheck_list.append(tcheck)
+
+
+def p_setuphold_check(p):
+    'setuphold_check : LPAR SETUPHOLD port_spec port_spec real_triple \
+    real_triple RPAR'
+
+    tcheck = dict()
+    tcheck['timing'] = 'setuphold'
+    tcheck['input'] = p[3]
+    tcheck['clk'] = p[4]
+    tcheck['setup_path'] = p[5]
+    tcheck['hold_path'] = p[6]
+    tcheck['output'] = None
     tcheck_list.append(tcheck)
 
 
