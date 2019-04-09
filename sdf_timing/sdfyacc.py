@@ -27,8 +27,9 @@ def p_sdf_file(p):
 
 def p_sdf_header(p):
     '''sdf_header : sdf_header_qstring
-                  | sdf_version
+                  | sdf_header_qfloat
                   | sdf_header sdf_header_qstring
+                  | sdf_header sdf_header_qfloat
                   | sdf_header voltage
                   | sdf_header temperature
                   | sdf_header hierarchy_divider
@@ -37,7 +38,7 @@ def p_sdf_header(p):
     p[0] = p[1]
 
 
-def p_sdf_sdfversion(p):
+def p_sdf_header_qstring(p):
     '''sdf_header_qstring : LPAR qstring_header_entry QSTRING RPAR
                           | LPAR qstring_header_entry RPAR'''
     if len(p) == 5:
@@ -56,10 +57,17 @@ def p_qstring_header_entry(p):
     p[0] = p[1]
 
 
-def p_qstring_sdf_version_floar(p):
-    'sdf_version : LPAR SDFVERSION QFLOAT RPAR'
-    header['sdfversion'] = str(p[3])
-    p[0] = header
+def p_sdf_header_qfloat(p):
+    'sdf_header_qfloat : LPAR qfloat_header_entry QFLOAT RPAR'
+    if len(p) == 5:
+        header[p[2].lower()] = remove_quotation(str(p[3]))
+        p[0] = header
+
+
+def p_qfloat_header_entry(p):
+    '''qfloat_header_entry : SDFVERSION
+                           | VERSION'''
+    p[0] = p[1]
 
 
 def p_sdf_voltage(p):
