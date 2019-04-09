@@ -62,6 +62,7 @@ def t_FLOAT(t):
     r'[-]?\.?[0-9]+(\.[0-9]+)?'
     return t
 
+
 # the same for dot and slash
 def t_DOT(t):
     r'\.'
