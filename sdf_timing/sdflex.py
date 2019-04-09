@@ -52,7 +52,7 @@ t_LPAR = r'\('
 t_RPAR = r'\)'
 t_COLON = r':'
 t_QFLOAT = r'\"[-+]?(?: [0-9]+)(?: \.[0-9]+)\"'
-t_QSTRING = r'\"[a-zA-Z0-9_/.,: ]+\"'
+t_QSTRING = r'\"[a-zA-Z0-9_/ -@\\]+\"'
 
 t_ignore = ' \t'
 

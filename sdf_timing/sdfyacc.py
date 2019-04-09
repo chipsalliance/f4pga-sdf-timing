@@ -26,15 +26,11 @@ def p_sdf_file(p):
 
 
 def p_sdf_header(p):
-    '''sdf_header : sdf_version
-                  | sdf_header date
+    '''sdf_header : sdf_header_qstring
+                  | sdf_version
+                  | sdf_header sdf_header_qstring
                   | sdf_header voltage
                   | sdf_header temperature
-                  | sdf_header process
-                  | sdf_header design
-                  | sdf_header vendor
-                  | sdf_header program
-                  | sdf_header version
                   | sdf_header hierarchy_divider
                   | sdf_header timescale'''
 
@@ -42,14 +38,27 @@ def p_sdf_header(p):
 
 
 def p_sdf_sdfversion(p):
+    '''sdf_header_qstring : LPAR qstring_header_entry QSTRING RPAR
+                          | LPAR qstring_header_entry RPAR'''
+    if len(p) == 5:
+        header[p[2].lower()] = remove_quotation(p[3])
+        p[0] = header
+
+
+def p_qstring_header_entry(p):
+    '''qstring_header_entry : SDFVERSION
+                            | DATE
+                            | PROCESS
+                            | DESIGN
+                            | VENDOR
+                            | PROGRAM
+                            | VERSION'''
+    p[0] = p[1]
+
+
+def p_qstring_sdf_version_floar(p):
     'sdf_version : LPAR SDFVERSION QFLOAT RPAR'
-    header['sdf_version'] = remove_quotation(p[3])
-    p[0] = header
-
-
-def p_sdf_date(p):
-    'date : LPAR DATE QSTRING RPAR'
-    header['sdf_date'] = remove_quotation(p[3])
+    header['sdfversion'] = str(p[3])
     p[0] = header
 
 
@@ -62,36 +71,6 @@ def p_sdf_voltage(p):
 def p_sdf_temperature(p):
     'temperature : LPAR TEMPERATURE real_triple RPAR'
     header['temperature'] = p[3]
-    p[0] = header
-
-
-def p_sdf_process(p):
-    'process : LPAR PROCESS QSTRING RPAR'
-    header['process'] = remove_quotation(p[3])
-    p[0] = header
-
-
-def p_sdf_design(p):
-    'design : LPAR DESIGN QSTRING RPAR'
-    header['design'] = remove_quotation(p[3])
-    p[0] = header
-
-
-def p_sdf_vendor(p):
-    'vendor : LPAR VENDOR QSTRING RPAR'
-    header['vendor'] = remove_quotation(p[3])
-    p[0] = header
-
-
-def p_sdf_program(p):
-    'program : LPAR PROGRAM QSTRING RPAR'
-    header['program'] = remove_quotation(p[3])
-    p[0] = header
-
-
-def p_sdf_version(p):
-    'version : LPAR VERSION QSTRING RPAR'
-    header['version'] = remove_quotation(p[3])
     p[0] = header
 
 
