@@ -67,7 +67,7 @@ def p_sdf_temperature(p):
 
 def p_sdf_process(p):
     'process : LPAR PROCESS QSTRING RPAR'
-    header['process'] = p[3]
+    header['process'] = remove_quotation(p[3])
     p[0] = header
 
 
