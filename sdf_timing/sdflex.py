@@ -15,6 +15,7 @@ reserved = {
     'INSTANCE': 'INSTANCE',
     'DELAY': 'DELAY',
     'ABSOLUTE': 'ABSOLUTE',
+    'INCREMENT': 'INCREMENT',
     'IOPATH': 'IOPATH',
     'posedge': 'POSEDGE',
     'negedge': 'NEGEDGE',
@@ -37,7 +38,7 @@ reserved = {
     'COND': 'COND',
 }
 
-operators =(
+operators = (
     'ARITHMETIC',
     'MODULO',
     'LOGIC_NOT',
@@ -62,7 +63,7 @@ operators =(
     'LTE',
 )
 
-tokens =(
+tokens = (
     'LPAR',
     'RPAR',
     'DOT',

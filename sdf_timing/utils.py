@@ -33,7 +33,6 @@ def add_port(portname, paths):
     name = "port_" + portname
     return prepare_entry(name=name,
                          type='port',
-                         is_absolute=True,
                          from_pin=portname,
                          to_pin=portname,
                          delay_paths=paths)
@@ -45,7 +44,6 @@ def add_interconnect(pfrom, pto, paths):
     name += pfrom + "_" + pto
     return prepare_entry(name=name,
                          type='interconnect',
-                         is_absolute=True,
                          from_pin=pfrom,
                          to_pin=pto,
                          delay_paths=paths)
@@ -57,7 +55,6 @@ def add_iopath(pfrom, pto, paths):
     name += pfrom + "_" + pto
     return prepare_entry(name=name,
                          type='iopath',
-                         is_absolute=True,
                          from_pin=pfrom,
                          to_pin=pto,
                          delay_paths=paths)

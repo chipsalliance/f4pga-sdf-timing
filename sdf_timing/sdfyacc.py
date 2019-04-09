@@ -275,7 +275,8 @@ def p_delay_list(p):
 
 
 def p_delay(p):
-    'delay : LPAR DELAY absolute_list RPAR'
+    '''delay : LPAR DELAY absolute_list RPAR
+             | LPAR DELAY increment_list RPAR'''
 
 
 def p_absolute_list(p):
@@ -290,6 +291,22 @@ def p_absolute_empty(p):
 def p_absolute_delay_list(p):
     '''absolute : LPAR ABSOLUTE delay_list RPAR
                 | LPAR ABSOLUTE cond_delay RPAR'''
+    for d in p[3]:
+        d['is_absolute'] = True
+    delays_list.extend(list(p[3]))
+    tmp_delay_list[:] = []
+
+
+def p_increment_list(p):
+    '''increment_list : increment
+                      | increment_list increment'''
+
+
+def p_increment_delay_list(p):
+    '''increment : LPAR INCREMENT delay_list RPAR
+                 | LPAR INCREMENT cond_delay RPAR'''
+    for d in p[3]:
+        d['is_increment'] = True
     delays_list.extend(list(p[3]))
     tmp_delay_list[:] = []
 
