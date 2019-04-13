@@ -1,7 +1,7 @@
 import ply.yacc as yacc
-import utils
 
-from sdflex import tokens
+from . import utils
+from .sdflex import tokens
 
 timings = dict()
 

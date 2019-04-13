@@ -15,6 +15,8 @@ setuptools.setup(
     url="https://github.com/SymbiFlow/python-sdf-timing",
     packages=setuptools.find_packages(),
     install_requires=['ply', 'pyjson'],
+    setup_requires=["pytest-runner"],
+    tests_require=["pytest"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: ISC License",

@@ -1,4 +1,4 @@
-import sdfparse
+from sdf_timing import sdfparse
 import os
 
 
