@@ -541,4 +541,4 @@ def p_error(p):
     raise Exception("Syntax error at '%s' line: %d" % (p.value, p.lineno))
 
 
-parser = yacc.yacc()
+parser = yacc.yacc(debug=False, write_tables=False)
