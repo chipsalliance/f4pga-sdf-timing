@@ -66,6 +66,7 @@ operators = (
 tokens = (
     'LPAR',
     'RPAR',
+    'ASTERISK',
     'DOT',
     'SLASH',
     'COLON',
@@ -117,6 +118,11 @@ def t_FLOAT(t):
 # the same for dot and slash
 def t_DOT(t):
     r'\.'
+    return t
+
+
+def t_ASTERISK(t):
+    r'\*'
     return t
 
 

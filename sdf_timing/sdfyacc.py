@@ -143,6 +143,7 @@ def p_celltype(p):
 
 def p_instance(p):
     '''instance : LPAR INSTANCE STRING RPAR
+                | LPAR INSTANCE ASTERISK RPAR
                 | LPAR INSTANCE RPAR'''
     if p[3] == ')':
         p[0] = None
