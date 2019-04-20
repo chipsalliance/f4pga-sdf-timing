@@ -124,16 +124,24 @@ def add_cell(name, instance):
 
 
 def p_timing_cell(p):
-    '''cell : LPAR CELL celltype instance timing_check RPAR
-            | LPAR CELL celltype instance RPAR
-            | LPAR CELL celltype instance delay_lst timing_check RPAR
-            | LPAR CELL celltype instance delay_lst RPAR
-            | LPAR CELL celltype instance timingenv_lst RPAR'''
+    '''cell : LPAR CELL celltype instance timing_cell_lst RPAR
+            | LPAR CELL celltype instance RPAR'''
 
     add_cell(p[3], p[4])
     add_delays_to_cell(p[3], p[4], delays_list)
     p[0] = cells
     delays_list[:] = []
+
+
+def p_timing_cell_lst(p):
+    '''timing_cell_lst : timing_cell_entry
+                       | timing_cell_lst timing_cell_entry'''
+
+
+def p_timing_cell_entry(p):
+    '''timing_cell_entry : timing_check
+                         | delay
+                         | timingenv'''
 
 
 def p_celltype(p):
@@ -261,11 +269,6 @@ def p_setuphold_check(p):
     p[0] = tmp_delay_list
 
 
-def p_timingenv_list(p):
-    '''timingenv_lst : timingenv
-                     | timingenv_lst timingenv'''
-
-
 def p_timingenv(p):
     'timingenv : LPAR TIMINGENV constraints_list RPAR'
 
@@ -290,11 +293,6 @@ def p_path_constraint(p):
     constr = utils.add_constraint('pathconstraint', p[3], p[4], paths)
     tmp_constr_list.append(constr)
     p[0] = tmp_constr_list
-
-
-def p_delay_list(p):
-    '''delay_lst : delay
-                 | delay_lst delay'''
 
 
 def p_delay(p):
