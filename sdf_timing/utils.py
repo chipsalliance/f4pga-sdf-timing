@@ -69,8 +69,8 @@ def add_tcheck(type, pto, pfrom, paths):
     return prepare_entry(name=name,
                          type=type,
                          is_timing_check=True,
-                         is_cond=pto['cond'],
-                         cond_equation=pto['cond_equation'],
+                         is_cond=pfrom['cond'],
+                         cond_equation=pfrom['cond_equation'],
                          from_pin=pfrom['port'],
                          to_pin=pto['port'],
                          delay_paths=paths)

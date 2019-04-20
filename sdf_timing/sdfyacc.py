@@ -184,6 +184,7 @@ def p_timing_cond(p):
     port['cond'] = True
     port['cond_equation'] = " ".join(p[3])
     port['port'] = p[4]
+    tmp_equation[:] = []
     p[0] = port
 
 
