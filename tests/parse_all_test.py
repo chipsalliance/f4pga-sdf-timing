@@ -3,6 +3,7 @@ import os
 
 
 datafiles_path = 'tests/data/'
+parsed_sdfs = list()
 
 
 def test_parse():
@@ -10,4 +11,9 @@ def test_parse():
     for f in files:
         if f.endswith('.sdf'):
             with open(datafiles_path + f) as sdffile:
-                sdfparse.parse(sdffile.read())
+                parsed_sdfs.append(sdfparse.parse(sdffile.read()))
+
+
+def test_emit():
+    for s in parsed_sdfs:
+        sdfparse.emit(s)

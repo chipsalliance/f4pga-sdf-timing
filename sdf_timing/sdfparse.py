@@ -2,6 +2,11 @@
 
 from . import sdflex
 from . import sdfyacc
+from . import sdfwrite
+
+
+def emit(input):
+    return sdfwrite.emit_sdf(input)
 
 
 def parse(input):
