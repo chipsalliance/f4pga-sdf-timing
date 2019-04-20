@@ -264,7 +264,7 @@ def p_setuphold_check(p):
     paths = dict()
     paths['setup'] = p[5]
     paths['hold'] = p[6]
-    tcheck = utils.add_tcheck('setup', p[3], p[4], paths)
+    tcheck = utils.add_tcheck('setuphold', p[3], p[4], paths)
     tmp_delay_list.append(tcheck)
     p[0] = tmp_delay_list
 
