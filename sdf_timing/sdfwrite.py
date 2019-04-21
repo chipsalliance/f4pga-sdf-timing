@@ -1,6 +1,19 @@
 #!/usr/bin/env python3
 
 
+def gen_timing_entry(entry):
+
+    if entry['min'] is None and entry['avg'] is None\
+            and entry['max'] is None:
+        # if all the values are None return empty timing
+        return "()"
+
+    return "({MIN}:{AVG}:{MAX})".format(
+        MIN=entry['min'],
+        AVG=entry['avg'],
+        MAX=entry['max'])
+
+
 def emit_timingenv_entry(delay):
 
     entry = ""
@@ -23,16 +36,11 @@ def emit_timingenv_entry(delay):
         input_str = delay['from_pin']
 
     entry += """
-                (PATHCONSTRAINT {output} {input} ({RISEMIN}:{RISEAVG}:\
-{RISEMAX})({FALLMIN}:{FALLAVG}:{FALLMAX}))""".format(
+                (PATHCONSTRAINT {output} {input} {RISE} {FALL})""".format(
         output=output_str,
         input=input_str,
-        RISEMIN=delay['delay_paths']['rise']['min'],
-        RISEAVG=delay['delay_paths']['rise']['avg'],
-        RISEMAX=delay['delay_paths']['rise']['max'],
-        FALLMIN=delay['delay_paths']['fall']['min'],
-        FALLAVG=delay['delay_paths']['fall']['avg'],
-        FALLMAX=delay['delay_paths']['fall']['max'])
+        RISE=gen_timing_entry(delay['delay_paths']['rise']),
+        FALL=gen_timing_entry(delay['delay_paths']['fall']))
 
     return entry
 
@@ -68,27 +76,20 @@ def emit_timingcheck_entry(delay):
 
     if delay['name'].startswith("setuphold"):
         entry += """
-                ({type} {output} {input} ({SETUPMIN}:{SETUPAVG}:{SETUPMAX})\
-({HOLDMIN}:{HOLDAVG}:{HOLDMAX}))""".format(
+                ({type} {output} {input} {SETUP} {HOLD})""".format(
             type=delay['type'].upper(),
             input=input_str,
             output=output_str,
-            SETUPMIN=delay['delay_paths']['setup']['min'],
-            SETUPAVG=delay['delay_paths']['setup']['avg'],
-            SETUPMAX=delay['delay_paths']['setup']['max'],
-            HOLDMIN=delay['delay_paths']['hold']['min'],
-            HOLDAVG=delay['delay_paths']['hold']['avg'],
-            HOLDMAX=delay['delay_paths']['hold']['max'])
+            SETUP=gen_timing_entry(delay['delay_paths']['setup']),
+            HOLD=gen_timing_entry(delay['delay_paths']['hold']))
 
     else:
         entry += """
-                ({type} {output} {input} ({MIN}:{AVG}:{MAX}))""".format(
+                ({type} {output} {input} {NOMINAL})""".format(
             type=delay['type'].upper(),
             input=input_str,
             output=output_str,
-            MIN=delay['delay_paths']['nominal']['min'],
-            AVG=delay['delay_paths']['nominal']['avg'],
-            MAX=delay['delay_paths']['nominal']['max'])
+            NOMINAL=gen_timing_entry(delay['delay_paths']['nominal']))
 
     return entry
 
@@ -125,21 +126,10 @@ def emit_delay_entry(delay):
         input_str = delay['from_pin']
 
     tim_val_str = ""
-    if 'fast' in delay['delay_paths']:
-        tim_val_str += "({MIN}:{AVG}:{MAX})".format(
-            MIN=delay['delay_paths']['fast']['min'],
-            AVG=delay['delay_paths']['fast']['avg'],
-            MAX=delay['delay_paths']['fast']['max'])
-    if 'nominal' in delay['delay_paths']:
-        tim_val_str += "({MIN}:{AVG}:{MAX})".format(
-            MIN=delay['delay_paths']['nominal']['min'],
-            AVG=delay['delay_paths']['nominal']['avg'],
-            MAX=delay['delay_paths']['nominal']['max'])
-    if 'slow' in delay['delay_paths']:
-        tim_val_str += "({MIN}:{AVG}:{MAX})".format(
-            MIN=delay['delay_paths']['slow']['min'],
-            AVG=delay['delay_paths']['slow']['avg'],
-            MAX=delay['delay_paths']['slow']['max'])
+
+    for path in ['fast', 'nominal', 'slow']:
+        if path in delay['delay_paths']:
+            tim_val_str += gen_timing_entry(delay['delay_paths'][path])
 
     intent = ""
     if delay['type'].startswith("port"):
