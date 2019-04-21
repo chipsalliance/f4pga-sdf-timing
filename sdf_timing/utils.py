@@ -4,8 +4,8 @@ def prepare_entry(name=None,
                   type=None,
                   from_pin=None,
                   to_pin=None,
-                  from_pin_condition=None,
-                  to_pin_condition=None,
+                  from_pin_edge=None,
+                  to_pin_edge=None,
                   delay_paths=None,
                   cond_equation=None,
                   is_timing_check=False,
@@ -19,6 +19,8 @@ def prepare_entry(name=None,
     entry['type'] = type
     entry['from_pin'] = from_pin
     entry['to_pin'] = to_pin
+    entry['from_pin_edge'] = from_pin_edge
+    entry['to_pin_edge'] = to_pin_edge
     entry['delay_paths'] = delay_paths
     entry['is_timing_check'] = is_timing_check
     entry['is_timing_env'] = is_timing_env
@@ -32,33 +34,37 @@ def prepare_entry(name=None,
 
 def add_port(portname, paths):
 
-    name = "port_" + portname
+    name = "port_" + portname['port']
     return prepare_entry(name=name,
                          type='port',
-                         from_pin=portname,
-                         to_pin=portname,
+                         from_pin=portname['port'],
+                         to_pin=portname['port'],
                          delay_paths=paths)
 
 
 def add_interconnect(pfrom, pto, paths):
 
     name = "interconnect_"
-    name += pfrom + "_" + pto
+    name += pfrom['port'] + "_" + pto['port']
     return prepare_entry(name=name,
                          type='interconnect',
-                         from_pin=pfrom,
-                         to_pin=pto,
+                         from_pin=pfrom['port'],
+                         to_pin=pto['port'],
+                         from_pin_edge=pfrom['port_edge'],
+                         to_pin_edge=pto['port_edge'],
                          delay_paths=paths)
 
 
 def add_iopath(pfrom, pto, paths):
 
     name = "iopath_"
-    name += pfrom + "_" + pto
+    name += pfrom['port'] + "_" + pto['port']
     return prepare_entry(name=name,
                          type='iopath',
-                         from_pin=pfrom,
-                         to_pin=pto,
+                         from_pin=pfrom['port'],
+                         to_pin=pto['port'],
+                         from_pin_edge=pfrom['port_edge'],
+                         to_pin_edge=pto['port_edge'],
                          delay_paths=paths)
 
 
@@ -73,16 +79,20 @@ def add_tcheck(type, pto, pfrom, paths):
                          cond_equation=pfrom['cond_equation'],
                          from_pin=pfrom['port'],
                          to_pin=pto['port'],
+                         from_pin_edge=pfrom['port_edge'],
+                         to_pin_edge=pto['port_edge'],
                          delay_paths=paths)
 
 
 def add_constraint(type, pto, pfrom, paths):
 
     name = type + "_"
-    name += pfrom + "_" + pto
+    name += pfrom['port'] + "_" + pto['port']
     return prepare_entry(name=name,
                          type=type,
                          is_timing_env=True,
-                         from_pin=pfrom,
-                         to_pin=pto,
+                         from_pin=pfrom['port'],
+                         to_pin=pto['port'],
+                         from_pin_edge=pfrom['port_edge'],
+                         to_pin_edge=pto['port_edge'],
                          delay_paths=paths)

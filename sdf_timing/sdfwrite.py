@@ -7,11 +7,26 @@ def emit_timingenv_entry(delay):
     if not delay['is_timing_env']:
         # handle only timing_env here
         return ""
+
+    input_str = ""
+    output_str = ""
+    if delay['to_pin_edge'] is not None:
+        output_str = "(" + delay['to_pin_edge'] + " "\
+            + delay['to_pin'] + ")"
+    else:
+        output_str = delay['to_pin']
+
+    if delay['from_pin_edge'] is not None:
+        input_str = "(" + delay['from_pin_edge'] + " "\
+            + delay['from_pin'] + ")"
+    else:
+        input_str = delay['from_pin']
+
     entry += """
                 (PATHCONSTRAINT {output} {input} ({RISEMIN}:{RISEAVG}:\
 {RISEMAX})({FALLMIN}:{FALLAVG}:{FALLMAX}))""".format(
-        output=delay['to_pin'],
-        input=delay['from_pin'],
+        output=output_str,
+        input=input_str,
         RISEMIN=delay['delay_paths']['rise']['min'],
         RISEAVG=delay['delay_paths']['rise']['avg'],
         RISEMAX=delay['delay_paths']['rise']['max'],
@@ -31,15 +46,25 @@ def emit_timingcheck_entry(delay):
 
     input_str = ""
     output_str = ""
+    if delay['to_pin_edge'] is not None:
+        output_str = "(" + delay['to_pin_edge'] + " "\
+            + delay['to_pin'] + ")"
+    else:
+        output_str = delay['to_pin']
+
+    if delay['from_pin_edge'] is not None:
+        input_str = "(" + delay['from_pin_edge'] + " "\
+            + delay['from_pin'] + ")"
+    else:
+        input_str = delay['from_pin']
+
     if delay['is_cond']:
         input_str = "(COND {equation} {input})".format(
             equation=delay['cond_equation'],
-            input=delay['from_pin'])
-    else:
-        input_str = "{input}".format(input=delay['from_pin'])
+            input=input_str)
 
-    if not delay['name'].startswith("width"):
-        output_str = "{output}".format(output=delay['to_pin'])
+    if delay['name'].startswith("width"):
+        output_str = ""
 
     if delay['name'].startswith("setuphold"):
         entry += """
@@ -85,6 +110,20 @@ def emit_delay_entry(delay):
     entry += """
             ({dtype}""".format(dtype=dtype)
 
+    input_str = ""
+    output_str = ""
+    if delay['to_pin_edge'] is not None:
+        output_str = "(" + delay['to_pin_edge'] + " "\
+            + delay['to_pin'] + ")"
+    else:
+        output_str = delay['to_pin']
+
+    if delay['from_pin_edge'] is not None:
+        input_str = "(" + delay['from_pin_edge'] + " "\
+            + delay['from_pin'] + ")"
+    else:
+        input_str = delay['from_pin']
+
     tim_val_str = ""
     if 'fast' in delay['delay_paths']:
         tim_val_str += "({MIN}:{AVG}:{MAX})".format(
@@ -107,16 +146,16 @@ def emit_delay_entry(delay):
         entry += """
                 (PORT {input} {timval})""".format(
             intent=intent,
-            input=delay['from_pin'],
-            output=delay['to_pin'],
+            input=input_str,
+            output=output_str,
             timval=tim_val_str)
     elif delay['type'].startswith("interconnect"):
 
         entry += """
                 (INTERCONNECT {input} {output} {timval})""".format(
             intent=intent,
-            input=delay['from_pin'],
-            output=delay['to_pin'],
+            input=input_str,
+            output=output_str,
             timval=tim_val_str)
     else:
         if delay['is_cond']:
@@ -128,8 +167,8 @@ def emit_delay_entry(delay):
         entry += """
                 {intent}(IOPATH {input} {output} {timval})""".format(
             intent=intent,
-            input=delay['from_pin'],
-            output=delay['to_pin'],
+            input=input_str,
+            output=output_str,
             timval=tim_val_str)
 
         if delay['is_cond']:

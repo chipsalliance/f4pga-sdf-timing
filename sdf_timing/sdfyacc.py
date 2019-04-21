@@ -174,7 +174,8 @@ def p_port_check(p):
     port = dict()
     port['cond'] = False
     port['cond_equation'] = None
-    port['port'] = p[1]
+    port['port'] = p[1]['port']
+    port['port_edge'] = p[1]['port_edge']
     p[0] = port
 
 
@@ -183,7 +184,8 @@ def p_timing_cond(p):
     port = dict()
     port['cond'] = True
     port['cond_equation'] = " ".join(p[3])
-    port['port'] = p[4]
+    port['port'] = p[4]['port']
+    port['port_edge'] = p[4]['port_edge']
     tmp_equation[:] = []
     p[0] = port
 
@@ -386,10 +388,15 @@ def p_port_spec(p):
                  | LPAR port_condition STRING RPAR
                  | FLOAT'''
 
+    port = dict()
     if p[1] != '(':
-        p[0] = str(p[1])
+        port['port'] = str(p[1])
+        port['port_edge'] = None
     else:
-        p[0] = p[3]
+        port['port'] = p[3]
+        port['port_edge'] = p[2].lower()
+
+    p[0] = port
 
 
 def p_interconnect(p):
