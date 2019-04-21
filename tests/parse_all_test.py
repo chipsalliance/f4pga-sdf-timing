@@ -4,6 +4,7 @@ import os
 
 datafiles_path = 'tests/data/'
 parsed_sdfs = list()
+generated_sdfs = list()
 
 
 def test_parse():
@@ -16,4 +17,9 @@ def test_parse():
 
 def test_emit():
     for s in parsed_sdfs:
-        sdfparse.emit(s)
+        generated_sdfs.append(sdfparse.emit(s))
+
+
+def test_parse_generated():
+    for s in generated_sdfs:
+        sdfparse.parse(s)
