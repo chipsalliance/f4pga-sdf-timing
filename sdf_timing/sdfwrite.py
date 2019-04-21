@@ -188,41 +188,46 @@ def emit_sdf(timings):
     (SDFVERSION \"3.0\")
     (TIMESCALE 1ps)
 """
-        for cell in timings['cells']:
-            sdf += """
+        if 'cells' in timings:
+            for cell in timings['cells']:
+                for location in timings['cells'][cell]:
+                    sdf += """
     (CELL
         (CELLTYPE \"{name}\")""".format(name=cell.upper())
-            for location in timings['cells'][cell]:
 
-                sdf += """
+                    sdf += """
         (INSTANCE {location})""".format(location=location)
-                for delay in timings['cells'][cell][location]:
-                    delay_entry = emit_delay_entry(
-                        timings['cells'][cell][location][delay])
-                    if delay_entry != "":
-                        sdf += """
+                    for delay in timings['cells'][cell][location]:
+                        delay_entry = emit_delay_entry(
+                            timings['cells'][cell][location][delay])
+                        if delay_entry != "":
+                            sdf += """
         (DELAY"""
-                        sdf += delay_entry
-                        sdf += """
+                            sdf += delay_entry
+                            sdf += """
         )"""
-                    timingcheck = emit_timingcheck_entry(
-                        timings['cells'][cell][location][delay])
-                    if timingcheck != "":
-                        sdf += """
+                        timingcheck = emit_timingcheck_entry(
+                            timings['cells'][cell][location][delay])
+                        if timingcheck != "":
+                            sdf += """
         (TIMINGCHECK"""
-                        sdf += timingcheck
-                        sdf += """
+                            sdf += timingcheck
+                            sdf += """
         )"""
-                    timingenv = emit_timingenv_entry(
-                        timings['cells'][cell][location][delay])
-                    if timingenv != "":
-                        sdf += """
+                        timingenv = emit_timingenv_entry(
+                            timings['cells'][cell][location][delay])
+                        if timingenv != "":
+                            sdf += """
         (TIMINGENV"""
-                        sdf += timingenv
-                        sdf += """
+                            sdf += timingenv
+                            sdf += """
         )"""
 
+                    sdf += """
+    )"""
         sdf += """
-    )
 )"""
+
+    # fix "None" entries
+    sdf = sdf.replace("None", "")
     return sdf
