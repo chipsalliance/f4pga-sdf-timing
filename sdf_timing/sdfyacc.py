@@ -124,16 +124,24 @@ def add_cell(name, instance):
 
 
 def p_timing_cell(p):
-    '''cell : LPAR CELL celltype instance timing_check RPAR
-            | LPAR CELL celltype instance RPAR
-            | LPAR CELL celltype instance delay_lst timing_check RPAR
-            | LPAR CELL celltype instance delay_lst RPAR
-            | LPAR CELL celltype instance timingenv_lst RPAR'''
+    '''cell : LPAR CELL celltype instance timing_cell_lst RPAR
+            | LPAR CELL celltype instance RPAR'''
 
     add_cell(p[3], p[4])
     add_delays_to_cell(p[3], p[4], delays_list)
     p[0] = cells
     delays_list[:] = []
+
+
+def p_timing_cell_lst(p):
+    '''timing_cell_lst : timing_cell_entry
+                       | timing_cell_lst timing_cell_entry'''
+
+
+def p_timing_cell_entry(p):
+    '''timing_cell_entry : timing_check
+                         | delay
+                         | timingenv'''
 
 
 def p_celltype(p):
@@ -166,7 +174,8 @@ def p_port_check(p):
     port = dict()
     port['cond'] = False
     port['cond_equation'] = None
-    port['port'] = p[1]
+    port['port'] = p[1]['port']
+    port['port_edge'] = p[1]['port_edge']
     p[0] = port
 
 
@@ -175,7 +184,9 @@ def p_timing_cond(p):
     port = dict()
     port['cond'] = True
     port['cond_equation'] = " ".join(p[3])
-    port['port'] = p[4]
+    port['port'] = p[4]['port']
+    port['port_edge'] = p[4]['port_edge']
+    tmp_equation[:] = []
     p[0] = port
 
 
@@ -256,14 +267,9 @@ def p_setuphold_check(p):
     paths = dict()
     paths['setup'] = p[5]
     paths['hold'] = p[6]
-    tcheck = utils.add_tcheck('setup', p[3], p[4], paths)
+    tcheck = utils.add_tcheck('setuphold', p[3], p[4], paths)
     tmp_delay_list.append(tcheck)
     p[0] = tmp_delay_list
-
-
-def p_timingenv_list(p):
-    '''timingenv_lst : timingenv
-                     | timingenv_lst timingenv'''
 
 
 def p_timingenv(p):
@@ -290,11 +296,6 @@ def p_path_constraint(p):
     constr = utils.add_constraint('pathconstraint', p[3], p[4], paths)
     tmp_constr_list.append(constr)
     p[0] = tmp_constr_list
-
-
-def p_delay_list(p):
-    '''delay_lst : delay
-                 | delay_lst delay'''
 
 
 def p_delay(p):
@@ -387,10 +388,15 @@ def p_port_spec(p):
                  | LPAR port_condition STRING RPAR
                  | FLOAT'''
 
+    port = dict()
     if p[1] != '(':
-        p[0] = str(p[1])
+        port['port'] = str(p[1])
+        port['port_edge'] = None
     else:
-        p[0] = p[3]
+        port['port'] = p[3]
+        port['port_edge'] = p[2].lower()
+
+    p[0] = port
 
 
 def p_interconnect(p):
