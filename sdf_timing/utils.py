@@ -21,6 +21,13 @@ def get_scale_fs(timescale):
 
     >>> get_scale_fs('100 s')
     100000000000000000
+
+    >>> try:
+    ...     get_scale_fs('2s')
+    ... except AssertionError as e:
+    ...     print(e)
+    Invalid SDF timescale 2s
+
     """
     mm = re.match(r'(10{0,2})(\.0)? *([munpf]?s)', timescale)
     sc_lut = {
@@ -31,11 +38,10 @@ def get_scale_fs(timescale):
         'ps': 1e3,
         'fs': 1,
     }
-    ret = None
-    if mm:
-        base, _, sc = mm.groups()
-        ret = int(base) * int(sc_lut[sc])
-    return ret
+    assert mm is not None, "Invalid SDF timescale {}".format(timescale)
+
+    base, _, sc = mm.groups()
+    return int(base) * int(sc_lut[sc])
 
 
 def get_scale_seconds(timescale):
