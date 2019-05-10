@@ -1,3 +1,71 @@
+import re
+
+
+def get_scale_fs(timescale):
+    """Convert sdf timescale to scale factor to femtoseconds as int
+
+    >>> get_scale_fs('1.0 fs')
+    1
+
+    >>> get_scale_fs('1ps')
+    1000
+
+    >>> get_scale_fs('10 ns')
+    10000000
+
+    >>> get_scale_fs('10.0 us')
+    10000000000
+
+    >>> get_scale_fs('100.0ms')
+    100000000000000
+
+    >>> get_scale_fs('100 s')
+    100000000000000000
+
+    >>> try:
+    ...     get_scale_fs('2s')
+    ... except AssertionError as e:
+    ...     print(e)
+    Invalid SDF timescale 2s
+
+    """
+    mm = re.match(r'(10{0,2})(\.0)? *([munpf]?s)', timescale)
+    sc_lut = {
+        's': 1e15,
+        'ms': 1e12,
+        'us': 1e9,
+        'ns': 1e6,
+        'ps': 1e3,
+        'fs': 1,
+    }
+    assert mm is not None, "Invalid SDF timescale {}".format(timescale)
+
+    base, _, sc = mm.groups()
+    return int(base) * int(sc_lut[sc])
+
+
+def get_scale_seconds(timescale):
+    """Convert sdf timescale to scale factor to floating point seconds
+
+    >>> get_scale_seconds('1.0 fs')
+    1e-15
+
+    >>> get_scale_seconds('1ps')
+    1e-12
+
+    >>> get_scale_seconds('10 ns')
+    1e-08
+
+    >>> get_scale_seconds('10.0 us')
+    1e-05
+
+    >>> get_scale_seconds('100.0ms')
+    0.1
+
+    >>> round(get_scale_seconds('100 s'), 6)
+    100.0
+    """
+    return 1e-15 * get_scale_fs(timescale)
 
 
 def prepare_entry(name=None,
