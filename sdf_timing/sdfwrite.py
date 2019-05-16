@@ -179,15 +179,15 @@ def emit_sdf(timings):
     (TIMESCALE 1ps)
 """
         if 'cells' in timings:
-            for cell in timings['cells']:
-                for location in timings['cells'][cell]:
+            for cell in sorted(timings['cells']):
+                for location in sorted(timings['cells'][cell]):
                     sdf += """
     (CELL
         (CELLTYPE \"{name}\")""".format(name=cell.upper())
 
                     sdf += """
         (INSTANCE {location})""".format(location=location)
-                    for delay in timings['cells'][cell][location]:
+                    for delay in sorted(timings['cells'][cell][location]):
                         delay_entry = emit_delay_entry(
                             timings['cells'][cell][location][delay])
                         if delay_entry != "":
