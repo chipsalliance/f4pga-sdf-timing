@@ -9,8 +9,8 @@ generated_sdfs = list()
 
 
 def test_parse():
-    files = os.listdir(datafiles_path)
-    for f in sorted(files):
+    files = sorted(os.listdir(datafiles_path))
+    for f in files:
         if f.endswith('.sdf'):
             with open(datafiles_path + f) as sdffile:
                 parsed_sdfs.append(sdfparse.parse(sdffile.read()))
@@ -27,7 +27,7 @@ def test_output_stability():
 
     parsed_sdfs_check = list()
     # read the golden files
-    files = os.listdir(goldenfiles_path)
+    files = sorted(os.listdir(goldenfiles_path))
     for f in sorted(files):
         if f.endswith('.sdf'):
             with open(goldenfiles_path + f) as sdffile:
