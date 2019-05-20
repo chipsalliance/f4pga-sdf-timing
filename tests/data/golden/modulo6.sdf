@@ -1,0 +1,61 @@
+(DELAYFILE
+    (SDFVERSION "3.0")
+    (TIMESCALE 1ps)
+
+    (CELL
+        (CELLTYPE "DFFS_B")
+        (INSTANCE Q_reg_1_)
+        (TIMINGCHECK
+                (HOLD D (posedge CLK) (-0.073:-0.019:-0.019))
+        )
+        (TIMINGCHECK
+                (HOLD S (posedge CLK) (0.001:-0.003:-0.003))
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH CLK Q (0.132:0.132:0.132)(0.083:0.083:0.083))
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH CLK QBAR (0.069:0.073:0.073)(0.1:0.107:0.107))
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH S Q (0.142:0.143:0.143)())
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH S QBAR ()(0.118:0.124:0.124))
+            )
+        )
+        (TIMINGCHECK
+                (RECOVERY S (posedge CLK) (0.008:0.012:0.012))
+        )
+        (TIMINGCHECK
+                (SETUP D (posedge CLK) (0.098:0.109:0.109))
+        )
+        (TIMINGCHECK
+                (WIDTH  (negedge CLK) (0.072:0.072:0.072))
+        )
+        (TIMINGCHECK
+                (WIDTH  (posedge S) (0.086:0.086:0.086))
+        )
+    )
+    (CELL
+        (CELLTYPE "XOR2_A")
+        (INSTANCE U15)
+        (DELAY
+            (ABSOLUTE
+                (IOPATH A Z (0.064:0.072:0.072)(0.042:0.082:0.082))
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH B Z (0.058:0.079:0.079)(0.033:0.073:0.073))
+            )
+        )
+    )
+)

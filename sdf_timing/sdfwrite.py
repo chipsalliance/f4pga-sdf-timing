@@ -173,8 +173,8 @@ def emit_delay_entry(delay):
 def emit_sdf(timings):
 
     for slice in timings:
-        sdf = """
-(DELAYFILE
+        sdf = \
+            """(DELAYFILE
     (SDFVERSION \"3.0\")
     (TIMESCALE 1ps)
 """

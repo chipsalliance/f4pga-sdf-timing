@@ -1,0 +1,86 @@
+(DELAYFILE
+    (SDFVERSION "3.0")
+    (TIMESCALE 1ps)
+
+    (CELL
+        (CELLTYPE "LUT_OR_MEM5LRAM")
+        (INSTANCE SLICEM)
+        (TIMINGCHECK
+                (HOLD CLK (posedge CLK) (0.332::0.314))
+        )
+        (TIMINGCHECK
+                (HOLD WA2 (posedge CLK) (0.745::0.572))
+        )
+        (TIMINGCHECK
+                (HOLD WE (posedge CLK) (0.008::0.01))
+        )
+        (TIMINGCHECK
+                (SETUP CLK (posedge CLK) (0.248::0.208))
+        )
+        (TIMINGCHECK
+                (SETUP WA2 (posedge CLK) (0.181::0.068))
+        )
+        (TIMINGCHECK
+                (SETUP WE (posedge CLK) (0.527::0.654))
+        )
+    )
+    (CELL
+        (CELLTYPE "LUT_OR_MEM5LRAM")
+        (INSTANCE SLICEM/A5LUT)
+        (TIMINGCHECK
+                (HOLD CLK (posedge CLK) (0.155::0.192))
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH A1 O5 (0.044::0.121)(0.055::0.15))
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH A2 O5 (0.044::0.118)(0.055::0.146))
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH A3 O5 (0.043::0.12)(0.053::0.148))
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH A4 O5 (0.046::0.121)(0.057::0.15))
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH A5 O5 (0.048::0.093)(0.06::0.116))
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH CLK O5 (0.446::0.958)(0.555::1.188))
+            )
+        )
+        (TIMINGCHECK
+                (SETUP CLK (posedge CLK) (0.231::0.287))
+        )
+    )
+    (CELL
+        (CELLTYPE "SELMUX2_1")
+        (INSTANCE SLICEL/F7BMUX)
+        (DELAY
+            (ABSOLUTE
+                (IOPATH 0 OUT (0.062::0.175)(0.077::0.217))
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH 1 OUT (0.065::0.18)(0.081::0.223))
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH S0 OUT (0.093::0.239)(0.115::0.296))
+            )
+        )
+    )
+)

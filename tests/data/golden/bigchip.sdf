@@ -1,0 +1,53 @@
+(DELAYFILE
+    (SDFVERSION "3.0")
+    (TIMESCALE 1ps)
+
+    (CELL
+        (CELLTYPE "AND2")
+        (INSTANCE top/b/d)
+        (DELAY
+            (ABSOLUTE
+                (IOPATH a y (1.5:2.5:3.4)(2.5:3.6:4.7))
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (IOPATH b y (1.4:2.3:3.2)(2.3:3.4:4.3))
+            )
+        )
+    )
+    (CELL
+        (CELLTYPE "BIGCHIP")
+        (INSTANCE top)
+        (DELAY
+            (ABSOLUTE
+                (INTERCONNECT d[0] b/c/d (0.4:0.5:0.6))
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (INTERCONNECT mck b/c/clk (0.6:0.7:0.9))
+            )
+        )
+    )
+    (CELL
+        (CELLTYPE "DFF")
+        (INSTANCE top/b/c)
+        (DELAY
+            (ABSOLUTE
+                (IOPATH (posedge clk) q (2.0:3.0:4.0)(5.0:6.0:7.0))
+            )
+        )
+        (DELAY
+            (ABSOLUTE
+                (PORT clr (2.0:3.0:4.0)(5.0:6.0:7.0))
+            )
+        )
+        (TIMINGCHECK
+                (SETUPHOLD d (posedge clk) (3.0:4.0:5.0) (-1.0:-1.0:-1.0))
+        )
+        (TIMINGCHECK
+                (WIDTH  clk (4.4:7.5:11.3))
+        )
+    )
+)
