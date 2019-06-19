@@ -1,0 +1,24 @@
+(DELAYFILE
+	(SDFVERSION "2.1")
+	(DIVIDER /)
+	(TIMESCALE 1 ps)
+
+	(CELL
+	(CELLTYPE "routing_mux")
+	(INSTANCE slicel/aoutmux)
+		(DELAY
+		(ABSOLUTE
+			(DEVICE aoutmux (286:286:286)(286:286:286))
+		)
+		)
+	)
+	(CELL
+	(CELLTYPE "routing_bel")
+	(INSTANCE slicem/lut_c)
+		(DELAY
+		(ABSOLUTE
+			(DEVICE lut_c (235:235:235)(235:235:235))
+		)
+		)
+	)
+)

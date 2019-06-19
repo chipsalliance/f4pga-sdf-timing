@@ -370,8 +370,18 @@ def p_delay_list_interconnect(p):
 def p_del(p):
     '''del : interconnect
            | iopath
-           | port'''
+           | port
+           | device'''
     p[0] = p[1]
+
+
+def p_device(p):
+    'device : LPAR DEVICE port_spec real_triple real_triple RPAR'
+    paths = dict()
+    paths['fast'] = p[4]
+    paths['slow'] = p[5]
+    device = utils.add_device(p[3], paths)
+    p[0] = device
 
 
 def p_iopath(p):

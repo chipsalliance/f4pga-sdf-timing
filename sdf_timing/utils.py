@@ -136,6 +136,17 @@ def add_iopath(pfrom, pto, paths):
                          delay_paths=paths)
 
 
+def add_device(port, paths):
+
+    name = "device_"
+    name += port['port']
+    return prepare_entry(name=name,
+                         type='device',
+                         from_pin=port['port'],
+                         to_pin=port['port'],
+                         delay_paths=paths)
+
+
 def add_tcheck(type, pto, pfrom, paths):
 
     name = type + "_"

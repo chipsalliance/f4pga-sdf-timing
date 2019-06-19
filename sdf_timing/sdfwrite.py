@@ -147,6 +147,11 @@ def emit_delay_entry(delay):
             input=input_str,
             output=output_str,
             timval=tim_val_str)
+    elif delay['type'].startswith("device"):
+        entry += """
+                (DEVICE {input} {timval})""".format(
+            input=input_str,
+            timval=tim_val_str)
     else:
         if delay['is_cond']:
             intent = "     "

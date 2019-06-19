@@ -36,6 +36,7 @@ reserved = {
     'SETUPHOLD': 'SETUPHOLD',
     'WIDTH': 'WIDTH',
     'COND': 'COND',
+    'DEVICE': 'DEVICE',
 }
 
 operators = (
