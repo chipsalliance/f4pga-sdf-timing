@@ -17,8 +17,8 @@ def init():
     sdfyacc.tmp_constr_list = list()
 
 
-def emit(input):
-    return sdfwrite.emit_sdf(input)
+def emit(input, timescale='1ps'):
+    return sdfwrite.emit_sdf(input, timescale)
 
 
 def parse(input):

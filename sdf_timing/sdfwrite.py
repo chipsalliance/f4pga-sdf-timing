@@ -175,14 +175,14 @@ def emit_delay_entry(delay):
     return entry
 
 
-def emit_sdf(timings):
+def emit_sdf(timings, timescale='1ps'):
 
     for slice in timings:
         sdf = \
             """(DELAYFILE
     (SDFVERSION \"3.0\")
-    (TIMESCALE 1ps)
-"""
+    (TIMESCALE {})
+""".format(timescale)
         if 'cells' in timings:
             for cell in sorted(timings['cells']):
                 for location in sorted(timings['cells'][cell]):
