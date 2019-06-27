@@ -14,165 +14,210 @@ def gen_timing_entry(entry):
         MAX=entry['max'])
 
 
-def emit_timingenv_entry(delay):
+def emit_timingenv_entries(delays):
 
-    entry = ""
-    if not delay['is_timing_env']:
-        # handle only timing_env here
-        return ""
+    entries = ""
+    tenv_entries = ""
+    for delay in sorted(delays):
+        delay = delays[delay]
+        entry = ""
+        if not delay['is_timing_env']:
+            # handle only timing_env here
+            continue
 
-    input_str = ""
-    output_str = ""
-    if delay['to_pin_edge'] is not None:
-        output_str = "(" + delay['to_pin_edge'] + " "\
-            + delay['to_pin'] + ")"
-    else:
-        output_str = delay['to_pin']
-
-    if delay['from_pin_edge'] is not None:
-        input_str = "(" + delay['from_pin_edge'] + " "\
-            + delay['from_pin'] + ")"
-    else:
-        input_str = delay['from_pin']
-
-    entry += """
-                (PATHCONSTRAINT {output} {input} {RISE} {FALL})""".format(
-        output=output_str,
-        input=input_str,
-        RISE=gen_timing_entry(delay['delay_paths']['rise']),
-        FALL=gen_timing_entry(delay['delay_paths']['fall']))
-
-    return entry
-
-
-def emit_timingcheck_entry(delay):
-
-    entry = ""
-    if not delay['is_timing_check']:
-        # handle only timing checks here
-        return ""
-
-    input_str = ""
-    output_str = ""
-    if delay['to_pin_edge'] is not None:
-        output_str = "(" + delay['to_pin_edge'] + " "\
-            + delay['to_pin'] + ")"
-    else:
-        output_str = delay['to_pin']
-
-    if delay['from_pin_edge'] is not None:
-        input_str = "(" + delay['from_pin_edge'] + " "\
-            + delay['from_pin'] + ")"
-    else:
-        input_str = delay['from_pin']
-
-    if delay['is_cond']:
-        input_str = "(COND {equation} {input})".format(
-            equation=delay['cond_equation'],
-            input=input_str)
-
-    if delay['name'].startswith("width"):
+        input_str = ""
         output_str = ""
+        if delay['to_pin_edge'] is not None:
+            output_str = "(" + delay['to_pin_edge'] + " "\
+                + delay['to_pin'] + ")"
+        else:
+            output_str = delay['to_pin']
 
-    if delay['name'].startswith("setuphold"):
+        if delay['from_pin_edge'] is not None:
+            input_str = "(" + delay['from_pin_edge'] + " "\
+                + delay['from_pin'] + ")"
+        else:
+            input_str = delay['from_pin']
+
         entry += """
-                ({type} {output} {input} {SETUP} {HOLD})""".format(
-            type=delay['type'].upper(),
-            input=input_str,
+                    (PATHCONSTRAINT {output} {input} {RISE} {FALL})""".format(
             output=output_str,
-            SETUP=gen_timing_entry(delay['delay_paths']['setup']),
-            HOLD=gen_timing_entry(delay['delay_paths']['hold']))
-
-    else:
-        entry += """
-                ({type} {output} {input} {NOMINAL})""".format(
-            type=delay['type'].upper(),
             input=input_str,
-            output=output_str,
-            NOMINAL=gen_timing_entry(delay['delay_paths']['nominal']))
+            RISE=gen_timing_entry(delay['delay_paths']['rise']),
+            FALL=gen_timing_entry(delay['delay_paths']['fall']))
+        entries += entry
 
-    return entry
+    if entries != "":
+        tenv_entries += """
+        (TIMINGENV"""
+        tenv_entries += entries
+        tenv_entries += """
+        )"""
+
+    return tenv_entries
 
 
-def emit_delay_entry(delay):
+def emit_timingcheck_entries(delays):
 
-    entry = ""
-    dtype = ""
-    if delay['is_absolute']:
-        dtype = "ABSOLUTE"
-    elif delay['is_incremental']:
-        dtype = "INCREMENTAL"
-    else:
-        # if it's neiter absolute, nor incremental
-        # it must be a timingcheck entry. It will be
-        # handled later
-        return ""
+    entries = ""
+    tcheck_entries = ""
+    for delay in sorted(delays):
+        delay = delays[delay]
+        entry = ""
+        if not delay['is_timing_check']:
+            # handle only timing checks here
+            continue
 
-    entry += """
-            ({dtype}""".format(dtype=dtype)
+        input_str = ""
+        output_str = ""
+        if delay['to_pin_edge'] is not None:
+            output_str = "(" + delay['to_pin_edge'] + " "\
+                + delay['to_pin'] + ")"
+        else:
+            output_str = delay['to_pin']
 
-    input_str = ""
-    output_str = ""
-    if delay['to_pin_edge'] is not None:
-        output_str = "(" + delay['to_pin_edge'] + " "\
-            + delay['to_pin'] + ")"
-    else:
-        output_str = delay['to_pin']
-
-    if delay['from_pin_edge'] is not None:
-        input_str = "(" + delay['from_pin_edge'] + " "\
-            + delay['from_pin'] + ")"
-    else:
-        input_str = delay['from_pin']
-
-    tim_val_str = ""
-
-    for path in ['fast', 'nominal', 'slow']:
-        if path in delay['delay_paths']:
-            tim_val_str += gen_timing_entry(delay['delay_paths'][path])
-
-    intent = ""
-    if delay['type'].startswith("port"):
-        entry += """
-                (PORT {input} {timval})""".format(
-            intent=intent,
-            input=input_str,
-            output=output_str,
-            timval=tim_val_str)
-    elif delay['type'].startswith("interconnect"):
-
-        entry += """
-                (INTERCONNECT {input} {output} {timval})""".format(
-            intent=intent,
-            input=input_str,
-            output=output_str,
-            timval=tim_val_str)
-    elif delay['type'].startswith("device"):
-        entry += """
-                (DEVICE {input} {timval})""".format(
-            input=input_str,
-            timval=tim_val_str)
-    else:
-        if delay['is_cond']:
-            intent = "     "
-            entry += """
-                (COND ({equation})""".format(
-                equation=delay['cond_equation'])
-
-        entry += """
-                {intent}(IOPATH {input} {output} {timval})""".format(
-            intent=intent,
-            input=input_str,
-            output=output_str,
-            timval=tim_val_str)
+        if delay['from_pin_edge'] is not None:
+            input_str = "(" + delay['from_pin_edge'] + " "\
+                + delay['from_pin'] + ")"
+        else:
+            input_str = delay['from_pin']
 
         if delay['is_cond']:
+            input_str = "(COND {equation} {input})".format(
+                equation=delay['cond_equation'],
+                input=input_str)
+
+        if delay['name'].startswith("width"):
+            output_str = ""
+
+        if delay['name'].startswith("setuphold"):
             entry += """
-                )"""
-    entry += """
+                    ({type} {output} {input} {SETUP} {HOLD})""".format(
+                type=delay['type'].upper(),
+                input=input_str,
+                output=output_str,
+                SETUP=gen_timing_entry(delay['delay_paths']['setup']),
+                HOLD=gen_timing_entry(delay['delay_paths']['hold']))
+
+        else:
+            entry += """
+                    ({type} {output} {input} {NOMINAL})""".format(
+                type=delay['type'].upper(),
+                input=input_str,
+                output=output_str,
+                NOMINAL=gen_timing_entry(delay['delay_paths']['nominal']))
+        entries += entry
+
+    if entries != "":
+        tcheck_entries += """
+        (TIMINGCHECK"""
+        tcheck_entries += entries
+        tcheck_entries += """
+        )"""
+
+    return tcheck_entries
+
+
+def emit_delay_entries(delays):
+
+    entries_absolute = ""
+    entries_incremental = ""
+    entries = ""
+
+    for delay in sorted(delays):
+        entry = ""
+        delay = delays[delay]
+        if not delay['is_absolute'] and not delay['is_incremental']:
+            # if it's neiter absolute, nor incremental
+            # it must be a timingcheck entry. It will be
+            # handled later
+            continue
+
+        input_str = ""
+        output_str = ""
+        if delay['to_pin_edge'] is not None:
+            output_str = "(" + delay['to_pin_edge'] + " "\
+                + delay['to_pin'] + ")"
+        else:
+            output_str = delay['to_pin']
+
+        if delay['from_pin_edge'] is not None:
+            input_str = "(" + delay['from_pin_edge'] + " "\
+                + delay['from_pin'] + ")"
+        else:
+            input_str = delay['from_pin']
+
+        tim_val_str = ""
+
+        for path in ['fast', 'nominal', 'slow']:
+            if path in delay['delay_paths']:
+                tim_val_str += gen_timing_entry(delay['delay_paths'][path])
+
+        intent = ""
+        if delay['type'].startswith("port"):
+            entry += """
+                    (PORT {input} {timval})""".format(
+                intent=intent,
+                input=input_str,
+                output=output_str,
+                timval=tim_val_str)
+        elif delay['type'].startswith("interconnect"):
+
+            entry += """
+                    (INTERCONNECT {input} {output} {timval})""".format(
+                intent=intent,
+                input=input_str,
+                output=output_str,
+                timval=tim_val_str)
+        elif delay['type'].startswith("device"):
+            entry += """
+                    (DEVICE {input} {timval})""".format(
+                input=input_str,
+                timval=tim_val_str)
+        else:
+            if delay['is_cond']:
+                intent = "     "
+                entry += """
+                    (COND ({equation})""".format(
+                    equation=delay['cond_equation'])
+
+            entry += """
+                    {intent}(IOPATH {input} {output} {timval})""".format(
+                intent=intent,
+                input=input_str,
+                output=output_str,
+                timval=tim_val_str)
+
+            if delay['is_cond']:
+                entry += """
+                    )"""
+        if delay['is_absolute']:
+            entries_absolute += entry
+            # if it is not absolute it must be incremental
+            # all the other types are filtered above
+        else:
+            entries_incremental += entry
+
+    if entries_absolute != "" or entries_incremental != "":
+        entries += """
+        (DELAY"""
+    if entries_absolute != "":
+        entries += """
+            (ABSOLUTE"""
+        entries += entries_absolute
+        entries += """
             )"""
+    if entries_incremental != "":
+        entries += """
+            (INCREMENT"""
+        entries += entries_incremental
+        entries += """
+            )"""
+    if entries_absolute != "" or entries_incremental != "":
+        entries += """
+        )"""
 
-    return entry
+    return entries
 
 
 def emit_sdf(timings, timescale='1ps'):
@@ -192,32 +237,12 @@ def emit_sdf(timings, timescale='1ps'):
 
                     sdf += """
         (INSTANCE {location})""".format(location=location)
-                    for delay in sorted(timings['cells'][cell][location]):
-                        delay_entry = emit_delay_entry(
-                            timings['cells'][cell][location][delay])
-                        if delay_entry != "":
-                            sdf += """
-        (DELAY"""
-                            sdf += delay_entry
-                            sdf += """
-        )"""
-                        timingcheck = emit_timingcheck_entry(
-                            timings['cells'][cell][location][delay])
-                        if timingcheck != "":
-                            sdf += """
-        (TIMINGCHECK"""
-                            sdf += timingcheck
-                            sdf += """
-        )"""
-                        timingenv = emit_timingenv_entry(
-                            timings['cells'][cell][location][delay])
-                        if timingenv != "":
-                            sdf += """
-        (TIMINGENV"""
-                            sdf += timingenv
-                            sdf += """
-        )"""
-
+                    sdf += emit_delay_entries(
+                        timings['cells'][cell][location])
+                    sdf += emit_timingcheck_entries(
+                        timings['cells'][cell][location])
+                    sdf += emit_timingenv_entries(
+                        timings['cells'][cell][location])
                     sdf += """
     )"""
         sdf += """
