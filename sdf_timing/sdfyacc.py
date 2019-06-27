@@ -327,8 +327,9 @@ def p_increment_list(p):
 
 def p_increment_delay_list(p):
     '''increment : LPAR INCREMENT delay_list RPAR'''
+
     for d in p[3]:
-        d['is_increment'] = True
+        d['is_incremental'] = True
     delays_list.extend(list(p[3]))
     tmp_delay_list[:] = []
 
