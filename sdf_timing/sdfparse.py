@@ -16,6 +16,8 @@ def init():
     sdfyacc.tmp_equation = list()
     sdfyacc.tmp_constr_list = list()
 
+    sdflex.lexer.lineno = 1
+
 
 def emit(input, timescale='1ps'):
     return sdfwrite.emit_sdf(input, timescale)
