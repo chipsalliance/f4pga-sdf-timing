@@ -40,7 +40,7 @@ def emit_timingenv_entries(delays):
             input_str = delay['from_pin']
 
         entry += """
-                    (PATHCONSTRAINT {output} {input} {RISE} {FALL})""".format(
+                (PATHCONSTRAINT {output} {input} {RISE} {FALL})""".format(
             output=output_str,
             input=input_str,
             RISE=gen_timing_entry(delay['delay_paths']['rise']),
@@ -92,7 +92,7 @@ def emit_timingcheck_entries(delays):
 
         if delay['name'].startswith("setuphold"):
             entry += """
-                    ({type} {output} {input} {SETUP} {HOLD})""".format(
+                ({type} {output} {input} {SETUP} {HOLD})""".format(
                 type=delay['type'].upper(),
                 input=input_str,
                 output=output_str,
@@ -101,7 +101,7 @@ def emit_timingcheck_entries(delays):
 
         else:
             entry += """
-                    ({type} {output} {input} {NOMINAL})""".format(
+                ({type} {output} {input} {NOMINAL})""".format(
                 type=delay['type'].upper(),
                 input=input_str,
                 output=output_str,
@@ -156,7 +156,7 @@ def emit_delay_entries(delays):
         intent = ""
         if delay['type'].startswith("port"):
             entry += """
-                    (PORT {input} {timval})""".format(
+                (PORT {input} {timval})""".format(
                 intent=intent,
                 input=input_str,
                 output=output_str,
@@ -164,25 +164,25 @@ def emit_delay_entries(delays):
         elif delay['type'].startswith("interconnect"):
 
             entry += """
-                    (INTERCONNECT {input} {output} {timval})""".format(
+                (INTERCONNECT {input} {output} {timval})""".format(
                 intent=intent,
                 input=input_str,
                 output=output_str,
                 timval=tim_val_str)
         elif delay['type'].startswith("device"):
             entry += """
-                    (DEVICE {input} {timval})""".format(
+                (DEVICE {input} {timval})""".format(
                 input=input_str,
                 timval=tim_val_str)
         else:
             if delay['is_cond']:
                 intent = "     "
                 entry += """
-                    (COND ({equation})""".format(
+                (COND ({equation})""".format(
                     equation=delay['cond_equation'])
 
             entry += """
-                    {intent}(IOPATH {input} {output} {timval})""".format(
+                {intent}(IOPATH {input} {output} {timval})""".format(
                 intent=intent,
                 input=input_str,
                 output=output_str,

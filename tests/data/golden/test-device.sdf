@@ -7,7 +7,7 @@
         (INSTANCE slicem/lut_c)
         (DELAY
             (ABSOLUTE
-                    (DEVICE lut_c (235.0:235.0:235.0)(235.0:235.0:235.0))
+                (DEVICE lut_c (235.0:235.0:235.0)(235.0:235.0:235.0))
             )
         )
     )
@@ -16,7 +16,7 @@
         (INSTANCE slicel/aoutmux)
         (DELAY
             (ABSOLUTE
-                    (DEVICE aoutmux (286.0:286.0:286.0)(286.0:286.0:286.0))
+                (DEVICE aoutmux (286.0:286.0:286.0)(286.0:286.0:286.0))
             )
         )
     )
