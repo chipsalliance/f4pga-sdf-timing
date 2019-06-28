@@ -89,15 +89,7 @@
         (DELAY
             (ABSOLUTE
                 (IOPATH DIN PACKAGEPIN (2291.5:2291.5:2291.5)(2353.2:2353.2:2353.2))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH OE PACKAGEPIN (2291.5:2291.5:2291.5)(2353.2:2353.2:2353.2))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH PACKAGEPIN DOUT (590.0:590.0:590.0)(540.0:540.0:540.0))
             )
         )
@@ -141,111 +133,37 @@
     (CELL
         (CELLTYPE "LOGICCELL40")
         (INSTANCE *)
-        (TIMINGCHECK
-                (HOLD (posedge ce) (posedge clk) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge in0) (posedge clk) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge in1) (posedge clk) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge in2) (posedge clk) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge in3) (posedge clk) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge sr) (posedge clk) (-143.975:-159.207:-179.124))
-        )
         (DELAY
             (ABSOLUTE
                 (IOPATH carryin carryout (101.47:112.205:126.242)(84.5586:93.5045:105.202))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge clk) lcout (434.067:479.99:540.036)(434.067:479.99:540.036))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH in0 lcout (360.783:398.952:448.861)(310.048:342.85:385.74))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH in0 ltout (293.136:324.149:364.7)(310.048:342.85:385.74))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH in1 carryout (208.578:230.644:259.498)(197.303:218.177:245.471))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH in1 lcout (321.323:355.317:399.767)(304.411:336.616:378.727))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH in1 ltout (259.313:286.747:322.619)(304.411:336.616:378.727))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH in2 carryout (186.029:205.71:231.444)(107.108:118.439:133.256))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH in2 lcout (304.411:336.616:378.727)(281.862:311.682:350.673))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH in2 ltout (248.039:274.28:308.592)(276.225:305.448:343.659))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH in3 lcout (253.676:280.513:315.606)(231.127:255.579:287.552))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH in3 ltout (214.215:236.878:266.511)(219.852:243.112:273.525))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH sr lcout (481.589:532.539:599.16)(0.0:0.0:0.0))
             )
         )
         (TIMINGCHECK
+                (HOLD (posedge ce) (posedge clk) (0.0:0.0:0.0))
+                (HOLD (posedge in0) (posedge clk) (0.0:0.0:0.0))
+                (HOLD (posedge in1) (posedge clk) (0.0:0.0:0.0))
+                (HOLD (posedge in2) (posedge clk) (0.0:0.0:0.0))
+                (HOLD (posedge in3) (posedge clk) (0.0:0.0:0.0))
+                (HOLD (posedge sr) (posedge clk) (-143.975:-159.207:-179.124))
                 (RECOVERY (posedge sr) (posedge clk) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
                 (REMOVAL (posedge sr) (posedge clk) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge ce) (posedge clk) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge in0) (posedge clk) (377.695:417.653:469.902))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge in1) (posedge clk) (321.323:355.317:399.767))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge in2) (posedge clk) (298.774:330.382:371.713))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge in3) (posedge clk) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge sr) (posedge clk) (163.48:180.775:203.39))
         )
     )
@@ -270,80 +188,30 @@
     (CELL
         (CELLTYPE "PRE_IO")
         (INSTANCE *)
-        (TIMINGCHECK
-                (HOLD (posedge CLOCKENABLE) (posedge INPUTCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge PADIN) (posedge INPUTCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge CLOCKENABLE) (posedge OUTPUTCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge DOUT0) (posedge OUTPUTCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge DOUT1) (negedge OUTPUTCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge OUTPUTENABLE) (posedge OUTPUTCLK) (0.0:0.0:0.0))
-        )
         (DELAY
             (ABSOLUTE
                 (IOPATH DOUT0 PADOUT (1612.25:1782.82:2005.85)(1798.28:1988.53:2237.29))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge INPUTCLK) DIN0 (112.745:124.673:140.269)(112.745:124.673:140.269))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (negedge INPUTCLK) DIN1 (112.745:124.673:140.269)(112.745:124.673:140.269))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH LATCHINPUTVALUE DIN0 (276.225:305.448:343.659)(298.774:330.382:371.713))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge OUTPUTCLK) PADOEN (90.1958:99.7381:112.215)(112.745:124.673:140.269))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge OUTPUTCLK) PADOUT (90.1958:99.7381:112.215)(112.745:124.673:140.269))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH OUTPUTENABLE PADOEN (140.931:155.841:175.336)(169.117:187.009:210.404))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH PADIN DIN0 (496.077:548.56:617.184)(372.058:411.42:462.888))
             )
         )
         (TIMINGCHECK
+                (HOLD (posedge CLOCKENABLE) (posedge INPUTCLK) (0.0:0.0:0.0))
+                (HOLD (posedge PADIN) (posedge INPUTCLK) (0.0:0.0:0.0))
+                (HOLD (posedge CLOCKENABLE) (posedge OUTPUTCLK) (0.0:0.0:0.0))
+                (HOLD (posedge DOUT0) (posedge OUTPUTCLK) (0.0:0.0:0.0))
+                (HOLD (posedge DOUT1) (negedge OUTPUTCLK) (0.0:0.0:0.0))
+                (HOLD (posedge OUTPUTENABLE) (posedge OUTPUTCLK) (0.0:0.0:0.0))
                 (SETUP (posedge CLOCKENABLE) (posedge INPUTCLK) (62.0096:68.5699:77.148))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge PADIN) (posedge INPUTCLK) (1322.1:1461.97:1644.87))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge CLOCKENABLE) (posedge OUTPUTCLK) (62.0096:68.5699:77.148))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge DOUT0) (posedge OUTPUTCLK) (62.0096:68.5699:77.148))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge DOUT1) (negedge OUTPUTCLK) (62.0096:68.5699:77.148))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge OUTPUTENABLE) (posedge OUTPUTCLK) (62.0096:68.5699:77.148))
         )
     )
@@ -359,432 +227,142 @@
     (CELL
         (CELLTYPE "SB_RAM40_4K")
         (INSTANCE *)
-        (TIMINGCHECK
-                (HOLD (posedge RADDR[0]) (posedge RCLK) (45.0979:49.869:56.1077))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge RADDR[10]) (posedge RCLK) (45.0979:49.869:56.1077))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge RADDR[1]) (posedge RCLK) (45.0979:49.869:56.1077))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge RADDR[2]) (posedge RCLK) (45.0979:49.869:56.1077))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge RADDR[3]) (posedge RCLK) (45.0979:49.869:56.1077))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge RADDR[4]) (posedge RCLK) (45.0979:49.869:56.1077))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge RADDR[5]) (posedge RCLK) (45.0979:49.869:56.1077))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge RADDR[6]) (posedge RCLK) (45.0979:49.869:56.1077))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge RADDR[7]) (posedge RCLK) (45.0979:49.869:56.1077))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge RADDR[8]) (posedge RCLK) (45.0979:49.869:56.1077))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge RADDR[9]) (posedge RCLK) (45.0979:49.869:56.1077))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge RCLKE) (posedge RCLK) (42.2793:46.7522:52.6009))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge RE) (posedge RCLK) (67.6469:74.8036:84.1615))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[0]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[10]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[11]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[12]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[13]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[14]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[15]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[1]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[2]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[3]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[4]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[5]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[6]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[7]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[8]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge MASK[9]) (posedge WCLK) (0.0:0.0:0.0))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WADDR[0]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WADDR[10]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WADDR[1]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WADDR[2]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WADDR[3]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WADDR[4]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WADDR[5]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WADDR[6]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WADDR[7]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WADDR[8]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WADDR[9]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WCLKE) (posedge WCLK) (21.9852:24.3112:27.3525))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[0]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[10]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[11]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[12]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[13]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[14]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[15]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[1]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[2]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[3]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[4]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[5]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[6]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[7]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[8]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WDATA[9]) (posedge WCLK) (28.1862:31.1682:35.0673))
-        )
-        (TIMINGCHECK
-                (HOLD (posedge WE) (posedge WCLK) (39.4607:43.6354:49.0942))
-        )
         (DELAY
             (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[0] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[10] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[11] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[12] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[13] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[14] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[15] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[1] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[2] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[3] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[4] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[5] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[6] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[7] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[8] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH (posedge RCLK) RDATA[9] (1725.0:1907.49:2146.12)(1725.0:1907.49:2146.12))
             )
         )
         (TIMINGCHECK
+                (HOLD (posedge RADDR[0]) (posedge RCLK) (45.0979:49.869:56.1077))
+                (HOLD (posedge RADDR[10]) (posedge RCLK) (45.0979:49.869:56.1077))
+                (HOLD (posedge RADDR[1]) (posedge RCLK) (45.0979:49.869:56.1077))
+                (HOLD (posedge RADDR[2]) (posedge RCLK) (45.0979:49.869:56.1077))
+                (HOLD (posedge RADDR[3]) (posedge RCLK) (45.0979:49.869:56.1077))
+                (HOLD (posedge RADDR[4]) (posedge RCLK) (45.0979:49.869:56.1077))
+                (HOLD (posedge RADDR[5]) (posedge RCLK) (45.0979:49.869:56.1077))
+                (HOLD (posedge RADDR[6]) (posedge RCLK) (45.0979:49.869:56.1077))
+                (HOLD (posedge RADDR[7]) (posedge RCLK) (45.0979:49.869:56.1077))
+                (HOLD (posedge RADDR[8]) (posedge RCLK) (45.0979:49.869:56.1077))
+                (HOLD (posedge RADDR[9]) (posedge RCLK) (45.0979:49.869:56.1077))
+                (HOLD (posedge RCLKE) (posedge RCLK) (42.2793:46.7522:52.6009))
+                (HOLD (posedge RE) (posedge RCLK) (67.6469:74.8036:84.1615))
+                (HOLD (posedge MASK[0]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[10]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[11]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[12]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[13]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[14]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[15]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[1]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[2]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[3]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[4]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[5]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[6]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[7]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[8]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge MASK[9]) (posedge WCLK) (0.0:0.0:0.0))
+                (HOLD (posedge WADDR[0]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WADDR[10]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WADDR[1]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WADDR[2]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WADDR[3]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WADDR[4]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WADDR[5]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WADDR[6]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WADDR[7]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WADDR[8]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WADDR[9]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WCLKE) (posedge WCLK) (21.9852:24.3112:27.3525))
+                (HOLD (posedge WDATA[0]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[10]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[11]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[12]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[13]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[14]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[15]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[1]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[2]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[3]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[4]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[5]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[6]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[7]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[8]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WDATA[9]) (posedge WCLK) (28.1862:31.1682:35.0673))
+                (HOLD (posedge WE) (posedge WCLK) (39.4607:43.6354:49.0942))
                 (SETUP (posedge RADDR[0]) (posedge RCLK) (163.48:180.775:203.39))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge RADDR[10]) (posedge RCLK) (163.48:180.775:203.39))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge RADDR[1]) (posedge RCLK) (163.48:180.775:203.39))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge RADDR[2]) (posedge RCLK) (163.48:180.775:203.39))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge RADDR[3]) (posedge RCLK) (163.48:180.775:203.39))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge RADDR[4]) (posedge RCLK) (163.48:180.775:203.39))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge RADDR[5]) (posedge RCLK) (163.48:180.775:203.39))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge RADDR[6]) (posedge RCLK) (163.48:180.775:203.39))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge RADDR[7]) (posedge RCLK) (163.48:180.775:203.39))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge RADDR[8]) (posedge RCLK) (163.48:180.775:203.39))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge RADDR[9]) (posedge RCLK) (163.48:180.775:203.39))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge RCLKE) (posedge RCLK) (214.215:236.878:266.511))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge RE) (posedge RCLK) (78.9214:87.2708:98.1884))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[0]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[10]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[11]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[12]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[13]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[14]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[15]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[1]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[2]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[3]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[4]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[5]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[6]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[7]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[8]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge MASK[9]) (posedge WCLK) (219.852:243.112:273.525))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WADDR[0]) (posedge WCLK) (180.392:199.476:224.431))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WADDR[10]) (posedge WCLK) (180.392:199.476:224.431))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WADDR[1]) (posedge WCLK) (180.392:199.476:224.431))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WADDR[2]) (posedge WCLK) (180.392:199.476:224.431))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WADDR[3]) (posedge WCLK) (180.392:199.476:224.431))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WADDR[4]) (posedge WCLK) (180.392:199.476:224.431))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WADDR[5]) (posedge WCLK) (180.392:199.476:224.431))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WADDR[6]) (posedge WCLK) (180.392:199.476:224.431))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WADDR[7]) (posedge WCLK) (180.392:199.476:224.431))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WADDR[8]) (posedge WCLK) (180.392:199.476:224.431))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WADDR[9]) (posedge WCLK) (180.392:199.476:224.431))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WCLKE) (posedge WCLK) (214.215:236.878:266.511))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[0]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[10]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[11]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[12]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[13]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[14]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[15]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[1]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[2]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[3]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[4]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[5]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[6]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[7]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[8]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WDATA[9]) (posedge WCLK) (129.657:143.374:161.31))
-        )
-        (TIMINGCHECK
                 (SETUP (posedge WE) (posedge WCLK) (107.108:118.439:133.256))
         )
     )

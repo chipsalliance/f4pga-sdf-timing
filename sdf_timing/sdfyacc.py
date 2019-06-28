@@ -313,8 +313,7 @@ def p_absolute_empty(p):
 
 
 def p_absolute_delay_list(p):
-    '''absolute : LPAR ABSOLUTE delay_list RPAR
-                | LPAR ABSOLUTE cond_delay RPAR'''
+    '''absolute : LPAR ABSOLUTE delay_list RPAR'''
     for d in p[3]:
         d['is_absolute'] = True
     delays_list.extend(list(p[3]))
@@ -327,17 +326,17 @@ def p_increment_list(p):
 
 
 def p_increment_delay_list(p):
-    '''increment : LPAR INCREMENT delay_list RPAR
-                 | LPAR INCREMENT cond_delay RPAR'''
+    '''increment : LPAR INCREMENT delay_list RPAR'''
+
     for d in p[3]:
-        d['is_increment'] = True
+        d['is_incremental'] = True
     delays_list.extend(list(p[3]))
     tmp_delay_list[:] = []
 
 
 def p_cond_delay(p):
     'cond_delay : LPAR COND delay_condition delay_list RPAR'
-    # add condition to every list alement
+    # add condition to every list element
     for d in p[4]:
         d['is_cond'] = True
         d['cond_equation'] = " ".join(p[3])
@@ -360,9 +359,14 @@ def p_delay_list_interconnect(p):
     '''delay_list : del
                   | delay_list del'''
     if len(p) == 2:
-        tmp_delay_list.append(p[1])
+        to_add = p[1]
     else:
-        tmp_delay_list.append(p[2])
+        to_add = p[2]
+
+    if type(to_add) is list:
+        tmp_delay_list.extend(to_add)
+    else:
+        tmp_delay_list.append(to_add)
 
     p[0] = tmp_delay_list
 
@@ -371,7 +375,8 @@ def p_del(p):
     '''del : interconnect
            | iopath
            | port
-           | device'''
+           | device
+           | cond_delay'''
     p[0] = p[1]
 
 

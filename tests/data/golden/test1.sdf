@@ -8,10 +8,6 @@
         (DELAY
             (ABSOLUTE
                 (IOPATH inter0/datain inter0/dataout (235.0:235.0:235.0)(235.0:235.0:235.0))
-            )
-        )
-        (DELAY
-            (ABSOLUTE
                 (IOPATH inter1/datain inter1/dataout (235.0:235.0:235.0)(235.0:235.0:235.0))
             )
         )
