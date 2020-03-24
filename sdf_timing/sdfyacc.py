@@ -380,21 +380,35 @@ def p_del(p):
     p[0] = p[1]
 
 
-def p_device(p):
-    'device : LPAR DEVICE port_spec real_triple real_triple RPAR'
+def p_delval_list(p):
+    '''delval_list : real_triple
+                   | real_triple real_triple
+                   | real_triple real_triple real_triple'''
+
+    # TODO: There should be more possibilities up to 12 real_triples
+    # But we stick with 1, 2 or 3 for now.
+
     paths = dict()
-    paths['fast'] = p[4]
-    paths['slow'] = p[5]
-    device = utils.add_device(p[3], paths)
+    if len(p) == 2:
+        paths['nominal'] = p[1]
+    elif len(p) == 3:
+        paths['fast'] = p[1]
+        paths['slow'] = p[2]
+    elif len(p) == 4:
+        paths['fast'] = p[1]
+        paths['nominal'] = p[2]
+        paths['slow'] = p[3]
+    p[0] = paths
+
+def p_device(p):
+    'device : LPAR DEVICE port_spec delval_list RPAR'
+    device = utils.add_device(p[3], p[4])
     p[0] = device
 
 
 def p_iopath(p):
-    'iopath : LPAR IOPATH port_spec port_spec real_triple real_triple RPAR'
-    paths = dict()
-    paths['fast'] = p[5]
-    paths['slow'] = p[6]
-    iopath = utils.add_iopath(p[3], p[4], paths)
+    'iopath : LPAR IOPATH port_spec port_spec delval_list RPAR'
+    iopath = utils.add_iopath(p[3], p[4], p[5])
     p[0] = iopath
 
 
@@ -415,48 +429,14 @@ def p_port_spec(p):
 
 
 def p_interconnect(p):
-    'interconnect : LPAR INTERCONNECT port_spec port_spec real_triple \
-    real_triple RPAR'
-    paths = dict()
-    paths['fast'] = p[5]
-    paths['slow'] = p[6]
-    interconnect = utils.add_interconnect(p[3], p[4], paths)
+    'interconnect : LPAR INTERCONNECT port_spec port_spec delval_list RPAR'
+    interconnect = utils.add_interconnect(p[3], p[4], p[5])
     p[0] = interconnect
 
 
-def p_interconnect_single(p):
-    'interconnect : LPAR INTERCONNECT port_spec port_spec real_triple \
-    RPAR'
-    paths = dict()
-    paths['nominal'] = p[5]
-    interconnect = utils.add_interconnect(p[3], p[4], paths)
-    p[0] = interconnect
-
-
-def p_port_single(p):
-    'port : LPAR PORT port_spec real_triple RPAR'
-    paths = dict()
-    paths['nominal'] = p[4]
-    port = utils.add_port(p[3], paths)
-    p[0] = port
-
-
-def p_port_double(p):
-    'port : LPAR PORT port_spec real_triple real_triple RPAR'
-    paths = dict()
-    paths['fast'] = p[4]
-    paths['slow'] = p[5]
-    port = utils.add_port(p[3], paths)
-    p[0] = port
-
-
-def p_port_triple(p):
-    'port : LPAR PORT port_spec real_triple real_triple real_triple RPAR'
-    paths = dict()
-    paths['fast'] = p[4]
-    paths['nominal'] = p[5]
-    paths['slow'] = p[6]
-    port = utils.add_port(p[3], paths)
+def p_port(p):
+    'port : LPAR PORT port_spec delval_list RPAR'
+    port = utils.add_port(p[3], p[4])
     p[0] = port
 
 
@@ -468,21 +448,44 @@ def p_port_condition(p):
 
 def p_real_triple_no_par(p):
     '''real_triple : FLOAT COLON FLOAT COLON FLOAT
+                   | COLON FLOAT COLON FLOAT
                    | FLOAT COLON COLON FLOAT
-                   | COLON FLOAT COLON'''
+                   | FLOAT COLON FLOAT COLON
+                   | COLON COLON FLOAT
+                   | COLON FLOAT COLON
+                   | FLOAT COLON COLON'''
+
     delays_triple = dict()
-    if len(p) > 4:
-        if p[3] == ':':
+    if len(p) == 6:
+        delays_triple['min'] = float(p[1])
+        delays_triple['avg'] = float(p[3])
+        delays_triple['max'] = float(p[5])
+
+    elif len(p) == 5:
+
+        if p[1] == ':' and p[3] == ':':
+            delays_triple['min'] = None
+            delays_triple['avg'] = float(p[2])
+            delays_triple['max'] = float(p[4])
+
+        elif p[2] == ':' and p[3] == ':':
             delays_triple['min'] = float(p[1])
             delays_triple['avg'] = None
             delays_triple['max'] = float(p[4])
-        else:
+
+        elif p[2] == ':' and p[4] == ':':
             delays_triple['min'] = float(p[1])
             delays_triple['avg'] = float(p[3])
-            delays_triple['max'] = float(p[5])
+            delays_triple['max'] = None        
+
+    elif len(p) == 4:
+        delays_triple['min'] = float(p[1]) if p[1] != ':' else None
+        delays_triple['avg'] = float(p[2]) if p[2] != ':' else None
+        delays_triple['max'] = float(p[3]) if p[3] != ':' else None
+
     else:
         delays_triple['min'] = None
-        delays_triple['avg'] = p[2]
+        delays_triple['avg'] = None
         delays_triple['max'] = None
 
     p[0] = delays_triple
@@ -519,7 +522,7 @@ def p_real_triple(p):
         elif p[3] == ':' and p[5] == ':':
             delays_triple['min'] = float(p[2])
             delays_triple['avg'] = float(p[4])
-            delays_triple['max'] = None        
+            delays_triple['max'] = None
 
     elif len(p) == 6:
         delays_triple['min'] = float(p[2]) if p[2] != ':' else None
