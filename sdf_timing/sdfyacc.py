@@ -62,7 +62,7 @@ def p_qstring_header_entry(p):
 
 
 def p_sdf_header_qfloat(p):
-    'sdf_header_qfloat : LPAR qfloat_header_entry QFLOAT RPAR'
+    '''sdf_header_qfloat : LPAR qfloat_header_entry QFLOAT RPAR'''
     if len(p) == 5:
         header[p[2].lower()] = remove_quotation(str(p[3]))
         p[0] = header
@@ -75,13 +75,13 @@ def p_qfloat_header_entry(p):
 
 
 def p_sdf_voltage(p):
-    'voltage : LPAR VOLTAGE real_triple RPAR'
+    '''voltage : LPAR VOLTAGE real_triple RPAR'''
     header['voltage'] = p[3]
     p[0] = header
 
 
 def p_sdf_temperature(p):
-    'temperature : LPAR TEMPERATURE real_triple RPAR'
+    '''temperature : LPAR TEMPERATURE real_triple RPAR'''
     header['temperature'] = p[3]
     p[0] = header
 
@@ -94,7 +94,7 @@ def p_sdf_divider(p):
 
 
 def p_sdf_timescale(p):
-    'timescale : LPAR TIMESCALE FLOAT STRING RPAR'
+    '''timescale : LPAR TIMESCALE FLOAT STRING RPAR'''
     header['timescale'] = str(p[3]) + p[4]
     p[0] = header
 
@@ -145,7 +145,7 @@ def p_timing_cell_entry(p):
 
 
 def p_celltype(p):
-    'celltype : LPAR CELLTYPE QSTRING RPAR'
+    '''celltype : LPAR CELLTYPE QSTRING RPAR'''
     p[0] = remove_quotation(p[3])
 
 
@@ -170,7 +170,7 @@ def p_timing_port(p):
 
 
 def p_port_check(p):
-    'port_check : port_spec'
+    '''port_check : port_spec'''
     port = dict()
     port['cond'] = False
     port['cond_equation'] = None
@@ -180,7 +180,7 @@ def p_port_check(p):
 
 
 def p_timing_cond(p):
-    'cond_check : LPAR COND equation port_spec RPAR'
+    '''cond_check : LPAR COND equation port_spec RPAR'''
     port = dict()
     port['cond'] = True
     port['cond_equation'] = " ".join(p[3])
@@ -211,7 +211,7 @@ def p_t_check(p):
 
 
 def p_removal_check(p):
-    'removal_check : LPAR REMOVAL timing_port timing_port real_triple RPAR'
+    '''removal_check : LPAR REMOVAL timing_port timing_port real_triple RPAR'''
 
     paths = dict()
     paths['nominal'] = p[5]
@@ -221,7 +221,8 @@ def p_removal_check(p):
 
 
 def p_recovery_check(p):
-    'recovery_check : LPAR RECOVERY timing_port timing_port real_triple RPAR'
+    '''recovery_check : LPAR RECOVERY timing_port timing_port real_triple \
+    RPAR'''
 
     paths = dict()
     paths['nominal'] = p[5]
@@ -231,7 +232,7 @@ def p_recovery_check(p):
 
 
 def p_hold_check(p):
-    'hold_check : LPAR HOLD timing_port timing_port real_triple RPAR'
+    '''hold_check : LPAR HOLD timing_port timing_port real_triple RPAR'''
 
     paths = dict()
     paths['nominal'] = p[5]
@@ -241,7 +242,7 @@ def p_hold_check(p):
 
 
 def p_setup_check(p):
-    'setup_check : LPAR SETUP timing_port timing_port real_triple RPAR'
+    '''setup_check : LPAR SETUP timing_port timing_port real_triple RPAR'''
 
     paths = dict()
     paths['nominal'] = p[5]
@@ -251,7 +252,7 @@ def p_setup_check(p):
 
 
 def p_width_check(p):
-    'width_check : LPAR WIDTH timing_port real_triple RPAR'
+    '''width_check : LPAR WIDTH timing_port real_triple RPAR'''
 
     paths = dict()
     paths['nominal'] = p[4]
@@ -261,8 +262,8 @@ def p_width_check(p):
 
 
 def p_setuphold_check(p):
-    'setuphold_check : LPAR SETUPHOLD timing_port timing_port real_triple \
-    real_triple RPAR'
+    '''setuphold_check : LPAR SETUPHOLD timing_port timing_port real_triple \
+    real_triple RPAR'''
 
     paths = dict()
     paths['setup'] = p[5]
@@ -287,8 +288,8 @@ def p_constraints_list(p):
 
 
 def p_path_constraint(p):
-    'path_constraint : LPAR PATHCONSTRAINT port_spec port_spec real_triple \
-    real_triple RPAR'
+    '''path_constraint : LPAR PATHCONSTRAINT port_spec port_spec real_triple \
+    real_triple RPAR'''
 
     paths = dict()
     paths['rise'] = p[5]
@@ -309,7 +310,7 @@ def p_absolute_list(p):
 
 
 def p_absolute_empty(p):
-    'absolute : LPAR ABSOLUTE RPAR'
+    '''absolute : LPAR ABSOLUTE RPAR'''
 
 
 def p_absolute_delay_list(p):
@@ -335,7 +336,7 @@ def p_increment_delay_list(p):
 
 
 def p_cond_delay(p):
-    'cond_delay : LPAR COND delay_condition delay_list RPAR'
+    '''cond_delay : LPAR COND delay_condition delay_list RPAR'''
     # add condition to every list element
     for d in p[4]:
         d['is_cond'] = True
@@ -344,13 +345,13 @@ def p_cond_delay(p):
 
 
 def p_delay_condition(p):
-    'delay_condition : LPAR equation RPAR'
+    '''delay_condition : LPAR equation RPAR'''
     p[0] = list(p[2])
     tmp_equation[:] = []
 
 
 def p_delay_condition_nopar(p):
-    'delay_condition : equation'
+    '''delay_condition : equation'''
     p[0] = list(p[1])
     tmp_equation[:] = []
 
@@ -400,14 +401,15 @@ def p_delval_list(p):
         paths['slow'] = p[3]
     p[0] = paths
 
+
 def p_device(p):
-    'device : LPAR DEVICE port_spec delval_list RPAR'
+    '''device : LPAR DEVICE port_spec delval_list RPAR'''
     device = utils.add_device(p[3], p[4])
     p[0] = device
 
 
 def p_iopath(p):
-    'iopath : LPAR IOPATH port_spec port_spec delval_list RPAR'
+    '''iopath : LPAR IOPATH port_spec port_spec delval_list RPAR'''
     iopath = utils.add_iopath(p[3], p[4], p[5])
     p[0] = iopath
 
@@ -429,13 +431,13 @@ def p_port_spec(p):
 
 
 def p_interconnect(p):
-    'interconnect : LPAR INTERCONNECT port_spec port_spec delval_list RPAR'
+    '''interconnect : LPAR INTERCONNECT port_spec port_spec delval_list RPAR'''
     interconnect = utils.add_interconnect(p[3], p[4], p[5])
     p[0] = interconnect
 
 
 def p_port(p):
-    'port : LPAR PORT port_spec delval_list RPAR'
+    '''port : LPAR PORT port_spec delval_list RPAR'''
     port = utils.add_port(p[3], p[4])
     p[0] = port
 
@@ -476,7 +478,7 @@ def p_real_triple_no_par(p):
         elif p[2] == ':' and p[4] == ':':
             delays_triple['min'] = float(p[1])
             delays_triple['avg'] = float(p[3])
-            delays_triple['max'] = None        
+            delays_triple['max'] = None
 
     elif len(p) == 4:
         delays_triple['min'] = float(p[1]) if p[1] != ':' else None
