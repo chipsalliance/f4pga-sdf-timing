@@ -233,7 +233,7 @@ def emit_sdf(timings, timescale='1ps'):
                 for location in sorted(timings['cells'][cell]):
                     sdf += """
     (CELL
-        (CELLTYPE \"{name}\")""".format(name=cell.upper())
+        (CELLTYPE \"{name}\")""".format(name=cell)
 
                     sdf += """
         (INSTANCE {location})""".format(location=location)

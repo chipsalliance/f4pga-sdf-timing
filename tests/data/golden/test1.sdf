@@ -13,7 +13,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_a0_output_0_0_to_c0_input_0_1)
         (DELAY
             (ABSOLUTE
@@ -22,7 +22,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_a0_output_0_0_to_s0_input_0_1)
         (DELAY
             (ABSOLUTE
@@ -31,7 +31,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_a1_output_0_0_to_c1_input_0_1)
         (DELAY
             (ABSOLUTE
@@ -40,7 +40,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_a1_output_0_0_to_s1_input_0_1)
         (DELAY
             (ABSOLUTE
@@ -49,7 +49,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_a2_output_0_0_to_c2_input_0_1)
         (DELAY
             (ABSOLUTE
@@ -58,7 +58,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_a2_output_0_0_to_s2_input_0_1)
         (DELAY
             (ABSOLUTE
@@ -67,7 +67,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_a3_output_0_0_to_c3_input_0_1)
         (DELAY
             (ABSOLUTE
@@ -76,7 +76,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_a3_output_0_0_to_s3_input_0_1)
         (DELAY
             (ABSOLUTE
@@ -85,7 +85,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_a4_output_0_0_to_cout_input_0_1)
         (DELAY
             (ABSOLUTE
@@ -94,7 +94,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_a4_output_0_0_to_s4_input_0_1)
         (DELAY
             (ABSOLUTE
@@ -103,7 +103,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_b0_output_0_0_to_c0_input_0_0)
         (DELAY
             (ABSOLUTE
@@ -112,7 +112,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_b0_output_0_0_to_s0_input_0_0)
         (DELAY
             (ABSOLUTE
@@ -121,7 +121,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_b1_output_0_0_to_c1_input_0_0)
         (DELAY
             (ABSOLUTE
@@ -130,7 +130,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_b1_output_0_0_to_s1_input_0_0)
         (DELAY
             (ABSOLUTE
@@ -139,7 +139,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_b2_output_0_0_to_c2_input_0_0)
         (DELAY
             (ABSOLUTE
@@ -148,7 +148,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_b2_output_0_0_to_s2_input_0_0)
         (DELAY
             (ABSOLUTE
@@ -157,7 +157,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_b3_output_0_0_to_c3_input_0_0)
         (DELAY
             (ABSOLUTE
@@ -166,7 +166,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_b3_output_0_0_to_s3_input_0_0)
         (DELAY
             (ABSOLUTE
@@ -175,7 +175,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_b4_output_0_0_to_cout_input_0_0)
         (DELAY
             (ABSOLUTE
@@ -184,7 +184,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_b4_output_0_0_to_s4_input_0_0)
         (DELAY
             (ABSOLUTE
@@ -193,7 +193,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_c3_output_0_0_to_cout_input_0_2)
         (DELAY
             (ABSOLUTE
@@ -202,7 +202,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_c3_output_0_0_to_s4_input_0_2)
         (DELAY
             (ABSOLUTE
@@ -211,7 +211,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_cin_output_0_0_to_c0_input_0_2)
         (DELAY
             (ABSOLUTE
@@ -220,7 +220,7 @@
         )
     )
     (CELL
-        (CELLTYPE "VPR_INTERCONNECT")
+        (CELLTYPE "vpr_interconnect")
         (INSTANCE dut/routing_segment_cin_output_0_0_to_s0_input_0_2)
         (DELAY
             (ABSOLUTE

@@ -3,7 +3,7 @@
     (TIMESCALE 1ps)
 
     (CELL
-        (CELLTYPE "ROUTING_BEL")
+        (CELLTYPE "routing_bel")
         (INSTANCE slicem/lut_c)
         (DELAY
             (ABSOLUTE
@@ -12,7 +12,7 @@
         )
     )
     (CELL
-        (CELLTYPE "ROUTING_MUX")
+        (CELLTYPE "routing_mux")
         (INSTANCE slicel/aoutmux)
         (DELAY
             (ABSOLUTE
