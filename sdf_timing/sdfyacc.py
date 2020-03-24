@@ -490,25 +490,42 @@ def p_real_triple_no_par(p):
 
 def p_real_triple(p):
     '''real_triple : LPAR FLOAT COLON FLOAT COLON FLOAT RPAR
-                   | LPAR RPAR
+                   | LPAR COLON FLOAT COLON FLOAT RPAR
                    | LPAR FLOAT COLON COLON FLOAT RPAR
-                   | LPAR COLON FLOAT COLON RPAR'''
+                   | LPAR FLOAT COLON FLOAT COLON RPAR
+                   | LPAR COLON COLON FLOAT RPAR
+                   | LPAR COLON FLOAT COLON RPAR
+                   | LPAR FLOAT COLON COLON RPAR
+                   | LPAR RPAR'''
 
     delays_triple = dict()
-    if len(p) > 3:
-        if p[4] == ':':
-            if p[2] == ':':
-                delays_triple['min'] = None
-                delays_triple['avg'] = float(p[3])
-                delays_triple['max'] = None
-            else:
-                delays_triple['min'] = float(p[2])
-                delays_triple['avg'] = None
-                delays_triple['max'] = float(p[5])
-        else:
+    if len(p) == 8:
+        delays_triple['min'] = float(p[2])
+        delays_triple['avg'] = float(p[4])
+        delays_triple['max'] = float(p[6])
+
+    elif len(p) == 7:
+
+        if p[2] == ':' and p[4] == ':':
+            delays_triple['min'] = None
+            delays_triple['avg'] = float(p[3])
+            delays_triple['max'] = float(p[5])
+
+        elif p[3] == ':' and p[4] == ':':
+            delays_triple['min'] = float(p[2])
+            delays_triple['avg'] = None
+            delays_triple['max'] = float(p[5])
+
+        elif p[3] == ':' and p[5] == ':':
             delays_triple['min'] = float(p[2])
             delays_triple['avg'] = float(p[4])
-            delays_triple['max'] = float(p[6])
+            delays_triple['max'] = None        
+
+    elif len(p) == 6:
+        delays_triple['min'] = float(p[2]) if p[2] != ':' else None
+        delays_triple['avg'] = float(p[3]) if p[3] != ':' else None
+        delays_triple['max'] = float(p[4]) if p[4] != ':' else None
+
     else:
         delays_triple['min'] = None
         delays_triple['avg'] = None
