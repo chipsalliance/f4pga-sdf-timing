@@ -386,8 +386,8 @@ def p_delval_list(p):
                    | real_triple real_triple
                    | real_triple real_triple real_triple'''
 
-    # SDF can express separate timings from transitions between different 
-    # logic state sets. For now we do not have use for eg. different 0->1 
+    # SDF can express separate timings from transitions between different
+    # logic state sets. For now we do not have use for eg. different 0->1
     # and 1->0 delays. Therefore parsing of a delval list is limited to
     # one, two or three real triples.
 
