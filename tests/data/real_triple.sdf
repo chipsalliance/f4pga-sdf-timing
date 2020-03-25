@@ -1,0 +1,17 @@
+(DELAYFILE
+    (SDFVERSION "3.0")
+    (TIMESCALE 1ps)
+
+    (CELL
+        (CELLTYPE "MY_CELL")
+        (INSTANCE MY_INST)
+        (DELAY
+            (ABSOLUTE
+                (IOPATH A O (1:2:3)(4:5:6)(7:8:9))
+                (IOPATH B O (1:2:3)(4:5:6))
+                (IOPATH C O (1:2:3)())
+                (IOPATH D O (1:2:3))
+            )
+        )
+    )
+)

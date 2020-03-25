@@ -50,7 +50,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SYSTEM")
+        (CELLTYPE "system")
         (INSTANCE )
         (DELAY
             (ABSOLUTE

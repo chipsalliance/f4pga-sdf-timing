@@ -1,0 +1,45 @@
+(DELAYFILE
+	(SDFVERSION "2.1")
+	(DIVIDER /)
+	(TIMESCALE 1 ps)
+
+ 	(CELL
+	(CELLTYPE "Cell_Type_With_Weird_Chars[0]_!_@_#_$_%_^_&_*_(_)")
+	(INSTANCE an_instance)
+		(DELAY
+		    (ABSOLUTE
+    			(IOPATH datain dataout (286:286:286)(286:286:286))
+	    	)
+		)
+	)
+
+ 	(CELL
+	(CELLTYPE "cell_type_with_weird_chars[1]_-_+_\_/_,_._<_>_`")
+	(INSTANCE an_instance)
+		(DELAY
+		    (ABSOLUTE
+    			(IOPATH datain dataout (286:286:286)(286:286:286))
+	    	)
+		)
+	)
+
+ 	(CELL
+	(CELLTYPE "Cell_Type_With_Weird_Chars[2]_{_}_|_~_:_;")
+	(INSTANCE an_instance)
+		(DELAY
+		    (ABSOLUTE
+    			(IOPATH datain dataout (286:286:286)(286:286:286))
+	    	)
+		)
+	)
+
+ 	(CELL
+	(CELLTYPE "cell_type_with_weird_chars[3] space	tab")
+	(INSTANCE an_instance)
+		(DELAY
+		    (ABSOLUTE
+    			(IOPATH datain dataout (286:286:286)(286:286:286))
+	    	)
+		)
+	)
+)

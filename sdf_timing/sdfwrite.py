@@ -220,7 +220,7 @@ def emit_delay_entries(delays):
     return entries
 
 
-def emit_sdf(timings, timescale='1ps'):
+def emit_sdf(timings, timescale='1ps', uppercase_celltype=False):
 
     for slice in timings:
         sdf = \
@@ -231,9 +231,15 @@ def emit_sdf(timings, timescale='1ps'):
         if 'cells' in timings:
             for cell in sorted(timings['cells']):
                 for location in sorted(timings['cells'][cell]):
+
+                    if uppercase_celltype:
+                        celltype = cell.upper()
+                    else:
+                        celltype = cell
+
                     sdf += """
     (CELL
-        (CELLTYPE \"{name}\")""".format(name=cell.upper())
+        (CELLTYPE \"{name}\")""".format(name=celltype)
 
                     sdf += """
         (INSTANCE {location})""".format(location=location)

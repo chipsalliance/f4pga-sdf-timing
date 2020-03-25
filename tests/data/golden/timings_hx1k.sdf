@@ -3,7 +3,7 @@
     (TIMESCALE 1ps)
 
     (CELL
-        (CELLTYPE "CEMUX")
+        (CELLTYPE "CEMux")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -12,7 +12,7 @@
         )
     )
     (CELL
-        (CELLTYPE "CASCADEBUF")
+        (CELLTYPE "CascadeBuf")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -21,7 +21,7 @@
         )
     )
     (CELL
-        (CELLTYPE "CASCADEMUX")
+        (CELLTYPE "CascadeMux")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -30,7 +30,7 @@
         )
     )
     (CELL
-        (CELLTYPE "CLKMUX")
+        (CELLTYPE "ClkMux")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -39,7 +39,7 @@
         )
     )
     (CELL
-        (CELLTYPE "GLB2LOCALMUX")
+        (CELLTYPE "Glb2LocalMux")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -48,7 +48,7 @@
         )
     )
     (CELL
-        (CELLTYPE "GLOBALMUX")
+        (CELLTYPE "GlobalMux")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -95,7 +95,7 @@
         )
     )
     (CELL
-        (CELLTYPE "INMUX")
+        (CELLTYPE "InMux")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -104,7 +104,7 @@
         )
     )
     (CELL
-        (CELLTYPE "IOINMUX")
+        (CELLTYPE "IoInMux")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -113,7 +113,7 @@
         )
     )
     (CELL
-        (CELLTYPE "IOSPAN4MUX")
+        (CELLTYPE "IoSpan4Mux")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -122,7 +122,7 @@
         )
     )
     (CELL
-        (CELLTYPE "LOCALMUX")
+        (CELLTYPE "LocalMux")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -131,7 +131,7 @@
         )
     )
     (CELL
-        (CELLTYPE "LOGICCELL40")
+        (CELLTYPE "LogicCell40")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -168,7 +168,7 @@
         )
     )
     (CELL
-        (CELLTYPE "ODRV12")
+        (CELLTYPE "Odrv12")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -177,7 +177,7 @@
         )
     )
     (CELL
-        (CELLTYPE "ODRV4")
+        (CELLTYPE "Odrv4")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -367,7 +367,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SRMUX")
+        (CELLTYPE "SRMux")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -376,7 +376,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SP12TO4")
+        (CELLTYPE "Sp12to4")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -385,7 +385,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_H0")
+        (CELLTYPE "Span12Mux_h0")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -394,7 +394,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_H1")
+        (CELLTYPE "Span12Mux_h1")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -403,7 +403,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_H10")
+        (CELLTYPE "Span12Mux_h10")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -412,7 +412,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_H11")
+        (CELLTYPE "Span12Mux_h11")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -421,7 +421,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_H12")
+        (CELLTYPE "Span12Mux_h12")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -430,7 +430,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_H2")
+        (CELLTYPE "Span12Mux_h2")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -439,7 +439,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_H3")
+        (CELLTYPE "Span12Mux_h3")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -448,7 +448,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_H4")
+        (CELLTYPE "Span12Mux_h4")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -457,7 +457,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_H5")
+        (CELLTYPE "Span12Mux_h5")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -466,7 +466,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_H6")
+        (CELLTYPE "Span12Mux_h6")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -475,7 +475,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_H7")
+        (CELLTYPE "Span12Mux_h7")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -484,7 +484,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_H8")
+        (CELLTYPE "Span12Mux_h8")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -493,7 +493,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_H9")
+        (CELLTYPE "Span12Mux_h9")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -502,7 +502,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_V0")
+        (CELLTYPE "Span12Mux_v0")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -511,7 +511,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_V1")
+        (CELLTYPE "Span12Mux_v1")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -520,7 +520,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_V10")
+        (CELLTYPE "Span12Mux_v10")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -529,7 +529,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_V11")
+        (CELLTYPE "Span12Mux_v11")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -538,7 +538,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_V12")
+        (CELLTYPE "Span12Mux_v12")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -547,7 +547,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_V2")
+        (CELLTYPE "Span12Mux_v2")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -556,7 +556,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_V3")
+        (CELLTYPE "Span12Mux_v3")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -565,7 +565,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_V4")
+        (CELLTYPE "Span12Mux_v4")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -574,7 +574,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_V5")
+        (CELLTYPE "Span12Mux_v5")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -583,7 +583,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_V6")
+        (CELLTYPE "Span12Mux_v6")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -592,7 +592,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_V7")
+        (CELLTYPE "Span12Mux_v7")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -601,7 +601,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_V8")
+        (CELLTYPE "Span12Mux_v8")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -610,7 +610,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN12MUX_V9")
+        (CELLTYPE "Span12Mux_v9")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -619,7 +619,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN4MUX_H0")
+        (CELLTYPE "Span4Mux_h0")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -628,7 +628,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN4MUX_H1")
+        (CELLTYPE "Span4Mux_h1")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -637,7 +637,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN4MUX_H2")
+        (CELLTYPE "Span4Mux_h2")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -646,7 +646,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN4MUX_H3")
+        (CELLTYPE "Span4Mux_h3")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -655,7 +655,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN4MUX_H4")
+        (CELLTYPE "Span4Mux_h4")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -664,7 +664,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN4MUX_V0")
+        (CELLTYPE "Span4Mux_v0")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -673,7 +673,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN4MUX_V1")
+        (CELLTYPE "Span4Mux_v1")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -682,7 +682,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN4MUX_V2")
+        (CELLTYPE "Span4Mux_v2")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -691,7 +691,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN4MUX_V3")
+        (CELLTYPE "Span4Mux_v3")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -700,7 +700,7 @@
         )
     )
     (CELL
-        (CELLTYPE "SPAN4MUX_V4")
+        (CELLTYPE "Span4Mux_v4")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
@@ -709,7 +709,7 @@
         )
     )
     (CELL
-        (CELLTYPE "GIO2CTRLBUF")
+        (CELLTYPE "gio2CtrlBuf")
         (INSTANCE *)
         (DELAY
             (ABSOLUTE
