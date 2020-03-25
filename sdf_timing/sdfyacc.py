@@ -386,8 +386,10 @@ def p_delval_list(p):
                    | real_triple real_triple
                    | real_triple real_triple real_triple'''
 
-    # TODO: There should be more possibilities up to 12 real_triples
-    # But we stick with 1, 2 or 3 for now.
+    # SDF can express separate timings from transitions between different 
+    # logic state sets. For now we do not have use for eg. different 0->1 
+    # and 1->0 delays. Therefore parsing of a delval list is limited to
+    # one, two or three real triples.
 
     paths = dict()
     if len(p) == 2:
