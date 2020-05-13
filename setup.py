@@ -23,6 +23,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     entry_points={
-        'console_scripts': ['sdf_timing_parse=sdf_timing.sdfparse:main'],
+        'console_scripts': ['sdf_timing_parse=sdf_timing.__main__:main'],
     },
 )
