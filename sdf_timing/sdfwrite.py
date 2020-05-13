@@ -157,15 +157,12 @@ def emit_delay_entries(delays):
         if delay['type'].startswith("port"):
             entry += """
                 (PORT {input} {timval})""".format(
-                intent=intent,
                 input=input_str,
-                output=output_str,
                 timval=tim_val_str)
         elif delay['type'].startswith("interconnect"):
 
             entry += """
                 (INTERCONNECT {input} {output} {timval})""".format(
-                intent=intent,
                 input=input_str,
                 output=output_str,
                 timval=tim_val_str)
