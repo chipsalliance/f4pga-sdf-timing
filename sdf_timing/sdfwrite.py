@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+# coding: utf-8
+#
+# Copyright (C) 2020  The SymbiFlow Authors.
+#
+# Use of this source code is governed by a ISC-style
+# license that can be found in the LICENSE file or at
+# https://opensource.org/licenses/ISC
+#
+# SPDX-License-Identifier: ISC
 
 
 def gen_timing_entry(entry):
@@ -153,19 +162,15 @@ def emit_delay_entries(delays):
             if path in delay['delay_paths']:
                 tim_val_str += gen_timing_entry(delay['delay_paths'][path])
 
-        intent = ""
+        indent = ""
         if delay['type'].startswith("port"):
             entry += """
                 (PORT {input} {timval})""".format(
-                intent=intent,
                 input=input_str,
-                output=output_str,
                 timval=tim_val_str)
         elif delay['type'].startswith("interconnect"):
-
             entry += """
                 (INTERCONNECT {input} {output} {timval})""".format(
-                intent=intent,
                 input=input_str,
                 output=output_str,
                 timval=tim_val_str)
@@ -176,14 +181,14 @@ def emit_delay_entries(delays):
                 timval=tim_val_str)
         else:
             if delay['is_cond']:
-                intent = "     "
+                indent = "     "
                 entry += """
                 (COND ({equation})""".format(
                     equation=delay['cond_equation'])
 
             entry += """
-                {intent}(IOPATH {input} {output} {timval})""".format(
-                intent=intent,
+                {indent}(IOPATH {input} {output} {timval})""".format(
+                indent=indent,
                 input=input_str,
                 output=output_str,
                 timval=tim_val_str)

@@ -11,7 +11,10 @@ matrix:
 
 install: pip install tox
 
-script: tox
+script:
+    - tox
+    - bash .github/check_license.sh
+    - bash .github/check_python_scripts.sh
 
 notifications:
   email: false
