@@ -7,3 +7,6 @@ include LICENSE
 
 include *.yapf
 include *.txt
+
+recursive-include tests *.py
+recursive-include tests *.sdf
