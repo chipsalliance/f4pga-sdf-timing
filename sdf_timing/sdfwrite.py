@@ -162,7 +162,7 @@ def emit_delay_entries(delays):
             if path in delay['delay_paths']:
                 tim_val_str += gen_timing_entry(delay['delay_paths'][path])
 
-        intent = ""
+        indent = ""
         if delay['type'].startswith("port"):
             entry += """
                 (PORT {input} {timval})""".format(
@@ -185,14 +185,14 @@ def emit_delay_entries(delays):
                 timval=tim_val_str)
         else:
             if delay['is_cond']:
-                intent = "     "
+                indent = "     "
                 entry += """
                 (COND ({equation})""".format(
                     equation=delay['cond_equation'])
 
             entry += """
-                {intent}(IOPATH {input} {output} {timval})""".format(
-                intent=intent,
+                {indent}(IOPATH {input} {output} {timval})""".format(
+                indent=indent,
                 input=input_str,
                 output=output_str,
                 timval=tim_val_str)
