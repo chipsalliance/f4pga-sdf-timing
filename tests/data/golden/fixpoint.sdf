@@ -1,0 +1,25 @@
+(DELAYFILE
+    (SDFVERSION "3.0")
+    (TIMESCALE 1ps)
+
+    (CELL
+        (CELLTYPE "routing_bel")
+        (INSTANCE slicem/lut_c)
+        (DELAY
+            (ABSOLUTE
+                (COND (A == 1'b0 && B == 1'b0 && C == 1'b0)
+                     (IOPATH A Z (61.5:100.0:150.9)(26.9:40.0:61.4))
+                    )
+                (COND (A == 1'b0 && B == 1'b0 && C == 1'b0)
+                     (IOPATH B Z (58.9:95.1:141.9)(24.5:36.0:55.8))
+                    )
+                (COND (A == 1'b0 && B == 1'b0 && C == 1'b0)
+                     (IOPATH C Z (59.9:95.6:141.1)(24.2:35.2:55.0))
+                    )
+                (COND (A == 1'b0 && B == 1'b0 && C == 1'b0)
+                     (IOPATH D Z (62.7:100.9:149.7)(26.1:38.3:59.9))
+                    )
+            )
+        )
+    )
+)
