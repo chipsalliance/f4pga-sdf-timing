@@ -126,7 +126,8 @@ t_ignore = ' \t'
 def t_FIXPOINT(t):
     r"[0-9]*'[bohd][0-9]+"
     return t
-	
+
+
 def t_FLOAT(t):
     r'[-]?\.?[0-9]+(\.[0-9]+)?'
     return t
@@ -136,8 +137,6 @@ def t_FLOAT(t):
 def t_DOT(t):
     r'\.'
     return t
-	
-
 
 
 def t_ASTERISK(t):
