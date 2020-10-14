@@ -83,6 +83,7 @@ tokens = (
     'SLASH',
     'COLON',
     'FLOAT',
+    'FIXPOINT',
     'QFLOAT',
     'QSTRING',
     'STRING',
@@ -122,15 +123,21 @@ t_ignore = ' \t'
 
 
 # define FLOAT as function so it takes precendence over STRING
+def t_FIXPOINT(t):
+    r"[0-9]*'[bohd][0-9]+"
+    return t
+	
 def t_FLOAT(t):
     r'[-]?\.?[0-9]+(\.[0-9]+)?'
     return t
 
 
-# the same for dot and slash
+# the same for dot and slash and FIXPOINT
 def t_DOT(t):
     r'\.'
     return t
+	
+
 
 
 def t_ASTERISK(t):
