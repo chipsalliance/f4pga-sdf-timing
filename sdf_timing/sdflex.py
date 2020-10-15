@@ -83,7 +83,7 @@ tokens = (
     'SLASH',
     'COLON',
     'FLOAT',
-    'FIXPOINT',
+    'SCALARCONSTANT',
     'QFLOAT',
     'QSTRING',
     'STRING',
@@ -122,9 +122,9 @@ t_QSTRING = r'\"[a-zA-Z0-9_!#$%&\'()*+,\-./:;<=>?@\[\\\]^`{|}~ \t\n]+\"'
 t_ignore = ' \t'
 
 
-# define FLOAT as function so it takes precendence over STRING
-def t_FIXPOINT(t):
-    r"[0-9]*'[bohd][0-9]+"
+# define FLOAT&SCALARCONSTANT as function so they take precendence over STRING
+def t_SCALARCONSTANT(t):
+    r"[01]?'[Bb][01]"
     return t
 
 
@@ -133,7 +133,7 @@ def t_FLOAT(t):
     return t
 
 
-# the same for dot and slash and FIXPOINT
+# the same for dot and slash
 def t_DOT(t):
     r'\.'
     return t

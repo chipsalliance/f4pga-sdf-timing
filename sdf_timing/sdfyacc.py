@@ -556,10 +556,10 @@ def p_equation(p):
     '''equation : operator
                 | STRING
                 | FLOAT
-                | FIXPOINT
+                | SCALARCONSTANT
                 | equation operator
                 | equation FLOAT
-                | equation FIXPOINT
+                | equation SCALARCONSTANT
                 | equation STRING'''
     if len(p) == 2:
         tmp_equation.append(p[1])
