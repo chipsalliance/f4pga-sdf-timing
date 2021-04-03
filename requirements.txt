@@ -1,4 +1,10 @@
-pyjson
+# Install setup_requires
+setuptools>=42
+setuptools_scm
+wheel
+# Testing tools
 pytest
 yapf==0.24.0
-ply
+tox
+# Install local package
+-e .
