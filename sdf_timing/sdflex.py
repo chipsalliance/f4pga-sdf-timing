@@ -150,7 +150,7 @@ def t_SLASH(t):
 
 
 def t_STRING(t):
-    r'[a-zA-Z0-9_\/.\[\]\\\\]+'
+    r'[a-zA-Z0-9_\/.\[\]\\]+'
     t.type = reserved.get(t.value, 'STRING')
     return t
 
