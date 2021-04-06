@@ -1,0 +1,16 @@
+(DELAYFILE
+    (SDFVERSION "3.0")
+    (TIMESCALE 1ps)
+
+    (CELL
+        (CELLTYPE "vpr_interconnect")
+        (INSTANCE dut/routing_segment_b0_output_0_0_to_c0_input_0_0)
+        (DELAY
+            (ABSOLUTE
+                (INTERCONNECT clk_i TESTENV/clock_generator/clk_mux/CLK1 (1.4:8.4:8.4)(1.6:7.7:7.7))
+                (INTERCONNECT rstn_i TESTENV/reset_synchronizer_genblk1\[0\]\.ff_1_reg/RESET (3.7:3.5:3.5)(3.8:3.5:3.5))
+                (INTERCONNECT rstn_i TESTENV/reset_synchronizer_genblk1\[0\]\.ff_2_reg/RESET (3.7:3.5:3.5)(3.8:3.5:3.5))
+            )
+        )
+    )
+)
