@@ -15,22 +15,3 @@ jobs:
     - name: Check python scripts
       run: |
         bash .github/check_python_scripts.sh
-
-  Tests:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.5', '3.6', '3.7']
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install tox tox-gh-actions
-    - name: Test with tox
-      run: tox
-

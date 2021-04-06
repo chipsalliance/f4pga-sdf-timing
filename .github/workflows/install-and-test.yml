@@ -1,0 +1,878 @@
+# Copyright (C) 2017-2021  The SymbiFlow Authors.
+#
+# Use of this source code is governed by a ISC-style
+# license that can be found in the LICENSE file or at
+# https://opensource.org/licenses/ISC
+#
+# SPDX-License-Identifier: ISC
+
+# !! WARNING !!
+# Do not modify this file directly!
+# !! WARNING !!
+#
+# It is generated from: ../workflows-src/install-and-test.yml
+# using the script from https://github.com/mithro/actions-includes@main
+
+name: Test after installing from...
+on:
+  push:
+  pull_request:
+jobs:
+
+  GitHub:
+    strategy:
+      matrix:
+        os:
+        - windows-latest
+        - macos-latest
+        - ubuntu-20.04
+      fail-fast: false
+
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: ⏰ 🛂 📕 - Checking workflow expansion is up to date
+      uses: mithro/actions-includes@main
+      if: runner.os == 'Linux'
+      continue-on-error: false
+      with:
+        workflow: .github/workflows/install-and-test.yml
+    - name: 🐍 Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install latest pip
+      run: |
+        pip install -U pip wheel virtualenv
+
+    - name: Installing directly from GitHub
+      shell: bash
+      run: |
+        pip install --verbose git+https://github.com/${GITHUB_REPOSITORY}.git@${GITHUB_SHA}#egg=sdf-timing
+
+    - name: Install tests requirements
+      run: |
+        #!/usr/bin/env python3
+        # -*- coding: utf-8 -*-
+        #
+        # Copyright (C) 2021  The SymbiFlow Authors.
+        #
+        # Use of this source code is governed by a ISC-style
+        # license that can be found in the LICENSE file or at
+        # https://opensource.org/licenses/ISC
+        #
+        # SPDX-License-Identifier: ISC
+
+        from __future__ import print_function
+
+        import os
+        import pprint
+        import urllib
+        import urllib.request
+        import subprocess
+        import sys
+
+        on_ci = os.environ.get('CI', 'false')
+
+        # Get the requirements.txt file contents.
+        if os.path.exists('requirements.txt'):
+            with open('requirements.txt') as f:
+                data = f.readlines()
+        else:
+            # Download the requirements.txt file
+            assert on_ci == 'true', on_ci
+            repo = os.environ['GITHUB_REPOSITORY']
+            sha = os.environ['GITHUB_SHA']
+
+            url = 'https://raw.githubusercontent.com/{repo}/{sha}/requirements.txt'.format(**locals())
+            print('Downloading', url)
+            data = urllib.request.urlopen(url).read().decode('utf-8').splitlines()
+
+        print('Got following data')
+        print('-'*75)
+        pprint.pprint(data)
+        print('-'*75)
+
+        while not data[0].startswith('# Test'):
+            data.pop(0)
+
+        data.pop(0)
+
+        test_reqs = []
+        while data and not data[0].strip().startswith('#'):
+            r = data.pop(0)
+            if '#' in r:
+                r = r.split('#', 1)[0]
+            r = r.strip()
+            if r:
+                test_reqs.append(r)
+
+        print()
+        print('Testing requires:')
+        for r in test_reqs:
+            print(' *', repr(r))
+        print()
+
+        cmd = [sys.executable, '-m', 'pip', 'install']+test_reqs
+        if on_ci == 'true':
+            print('::group::'+" ".join(cmd))
+            sys.stdout.flush()
+            sys.stderr.flush()
+            subprocess.check_call(cmd, stderr=subprocess.STDOUT)
+            sys.stdout.flush()
+            sys.stderr.flush()
+            print('::endgroup::')
+        else:
+            print('Skipping command as CI =', repr(on_ci))
+            print("Run pip command would be:", " ".join(cmd))
+      shell: python
+    - name: Run Test
+      env:
+        PYTHON_MODULE: sdf-timing
+      run: |
+        #!/usr/bin/env python3
+        # -*- coding: utf-8 -*-
+        #
+        # Copyright (C) 2021  The SymbiFlow Authors.
+        #
+        # Use of this source code is governed by a ISC-style
+        # license that can be found in the LICENSE file or at
+        # https://opensource.org/licenses/ISC
+        #
+        # SPDX-License-Identifier: ISC
+
+        from __future__ import print_function
+
+        import pprint
+        import urllib
+        import urllib.request
+        import os
+        import os.path
+        import sys
+
+        from pkg_resources import get_distribution
+
+        module_name = os.environ['PYTHON_MODULE']
+
+        # Download pytest.ini
+        if not os.path.exists('pytest.ini'):
+            dry_run = os.environ.get('CI') != 'true'
+            repo = os.environ['GITHUB_REPOSITORY']
+            sha = os.environ['GITHUB_SHA']
+            url = 'https://raw.githubusercontent.com/{repo}/{sha}/pytest.ini'.format(**locals())
+            print('Downloading', url)
+
+            data = urllib.request.urlopen(url).read().decode('utf-8')
+            print('Got following data')
+            print('-'*75)
+            pprint.pprint(data.splitlines())
+            print('-'*75)
+
+            with open('pytest.ini', 'w') as f:
+                f.write(data)
+
+        # Print info about installed module
+        module = get_distribution(module_name)
+        version = '.'.join(module.version.split('.'))
+        print()
+        print(module_name, 'version:', version)
+        print(module_name, 'location:', module.location)
+        print()
+
+        sys.stdout.flush()
+        sys.stderr.flush()
+        # Run pytest against the library
+        import pytest
+        sys.exit(pytest.main())
+      shell: python
+  Checkout:
+    strategy:
+      matrix:
+        os:
+        - windows-latest
+        - macos-latest
+        - ubuntu-20.04
+        cmd:
+        - python setup.py install
+        - pip install --verbose .
+        - pip install --verbose -e .
+      fail-fast: false
+
+    name: checkout with `${{ matrix.cmd }}` (on ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: ⏰ 🛂 📕 - Checking workflow expansion is up to date
+      uses: mithro/actions-includes@main
+      if: runner.os == 'Linux'
+      continue-on-error: false
+      with:
+        workflow: .github/workflows/install-and-test.yml
+    - uses: actions/checkout@v2
+      with:
+        # Always clone the full depth so git-describe works.
+        fetch-depth: 0
+    - name: 🐍 Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install latest pip
+      run: |
+        pip install -U pip wheel virtualenv
+
+    - name: Installing using '${{ matrix.cmd }}'
+      run: |
+        ${{ matrix.cmd }}
+
+    - name: Install tests requirements
+      run: |
+        #!/usr/bin/env python3
+        # -*- coding: utf-8 -*-
+        #
+        # Copyright (C) 2021  The SymbiFlow Authors.
+        #
+        # Use of this source code is governed by a ISC-style
+        # license that can be found in the LICENSE file or at
+        # https://opensource.org/licenses/ISC
+        #
+        # SPDX-License-Identifier: ISC
+
+        from __future__ import print_function
+
+        import os
+        import pprint
+        import urllib
+        import urllib.request
+        import subprocess
+        import sys
+
+        on_ci = os.environ.get('CI', 'false')
+
+        # Get the requirements.txt file contents.
+        if os.path.exists('requirements.txt'):
+            with open('requirements.txt') as f:
+                data = f.readlines()
+        else:
+            # Download the requirements.txt file
+            assert on_ci == 'true', on_ci
+            repo = os.environ['GITHUB_REPOSITORY']
+            sha = os.environ['GITHUB_SHA']
+
+            url = 'https://raw.githubusercontent.com/{repo}/{sha}/requirements.txt'.format(**locals())
+            print('Downloading', url)
+            data = urllib.request.urlopen(url).read().decode('utf-8').splitlines()
+
+        print('Got following data')
+        print('-'*75)
+        pprint.pprint(data)
+        print('-'*75)
+
+        while not data[0].startswith('# Test'):
+            data.pop(0)
+
+        data.pop(0)
+
+        test_reqs = []
+        while data and not data[0].strip().startswith('#'):
+            r = data.pop(0)
+            if '#' in r:
+                r = r.split('#', 1)[0]
+            r = r.strip()
+            if r:
+                test_reqs.append(r)
+
+        print()
+        print('Testing requires:')
+        for r in test_reqs:
+            print(' *', repr(r))
+        print()
+
+        cmd = [sys.executable, '-m', 'pip', 'install']+test_reqs
+        if on_ci == 'true':
+            print('::group::'+" ".join(cmd))
+            sys.stdout.flush()
+            sys.stderr.flush()
+            subprocess.check_call(cmd, stderr=subprocess.STDOUT)
+            sys.stdout.flush()
+            sys.stderr.flush()
+            print('::endgroup::')
+        else:
+            print('Skipping command as CI =', repr(on_ci))
+            print("Run pip command would be:", " ".join(cmd))
+      shell: python
+    - name: Run Test
+      env:
+        PYTHON_MODULE: sdf-timing
+      run: |
+        #!/usr/bin/env python3
+        # -*- coding: utf-8 -*-
+        #
+        # Copyright (C) 2021  The SymbiFlow Authors.
+        #
+        # Use of this source code is governed by a ISC-style
+        # license that can be found in the LICENSE file or at
+        # https://opensource.org/licenses/ISC
+        #
+        # SPDX-License-Identifier: ISC
+
+        from __future__ import print_function
+
+        import pprint
+        import urllib
+        import urllib.request
+        import os
+        import os.path
+        import sys
+
+        from pkg_resources import get_distribution
+
+        module_name = os.environ['PYTHON_MODULE']
+
+        # Download pytest.ini
+        if not os.path.exists('pytest.ini'):
+            dry_run = os.environ.get('CI') != 'true'
+            repo = os.environ['GITHUB_REPOSITORY']
+            sha = os.environ['GITHUB_SHA']
+            url = 'https://raw.githubusercontent.com/{repo}/{sha}/pytest.ini'.format(**locals())
+            print('Downloading', url)
+
+            data = urllib.request.urlopen(url).read().decode('utf-8')
+            print('Got following data')
+            print('-'*75)
+            pprint.pprint(data.splitlines())
+            print('-'*75)
+
+            with open('pytest.ini', 'w') as f:
+                f.write(data)
+
+        # Print info about installed module
+        module = get_distribution(module_name)
+        version = '.'.join(module.version.split('.'))
+        print()
+        print(module_name, 'version:', version)
+        print(module_name, 'location:', module.location)
+        print()
+
+        sys.stdout.flush()
+        sys.stderr.flush()
+        # Run pytest against the library
+        import pytest
+        sys.exit(pytest.main())
+      shell: python
+  make:
+    strategy:
+      matrix:
+        os:
+        - windows-latest
+        - macos-latest
+        - ubuntu-20.04
+      fail-fast: false
+
+    name: clone and `make test` (on ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: ⏰ 🛂 📕 - Checking workflow expansion is up to date
+      uses: mithro/actions-includes@main
+      if: runner.os == 'Linux'
+      continue-on-error: false
+      with:
+        workflow: .github/workflows/install-and-test.yml
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: 🐍 Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install latest pip
+      run: |
+        pip install -U pip wheel virtualenv
+
+    - name: Run tests
+      run: |
+        make test
+  # ----------------------------------------------------------------------
+
+  # Install from a sdist package
+  # ----------------------------------------------------------------------
+  BuildSdist:
+    name: (building sdist)
+    runs-on: ubuntu-20.04
+    steps:
+    - name: ⏰ 🛂 📕 - Checking workflow expansion is up to date
+      uses: mithro/actions-includes@main
+      if: runner.os == 'Linux'
+      continue-on-error: false
+      with:
+        workflow: .github/workflows/install-and-test.yml
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: 🐍 Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install latest pip
+      run: |
+        pip install -U pip wheel virtualenv
+
+    - name: Install packaging tooling
+      run: |
+        pip install twine wheel auditwheel build
+
+  # Install run dependencies
+    - name: 🚧 Build source 📦
+      run: |
+        python -m build --sdist
+
+    - name: ✔︎ Check source 📦
+      shell: bash
+      run: |
+        shopt -s nullglob
+        for SRC in dist/*.zip; do
+          echo
+          echo "::group::Checking $SRC"
+          echo
+          python -m zipfile --test $SRC
+          python -m zipfile --list $SRC
+          echo
+          twine check $SRC
+          echo
+          echo "::endgroup::"
+        done
+        for SRC in dist/*.t*gz; do
+          echo
+          echo "::group::Checking $SRC"
+          echo
+          python -m tarfile --list $SRC
+          echo
+          twine check $SRC
+          echo
+          echo "::endgroup::"
+        done
+
+    - name: 📤 Upload source 📦
+      uses: actions/upload-artifact@v2
+      with:
+        name: source
+        path: dist
+
+  # Publish to PyPI if requested.
+  sdist:
+    strategy:
+      matrix:
+        os:
+        - windows-latest
+        - macos-latest
+        - ubuntu-20.04
+      fail-fast: false
+
+    name: from sdist (on ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    needs: BuildSdist
+    steps:
+    - name: ⏰ 🛂 📕 - Checking workflow expansion is up to date
+      uses: mithro/actions-includes@main
+      if: runner.os == 'Linux'
+      continue-on-error: false
+      with:
+        workflow: .github/workflows/install-and-test.yml
+    - name: 🐍 Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install latest pip
+      run: |
+        pip install -U pip wheel virtualenv
+
+    - name: 📥 Download source 📦
+      uses: actions/download-artifact@v2
+      with:
+        name: source
+        path: dist
+
+    - name: Installing using the source 📦
+      shell: bash
+      run: |
+        ls -l dist/*
+        pip install --verbose dist/*
+
+    - name: Install tests requirements
+      run: |
+        #!/usr/bin/env python3
+        # -*- coding: utf-8 -*-
+        #
+        # Copyright (C) 2021  The SymbiFlow Authors.
+        #
+        # Use of this source code is governed by a ISC-style
+        # license that can be found in the LICENSE file or at
+        # https://opensource.org/licenses/ISC
+        #
+        # SPDX-License-Identifier: ISC
+
+        from __future__ import print_function
+
+        import os
+        import pprint
+        import urllib
+        import urllib.request
+        import subprocess
+        import sys
+
+        on_ci = os.environ.get('CI', 'false')
+
+        # Get the requirements.txt file contents.
+        if os.path.exists('requirements.txt'):
+            with open('requirements.txt') as f:
+                data = f.readlines()
+        else:
+            # Download the requirements.txt file
+            assert on_ci == 'true', on_ci
+            repo = os.environ['GITHUB_REPOSITORY']
+            sha = os.environ['GITHUB_SHA']
+
+            url = 'https://raw.githubusercontent.com/{repo}/{sha}/requirements.txt'.format(**locals())
+            print('Downloading', url)
+            data = urllib.request.urlopen(url).read().decode('utf-8').splitlines()
+
+        print('Got following data')
+        print('-'*75)
+        pprint.pprint(data)
+        print('-'*75)
+
+        while not data[0].startswith('# Test'):
+            data.pop(0)
+
+        data.pop(0)
+
+        test_reqs = []
+        while data and not data[0].strip().startswith('#'):
+            r = data.pop(0)
+            if '#' in r:
+                r = r.split('#', 1)[0]
+            r = r.strip()
+            if r:
+                test_reqs.append(r)
+
+        print()
+        print('Testing requires:')
+        for r in test_reqs:
+            print(' *', repr(r))
+        print()
+
+        cmd = [sys.executable, '-m', 'pip', 'install']+test_reqs
+        if on_ci == 'true':
+            print('::group::'+" ".join(cmd))
+            sys.stdout.flush()
+            sys.stderr.flush()
+            subprocess.check_call(cmd, stderr=subprocess.STDOUT)
+            sys.stdout.flush()
+            sys.stderr.flush()
+            print('::endgroup::')
+        else:
+            print('Skipping command as CI =', repr(on_ci))
+            print("Run pip command would be:", " ".join(cmd))
+      shell: python
+    - name: Run Test
+      env:
+        PYTHON_MODULE: sdf-timing
+      run: |
+        #!/usr/bin/env python3
+        # -*- coding: utf-8 -*-
+        #
+        # Copyright (C) 2021  The SymbiFlow Authors.
+        #
+        # Use of this source code is governed by a ISC-style
+        # license that can be found in the LICENSE file or at
+        # https://opensource.org/licenses/ISC
+        #
+        # SPDX-License-Identifier: ISC
+
+        from __future__ import print_function
+
+        import pprint
+        import urllib
+        import urllib.request
+        import os
+        import os.path
+        import sys
+
+        from pkg_resources import get_distribution
+
+        module_name = os.environ['PYTHON_MODULE']
+
+        # Download pytest.ini
+        if not os.path.exists('pytest.ini'):
+            dry_run = os.environ.get('CI') != 'true'
+            repo = os.environ['GITHUB_REPOSITORY']
+            sha = os.environ['GITHUB_SHA']
+            url = 'https://raw.githubusercontent.com/{repo}/{sha}/pytest.ini'.format(**locals())
+            print('Downloading', url)
+
+            data = urllib.request.urlopen(url).read().decode('utf-8')
+            print('Got following data')
+            print('-'*75)
+            pprint.pprint(data.splitlines())
+            print('-'*75)
+
+            with open('pytest.ini', 'w') as f:
+                f.write(data)
+
+        # Print info about installed module
+        module = get_distribution(module_name)
+        version = '.'.join(module.version.split('.'))
+        print()
+        print(module_name, 'version:', version)
+        print(module_name, 'location:', module.location)
+        print()
+
+        sys.stdout.flush()
+        sys.stderr.flush()
+        # Run pytest against the library
+        import pytest
+        sys.exit(pytest.main())
+      shell: python
+  BuildWheel:
+    strategy:
+      matrix:
+        os:
+        - windows-latest
+        - macos-latest
+        - ubuntu-20.04
+      fail-fast: false
+
+    name: (building wheel on ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: ⏰ 🛂 📕 - Checking workflow expansion is up to date
+      uses: mithro/actions-includes@main
+      if: runner.os == 'Linux'
+      continue-on-error: false
+      with:
+        workflow: .github/workflows/install-and-test.yml
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: 🐍 Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install latest pip
+      run: |
+        pip install -U pip wheel virtualenv
+
+    - name: Install packaging tooling
+      run: |
+        pip install twine wheel auditwheel build
+
+  # Install run dependencies
+    - name: 🚧 Build wheel 📦
+      run: |
+        python -m build --wheel
+
+    - name: ✔︎ Check wheels 📦
+      shell: bash
+      run: |
+        PYVER=$(python2 -c "import sys; print(sys.version[0])")
+        for WHEEL in dist/*.whl; do
+          echo
+          echo "::group::Checking $WHEEL"
+          echo
+          python -m zipfile -t $WHEEL
+          python -m zipfile -l $WHEEL
+          echo
+          if [ "$(uname)" = "Linux" -a $PYVER -eq 3 ]; then
+            auditwheel show $WHEEL
+          fi
+          echo
+          twine check $WHEEL
+          echo
+          echo "::endgroup::"
+        done
+
+    - name: 📤 Upload wheels 📦
+      uses: actions/upload-artifact@v2
+      with:
+        name: wheels-${{ runner.os }}
+        path: dist
+
+  # Check and upload source package
+  Wheel:
+    strategy:
+      matrix:
+        os:
+        - windows-latest
+        - macos-latest
+        - ubuntu-20.04
+      fail-fast: false
+
+    name: from wheel (on ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    needs: BuildWheel
+    steps:
+    - name: ⏰ 🛂 📕 - Checking workflow expansion is up to date
+      uses: mithro/actions-includes@main
+      if: runner.os == 'Linux'
+      continue-on-error: false
+      with:
+        workflow: .github/workflows/install-and-test.yml
+    - name: 🐍 Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install latest pip
+      run: |
+        pip install -U pip wheel virtualenv
+
+    - name: 📥 Download wheel 📦
+      uses: actions/download-artifact@v2
+      with:
+        name: wheels-${{ runner.os }}
+        path: dist
+
+    - name: Installing using the wheel 📦
+      shell: bash
+      run: |
+        ls -l dist/*
+        pip install --verbose dist/*.whl
+
+    - name: Install tests requirements
+      run: |
+        #!/usr/bin/env python3
+        # -*- coding: utf-8 -*-
+        #
+        # Copyright (C) 2021  The SymbiFlow Authors.
+        #
+        # Use of this source code is governed by a ISC-style
+        # license that can be found in the LICENSE file or at
+        # https://opensource.org/licenses/ISC
+        #
+        # SPDX-License-Identifier: ISC
+
+        from __future__ import print_function
+
+        import os
+        import pprint
+        import urllib
+        import urllib.request
+        import subprocess
+        import sys
+
+        on_ci = os.environ.get('CI', 'false')
+
+        # Get the requirements.txt file contents.
+        if os.path.exists('requirements.txt'):
+            with open('requirements.txt') as f:
+                data = f.readlines()
+        else:
+            # Download the requirements.txt file
+            assert on_ci == 'true', on_ci
+            repo = os.environ['GITHUB_REPOSITORY']
+            sha = os.environ['GITHUB_SHA']
+
+            url = 'https://raw.githubusercontent.com/{repo}/{sha}/requirements.txt'.format(**locals())
+            print('Downloading', url)
+            data = urllib.request.urlopen(url).read().decode('utf-8').splitlines()
+
+        print('Got following data')
+        print('-'*75)
+        pprint.pprint(data)
+        print('-'*75)
+
+        while not data[0].startswith('# Test'):
+            data.pop(0)
+
+        data.pop(0)
+
+        test_reqs = []
+        while data and not data[0].strip().startswith('#'):
+            r = data.pop(0)
+            if '#' in r:
+                r = r.split('#', 1)[0]
+            r = r.strip()
+            if r:
+                test_reqs.append(r)
+
+        print()
+        print('Testing requires:')
+        for r in test_reqs:
+            print(' *', repr(r))
+        print()
+
+        cmd = [sys.executable, '-m', 'pip', 'install']+test_reqs
+        if on_ci == 'true':
+            print('::group::'+" ".join(cmd))
+            sys.stdout.flush()
+            sys.stderr.flush()
+            subprocess.check_call(cmd, stderr=subprocess.STDOUT)
+            sys.stdout.flush()
+            sys.stderr.flush()
+            print('::endgroup::')
+        else:
+            print('Skipping command as CI =', repr(on_ci))
+            print("Run pip command would be:", " ".join(cmd))
+      shell: python
+    - name: Run Test
+      env:
+        PYTHON_MODULE: sdf-timing
+      run: |
+        #!/usr/bin/env python3
+        # -*- coding: utf-8 -*-
+        #
+        # Copyright (C) 2021  The SymbiFlow Authors.
+        #
+        # Use of this source code is governed by a ISC-style
+        # license that can be found in the LICENSE file or at
+        # https://opensource.org/licenses/ISC
+        #
+        # SPDX-License-Identifier: ISC
+
+        from __future__ import print_function
+
+        import pprint
+        import urllib
+        import urllib.request
+        import os
+        import os.path
+        import sys
+
+        from pkg_resources import get_distribution
+
+        module_name = os.environ['PYTHON_MODULE']
+
+        # Download pytest.ini
+        if not os.path.exists('pytest.ini'):
+            dry_run = os.environ.get('CI') != 'true'
+            repo = os.environ['GITHUB_REPOSITORY']
+            sha = os.environ['GITHUB_SHA']
+            url = 'https://raw.githubusercontent.com/{repo}/{sha}/pytest.ini'.format(**locals())
+            print('Downloading', url)
+
+            data = urllib.request.urlopen(url).read().decode('utf-8')
+            print('Got following data')
+            print('-'*75)
+            pprint.pprint(data.splitlines())
+            print('-'*75)
+
+            with open('pytest.ini', 'w') as f:
+                f.write(data)
+
+        # Print info about installed module
+        module = get_distribution(module_name)
+        version = '.'.join(module.version.split('.'))
+        print()
+        print(module_name, 'version:', version)
+        print(module_name, 'location:', module.location)
+        print()
+
+        sys.stdout.flush()
+        sys.stderr.flush()
+        # Run pytest against the library
+        import pytest
+        sys.exit(pytest.main())
+      shell: python

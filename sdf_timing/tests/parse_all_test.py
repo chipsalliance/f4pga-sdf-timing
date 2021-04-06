@@ -9,12 +9,18 @@
 #
 # SPDX-License-Identifier: ISC
 
-from sdf_timing import sdfparse
+
 import os
+import os.path
 
 
-datafiles_path = 'tests/data/'
-goldenfiles_path = 'tests/data/golden/'
+from sdf_timing import sdfparse
+
+
+__path__ = os.path.dirname(__file__)
+
+datafiles_path = os.path.join(__path__, 'data')
+goldenfiles_path = os.path.join(__path__, 'data', 'golden')
 parsed_sdfs = list()
 generated_sdfs = list()
 
@@ -23,7 +29,7 @@ def test_parse():
     files = sorted(os.listdir(datafiles_path))
     for f in files:
         if f.endswith('.sdf'):
-            with open(datafiles_path + f) as sdffile:
+            with open(os.path.join(datafiles_path, f)) as sdffile:
                 parsed_sdfs.append(sdfparse.parse(sdffile.read()))
 
 
@@ -33,15 +39,14 @@ def test_emit():
 
 
 def test_output_stability():
-    """ This test checks if the generated sdf are
-        identical with golde sdfs"""
+    """ Checks if the generated SDF are identical with golden files"""
 
     parsed_sdfs_check = list()
     # read the golden files
     files = sorted(os.listdir(goldenfiles_path))
     for f in sorted(files):
         if f.endswith('.sdf'):
-            with open(goldenfiles_path + f) as sdffile:
+            with open(os.path.join(goldenfiles_path, f)) as sdffile:
                 parsed_sdfs_check.append(sdffile.read())
 
     for s0, s1 in zip(parsed_sdfs, parsed_sdfs_check):

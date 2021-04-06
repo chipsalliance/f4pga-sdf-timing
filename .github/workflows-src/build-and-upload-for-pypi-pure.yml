@@ -1,0 +1,21 @@
+# Copyright (C) 2017-2021  The SymbiFlow Authors.
+#
+# Use of this source code is governed by a ISC-style
+# license that can be found in the LICENSE file or at
+# https://opensource.org/licenses/ISC
+#
+# SPDX-License-Identifier: ISC
+
+name: "Build (pure python) packages and publish on PyPI"
+
+on:
+  push:
+  pull_request:
+
+
+jobs:
+
+  null:
+    includes: SymbiFlow/actions/includes/workflows/python/build-and-upload-for-pypi-pure@main
+    with:
+      root_user: SymbiFlow
