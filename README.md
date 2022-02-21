@@ -1,7 +1,5 @@
 # python-sdf-timing
 
-[![Build Status](https://travis-ci.com/SymbiFlow/python-sdf-timing.svg?branch=master)](https://travis-ci.com/SymbiFlow/python-sdf-timing)
-
 Python library for working Standard Delay Format (SDF) Timing Annotation files.
 
 
@@ -29,7 +27,7 @@ From Wikipedia;
 
 # Links
 
- * [python-sdf-timing GitHub Repository](https://github.com/SymbiFlow/python-sdf-timing)
+ * [python-sdf-timing GitHub Repository](https://github.com/chipsalliance/python-sdf-timing)
  * [SDF Parser written in C++](https://github.com/kmurray/libsdcparse) -
  * [Verilog To Routing](https://docs.verilogtorouting.org/en/latest/tutorials/timing_simulation/#post-imp-sdf) -
    Verilog to Routing can generate an SDF file for doing post implementation timing simulation.

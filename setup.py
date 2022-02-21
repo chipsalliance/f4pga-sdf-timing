@@ -56,13 +56,13 @@ setuptools.setup(
     # Package human readable information
     name="sdf_timing",
     use_scm_version=get_version(),
-    author="SymbiFlow Authors",
-    author_email="symbiflow@lists.librecores.org",
+    author="F4PGA Authors",
+    author_email="f4pga-wg@lists.chipsalliance.org",
     description="Python library for working Standard Delay Format \
                 (SDF) Timing Annotation files.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/SymbiFlow/python-sdf-timing",
+    url="https://github.com/chipsalliance/python-sdf-timing",
     license="Apache-2.0",
     license_files=["LICENSE"],
     classifiers=[

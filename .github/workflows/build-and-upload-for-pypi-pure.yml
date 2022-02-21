@@ -105,7 +105,7 @@ jobs:
         twine upload --skip-existing --verbose --repository testpypi dist/*
 
     - name: 📤 Publish source to PyPI
-      if: ${{ github.ref == 'refs/heads/master' && startsWith(github.repository, 'SymbiFlow') && github.event_name != 'pull_request' && env.TWINE_PASSWORD != null }}
+      if: ${{ github.ref == 'refs/heads/master' && startsWith(github.repository, 'chipsalliance') && github.event_name != 'pull_request' && env.TWINE_PASSWORD != null }}
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
@@ -186,7 +186,7 @@ jobs:
         twine upload --skip-existing --verbose --repository testpypi dist/*
 
     - name: 📤 Publish wheels to PyPI
-      if: ${{ github.ref == 'refs/heads/master' && startsWith(github.repository, 'SymbiFlow') && github.event_name != 'pull_request' && env.TWINE_PASSWORD != null }}
+      if: ${{ github.ref == 'refs/heads/master' && startsWith(github.repository, 'chipsalliance') && github.event_name != 'pull_request' && env.TWINE_PASSWORD != null }}
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
