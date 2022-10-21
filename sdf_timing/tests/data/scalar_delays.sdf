@@ -1,0 +1,14 @@
+(DELAYFILE
+  (SDFVERSION "3.0")
+  (TIMESCALE 100 ps)
+  (CELL
+    (CELLTYPE "somecell")
+    (INSTANCE someinst)
+    (DELAY
+      (ABSOLUTE
+        (INTERCONNECT mck b/c/clk (1) ())
+        (INTERCONNECT d[0] b/c/d (0.4) (0.4:0.4:0.4))
+      )
+    )
+  )
+)

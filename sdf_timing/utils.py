@@ -170,11 +170,22 @@ def add_tcheck(type, pto, pfrom, paths):
 
     name = type + "_"
     name += pfrom['port'] + "_" + pto['port']
+
+    #TODO What if both `from` and `to` ports are conditional? SDF Std. is
+    #     not clear if that can happen. So presently assuming this is not
+    #     possible.
+    if pfrom['cond']:
+        cond = {k: pfrom[k] for k in {'cond','cond_equation'}};
+    elif pto['cond']:
+        cond = {k: pto[k] for k in {'cond','cond_equation'}};
+    else:
+        cond = { 'cond':False, 'cond_equation':None };
+
     return prepare_entry(name=name,
                          type=type,
                          is_timing_check=True,
-                         is_cond=pfrom['cond'],
-                         cond_equation=pfrom['cond_equation'],
+                         is_cond=cond['cond'],
+                         cond_equation=cond['cond_equation'],
                          from_pin=pfrom['port'],
                          to_pin=pto['port'],
                          from_pin_edge=pfrom['port_edge'],

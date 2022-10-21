@@ -36,6 +36,7 @@ reserved = {
     'ABSOLUTE': 'ABSOLUTE',
     'INCREMENT': 'INCREMENT',
     'IOPATH': 'IOPATH',
+    'RETAIN': 'RETAIN',
     'posedge': 'POSEDGE',
     'negedge': 'NEGEDGE',
     'SETUP': 'SETUP',
@@ -53,13 +54,18 @@ reserved = {
     'INTERCONNECT': 'INTERCONNECT',
     'PORT': 'PORT',
     'SETUPHOLD': 'SETUPHOLD',
+    'RECREM': 'RECREM',
     'WIDTH': 'WIDTH',
+    'PERIOD': 'PERIOD',
+    'NOCHANGE': 'NOCHANGE',
     'COND': 'COND',
     'DEVICE': 'DEVICE',
 }
 
 operators = (
-    'ARITHMETIC',
+    'PLUS',
+    'MINUS',
+    'TIMES',
     'MODULO',
     'LOGIC_NOT',
     'BIT_NOT',
@@ -97,7 +103,9 @@ tokens = (
     'STRING',
 ) + tuple(reserved.values()) + operators
 
-t_ARITHMETIC = r'[\+\-\*]'
+t_PLUS = r'\+'
+t_MINUS = r'\-'
+t_TIMES = r'\*'
 t_MODULO = r'%'
 t_LOGIC_NOT = r'!'
 t_BIT_NOT = r'~'
@@ -130,9 +138,15 @@ t_QSTRING = r'\"[a-zA-Z0-9_!#$%&\'()*+,\-./:;<=>?@\[\\\]^`{|}~ \t\n]+\"'
 t_ignore = ' \t'
 
 
+# ignore comment lines
+def t_COMMENT(t):
+    r'\/\/.*?\n'
+    pass
+
+
 # define FLOAT&SCALARCONSTANT as function so they take precendence over STRING
 def t_SCALARCONSTANT(t):
-    r"[01]?'[Bb][01]"
+    r"[1]?'[Bb][01]"
     return t
 
 
@@ -166,6 +180,9 @@ def t_STRING(t):
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
+    #TODO:debug if (t.lexer.lineno % 100) == 0:
+    #TODO:debug     import sys
+    #TODO:debug     print("## %d" % t.lexer.lineno, file=sys.stderr)
 
 
 def t_error(t):
