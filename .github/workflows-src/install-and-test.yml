@@ -24,10 +24,10 @@ on:
 jobs:
 
   null:
-    includes: SymbiFlow/actions/includes/workflows/python/install-and-test@main
+    includes: f4pga/actions/includes/workflows/python/install-and-test@main
     with:
       module: sdf-timing
       test-action:
-        includes: SymbiFlow/actions/includes/actions/python/run-installed-tests@main
+        includes: f4pga/actions/includes/actions/python/run-installed-tests@main
         with:
           module: sdf-timing

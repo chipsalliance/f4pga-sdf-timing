@@ -41,28 +41,22 @@ jobs:
       with:
         # Always clone the full depth so git-describe works.
         fetch-depth: 0
-
     - name: 🐍 Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
-
     - name: Install latest pip
       run: |
-        pip install -U pip wheel virtualenv
-
+        python -m pip install -U pip wheel virtualenv
     - name: Install packaging tooling
       run: |
         pip install twine wheel auditwheel build
-
-  # Install run dependencies
     - name: Install development tools
       run: |
         pip install -r requirements.txt
     - name: 🚧 Build distribution 📦
       run: |
         python -m build --sdist --no-isolation .
-
     - name: ✔︎ Check source 📦
       shell: bash
       run: |
@@ -88,14 +82,11 @@ jobs:
           echo
           echo "::endgroup::"
         done
-
     - name: 📤 Upload source 📦
       uses: actions/upload-artifact@v2
       with:
         name: source
         path: dist
-
-  # Publish to PyPI if requested.
     - name: 📤 Publish source to Test PyPI
       env:
         TWINE_USERNAME: __token__
@@ -103,7 +94,6 @@ jobs:
       if: ${{ github.ref == 'refs/heads/master' && env.TWINE_PASSWORD != null }}
       run: |
         twine upload --skip-existing --verbose --repository testpypi dist/*
-
     - name: 📤 Publish source to PyPI
       if: ${{ github.ref == 'refs/heads/master' && startsWith(github.repository, 'chipsalliance') && github.event_name != 'pull_request' && env.TWINE_PASSWORD != null }}
       env:
@@ -118,7 +108,6 @@ jobs:
         - 2.x
         - 3.x
       fail-fast: false
-
     name: ${{ matrix.python-version }}
     runs-on: ubuntu-20.04
     steps:
@@ -131,29 +120,23 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-
     - name: 🐍 Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-
     - name: Install latest pip
       run: |
-        pip install -U pip wheel virtualenv
-
+        python -m pip install -U pip wheel virtualenv
     - name: Install packaging tooling
       run: |
         pip install twine wheel auditwheel build
-
-  # Install run dependencies
     - name: 🚧 Build distribution 📦
       run: |
         python -m build --wheel .
-
     - name: ✔︎ Check wheels 📦
       shell: bash
       run: |
-        PYVER=$(python2 -c "import sys; print(sys.version[0])")
+        PYVER=$(python -c "import sys; print(sys.version[0])")
         for WHEEL in dist/*.whl; do
           echo
           echo "::group::Checking $WHEEL"
@@ -161,7 +144,7 @@ jobs:
           python -m zipfile -t $WHEEL
           python -m zipfile -l $WHEEL
           echo
-          if [ "$(uname)" = "Linux" -a $PYVER -eq 3 ]; then
+          if [ "$(uname)" = "Linux" -a $PYVER -eq 3 -a "${WHEEL: -8}" != "-any.whl" ]; then
             auditwheel show $WHEEL
           fi
           echo
@@ -169,14 +152,11 @@ jobs:
           echo
           echo "::endgroup::"
         done
-
     - name: 📤 Upload wheels 📦
       uses: actions/upload-artifact@v2
       with:
         name: wheels-${{ runner.os }}
         path: dist
-
-  # Check and upload source package
     - name: 📤 Publish wheels to Test PyPI
       env:
         TWINE_USERNAME: __token__
@@ -184,7 +164,6 @@ jobs:
       if: ${{ github.ref == 'refs/heads/master' && env.TWINE_PASSWORD != null }}
       run: |
         twine upload --skip-existing --verbose --repository testpypi dist/*
-
     - name: 📤 Publish wheels to PyPI
       if: ${{ github.ref == 'refs/heads/master' && startsWith(github.repository, 'chipsalliance') && github.event_name != 'pull_request' && env.TWINE_PASSWORD != null }}
       env:
