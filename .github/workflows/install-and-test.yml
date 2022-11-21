@@ -35,7 +35,6 @@ jobs:
         - macos-latest
         - ubuntu-20.04
       fail-fast: false
-
     runs-on: ${{ matrix.os }}
     steps:
     - name: ⏰ 🛂 📕 - Checking workflow expansion is up to date
@@ -48,22 +47,19 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
-
     - name: Install latest pip
       run: |
-        pip install -U pip wheel virtualenv
-
+        python -m pip install -U pip wheel virtualenv
     - name: Installing directly from GitHub
       shell: bash
       run: |
         pip install --verbose git+https://github.com/${GITHUB_REPOSITORY}.git@${GITHUB_SHA}#egg=sdf-timing
-
     - name: Install tests requirements
       run: |
         #!/usr/bin/env python3
         # -*- coding: utf-8 -*-
         #
-        # Copyright 2020-2022 F4PGA Authors
+        # Copyright (C) 2021-2022 F4PGA Authors
         #
         # Licensed under the Apache License, Version 2.0 (the "License");
         # you may not use this file except in compliance with the License.
@@ -149,7 +145,7 @@ jobs:
         #!/usr/bin/env python3
         # -*- coding: utf-8 -*-
         #
-        # Copyright 2020-2022 F4PGA Authors
+        # Copyright (C) 2021-2022 F4PGA Authors
         #
         # Licensed under the Apache License, Version 2.0 (the "License");
         # you may not use this file except in compliance with the License.
@@ -221,7 +217,6 @@ jobs:
         - pip install --verbose .
         - pip install --verbose -e .
       fail-fast: false
-
     name: checkout with `${{ matrix.cmd }}` (on ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     steps:
@@ -239,21 +234,18 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
-
     - name: Install latest pip
       run: |
-        pip install -U pip wheel virtualenv
-
+        python -m pip install -U pip wheel virtualenv
     - name: Installing using '${{ matrix.cmd }}'
       run: |
         ${{ matrix.cmd }}
-
     - name: Install tests requirements
       run: |
         #!/usr/bin/env python3
         # -*- coding: utf-8 -*-
         #
-        # Copyright 2020-2022 F4PGA Authors
+        # Copyright (C) 2021-2022 F4PGA Authors
         #
         # Licensed under the Apache License, Version 2.0 (the "License");
         # you may not use this file except in compliance with the License.
@@ -339,7 +331,7 @@ jobs:
         #!/usr/bin/env python3
         # -*- coding: utf-8 -*-
         #
-        # Copyright 2020-2022 F4PGA Authors
+        # Copyright (C) 2021-2022 F4PGA Authors
         #
         # Licensed under the Apache License, Version 2.0 (the "License");
         # you may not use this file except in compliance with the License.
@@ -407,7 +399,6 @@ jobs:
         - macos-latest
         - ubuntu-20.04
       fail-fast: false
-
     name: clone and `make test` (on ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     steps:
@@ -424,18 +415,12 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
-
     - name: Install latest pip
       run: |
-        pip install -U pip wheel virtualenv
-
+        python -m pip install -U pip wheel virtualenv
     - name: Run tests
       run: |
         make test
-  # ----------------------------------------------------------------------
-
-  # Install from a sdist package
-  # ----------------------------------------------------------------------
   BuildSdist:
     name: (building sdist)
     runs-on: ubuntu-20.04
@@ -453,20 +438,15 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
-
     - name: Install latest pip
       run: |
-        pip install -U pip wheel virtualenv
-
+        python -m pip install -U pip wheel virtualenv
     - name: Install packaging tooling
       run: |
         pip install twine wheel auditwheel build
-
-  # Install run dependencies
     - name: 🚧 Build source 📦
       run: |
         python -m build --sdist
-
     - name: ✔︎ Check source 📦
       shell: bash
       run: |
@@ -492,14 +472,11 @@ jobs:
           echo
           echo "::endgroup::"
         done
-
     - name: 📤 Upload source 📦
       uses: actions/upload-artifact@v2
       with:
         name: source
         path: dist
-
-  # Publish to PyPI if requested.
   sdist:
     strategy:
       matrix:
@@ -508,7 +485,6 @@ jobs:
         - macos-latest
         - ubuntu-20.04
       fail-fast: false
-
     name: from sdist (on ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     needs: BuildSdist
@@ -523,29 +499,25 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
-
     - name: Install latest pip
       run: |
-        pip install -U pip wheel virtualenv
-
+        python -m pip install -U pip wheel virtualenv
     - name: 📥 Download source 📦
       uses: actions/download-artifact@v2
       with:
         name: source
         path: dist
-
     - name: Installing using the source 📦
       shell: bash
       run: |
         ls -l dist/*
         pip install --verbose dist/*
-
     - name: Install tests requirements
       run: |
         #!/usr/bin/env python3
         # -*- coding: utf-8 -*-
         #
-        # Copyright 2020-2022 F4PGA Authors
+        # Copyright (C) 2021-2022 F4PGA Authors
         #
         # Licensed under the Apache License, Version 2.0 (the "License");
         # you may not use this file except in compliance with the License.
@@ -631,7 +603,7 @@ jobs:
         #!/usr/bin/env python3
         # -*- coding: utf-8 -*-
         #
-        # Copyright 2020-2022 F4PGA Authors
+        # Copyright (C) 2021-2022 F4PGA Authors
         #
         # Licensed under the Apache License, Version 2.0 (the "License");
         # you may not use this file except in compliance with the License.
@@ -699,7 +671,6 @@ jobs:
         - macos-latest
         - ubuntu-20.04
       fail-fast: false
-
     name: (building wheel on ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     steps:
@@ -716,24 +687,19 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
-
     - name: Install latest pip
       run: |
-        pip install -U pip wheel virtualenv
-
+        python -m pip install -U pip wheel virtualenv
     - name: Install packaging tooling
       run: |
         pip install twine wheel auditwheel build
-
-  # Install run dependencies
     - name: 🚧 Build wheel 📦
       run: |
         python -m build --wheel
-
     - name: ✔︎ Check wheels 📦
       shell: bash
       run: |
-        PYVER=$(python2 -c "import sys; print(sys.version[0])")
+        PYVER=$(python -c "import sys; print(sys.version[0])")
         for WHEEL in dist/*.whl; do
           echo
           echo "::group::Checking $WHEEL"
@@ -741,7 +707,7 @@ jobs:
           python -m zipfile -t $WHEEL
           python -m zipfile -l $WHEEL
           echo
-          if [ "$(uname)" = "Linux" -a $PYVER -eq 3 ]; then
+          if [ "$(uname)" = "Linux" -a $PYVER -eq 3 -a "${WHEEL: -8}" != "-any.whl" ]; then
             auditwheel show $WHEEL
           fi
           echo
@@ -749,14 +715,11 @@ jobs:
           echo
           echo "::endgroup::"
         done
-
     - name: 📤 Upload wheels 📦
       uses: actions/upload-artifact@v2
       with:
         name: wheels-${{ runner.os }}
         path: dist
-
-  # Check and upload source package
   Wheel:
     strategy:
       matrix:
@@ -765,7 +728,6 @@ jobs:
         - macos-latest
         - ubuntu-20.04
       fail-fast: false
-
     name: from wheel (on ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     needs: BuildWheel
@@ -780,29 +742,25 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
-
     - name: Install latest pip
       run: |
-        pip install -U pip wheel virtualenv
-
+        python -m pip install -U pip wheel virtualenv
     - name: 📥 Download wheel 📦
       uses: actions/download-artifact@v2
       with:
         name: wheels-${{ runner.os }}
         path: dist
-
     - name: Installing using the wheel 📦
       shell: bash
       run: |
         ls -l dist/*
         pip install --verbose dist/*.whl
-
     - name: Install tests requirements
       run: |
         #!/usr/bin/env python3
         # -*- coding: utf-8 -*-
         #
-        # Copyright 2020-2022 F4PGA Authors
+        # Copyright (C) 2021-2022 F4PGA Authors
         #
         # Licensed under the Apache License, Version 2.0 (the "License");
         # you may not use this file except in compliance with the License.
@@ -888,7 +846,7 @@ jobs:
         #!/usr/bin/env python3
         # -*- coding: utf-8 -*-
         #
-        # Copyright 2020-2022 F4PGA Authors
+        # Copyright (C) 2021-2022 F4PGA Authors
         #
         # Licensed under the Apache License, Version 2.0 (the "License");
         # you may not use this file except in compliance with the License.
