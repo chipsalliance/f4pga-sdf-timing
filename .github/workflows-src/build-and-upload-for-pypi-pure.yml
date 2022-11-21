@@ -27,3 +27,4 @@ jobs:
     includes: f4pga/actions/includes/workflows/python/build-and-upload-for-pypi-pure@main
     with:
       root_user: chipsalliance
+      python-versions: ['3.x']
