@@ -25,6 +25,7 @@ from io import StringIO
 
 # add `sdf_timing` source tree into PYTHONPATH
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.append(os.path.dirname(__file__))
 
 from sdf_timing import sdfparse, sdfyacc, sdflex, sdfwrite
 from ply import yacc
