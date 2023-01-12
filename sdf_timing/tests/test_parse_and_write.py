@@ -29,7 +29,7 @@ sys.path.append(os.path.dirname(__file__))
 
 from sdf_timing import sdfparse, sdfyacc, sdflex, sdfwrite
 from ply import yacc
-from .test_syntax_elements import NullLogger, reconfigure, parse
+from test_syntax_elements import NullLogger, reconfigure, parse
 
 
 # Defines a data set to be tested. The structure is a list of records,
