@@ -79,10 +79,10 @@ else:
                     if args.gzip:
                         import gzip;
                         with gzip.open(of,'wt') as outfile:
-                            print(sdf, file=outfile)
+                            print(sdf, file=outfile, end='')
                     else:
                         with open(of,'w') as outfile:
-                            print(sdf, file=outfile)
+                            print(sdf, file=outfile, end='')
                 else:
                     print(sdf)
 
