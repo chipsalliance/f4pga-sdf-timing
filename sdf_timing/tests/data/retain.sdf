@@ -1,0 +1,15 @@
+(DELAYFILE
+  (SDFVERSION "3.0")
+  (TIMESCALE 100 ps)
+  // this is a comment
+  (CELL
+    (CELLTYPE "somecell")
+    (INSTANCE someinst)
+    (DELAY
+      (ABSOLUTE
+        (IOPATH mck b/c/clk (RETAIN (1)) (2))
+        (COND en==1'b1 (IOPATH d[0] b/c/d (RETAIN (0.3)) (0.4:0.4:0.4)))
+      )
+    )
+  )
+)

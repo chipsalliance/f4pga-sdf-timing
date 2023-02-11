@@ -31,6 +31,7 @@ datafiles_path = os.path.join(__path__, 'data')
 goldenfiles_path = os.path.join(__path__, 'data', 'golden')
 parsed_sdfs = list()
 generated_sdfs = list()
+input_file_names = list()
 
 
 def test_parse():
@@ -39,6 +40,7 @@ def test_parse():
         if f.endswith('.sdf'):
             with open(os.path.join(datafiles_path, f)) as sdffile:
                 parsed_sdfs.append(sdfparse.parse(sdffile.read()))
+                input_file_names.append(f);
 
 
 def test_emit():
@@ -57,8 +59,10 @@ def test_output_stability():
             with open(os.path.join(goldenfiles_path, f)) as sdffile:
                 parsed_sdfs_check.append(sdffile.read())
 
-    for s0, s1 in zip(parsed_sdfs, parsed_sdfs_check):
+    for s0, s1, f in zip(parsed_sdfs, parsed_sdfs_check, input_file_names):
         sdf0 = sdfparse.emit(s0)
+        with open(os.path.basename(f),"w") as out:
+            out.write(sdf0);
         assert sdf0 == s1
 
 
