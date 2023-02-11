@@ -18,6 +18,7 @@
                 (HOLD S (posedge CLK) (0.001:-0.003:-0.003))
                 (RECOVERY S (posedge CLK) (0.008:0.012:0.012))
                 (SETUP D (posedge CLK) (0.098:0.109:0.109))
+                (WIDTH  (posedge CLK) (0.041:0.041:0.041))
                 (WIDTH  (negedge CLK) (0.072:0.072:0.072))
                 (WIDTH  (posedge S) (0.086:0.086:0.086))
         )
